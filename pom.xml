@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.eniac.projects</groupId>
+	<artifactId>bet</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<logger.version>1.7.21</logger.version>
+		<spring.version>5.1.0.RELEASE</spring.version>
+		<spring.security.version>5.1.0.RELEASE</spring.security.version>
+	</properties>
+
+	<modules>
+		<module>bet-core</module>
+		<module>bet-front</module>
+	</modules>
+	
+	<dependencies>
+		<!-- spring mvc driver -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+	    
+	    <!-- mssql jdbc driver -->
+	    <dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>6.1.0.jre8</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>azure-keyvault</artifactId>
+					<groupId>com.microsoft.azure</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+	</dependencies>
+</project>

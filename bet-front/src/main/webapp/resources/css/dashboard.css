@@ -1,0 +1,55 @@
+
+
+.invoice-header {
+	color: #262626;
+	font-family: Heebo;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal; 
+}
+
+.btn-primary{
+	background-color: #0D4671;
+}
+
+.text-heading-green{
+	color: #19B3A1;
+	font-family: Heebo;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal; 
+}
+
+.text-heading-red{
+	color: #F21B3F;
+	font-family: Heebo;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal; 
+}
+
+.text-neutral{
+	color: #000;
+	font-family: Heebo;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal; 
+}
+
+.select2-selection__arrow b{
+    display:none !important;
+}
+
+.btn.btn-trash {
+  background-color: #0D4671;
+  border-radius: 10px 10px 10px 10px;
+  height: 100%;
+}
+
+.fa-trash{
+	color: #EFF9FE;
+}

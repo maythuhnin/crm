@@ -1,0 +1,364 @@
+
+.dataTables_scrollHeadInner, .table{ width:100%!important; }
+
+
+.no-data{
+	text-align: center;
+}
+
+.saysine-logo{
+	max-height: 50px !important;
+	margin-left: 3px !important;
+	margin-top: -10px !important;
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: normal; 
+	src: url('../templates/fonts/Heebo/static/Heebo-Regular.ttf'); 
+} 
+
+/* 
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: 900px; 
+	src: url('../templates/fonts/Heebo/static/Heebo-Black.ttf');
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: bold; 
+	src: url('../templates/fonts/Heebo/static/Heebo-Bold.ttf');
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: 800px; 
+	src: url('../templates/fonts/Heebo/static/Heebo-ExtraBold.ttf');
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: 200px; 
+	src: url('../templates/fonts/Heebo/static/Heebo-ExtraLight.ttf');
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: 300px; 
+	src: url('../templates/fonts/Heebo/static/Heebo-Light.ttf');
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: 200px; 
+	src: url('../templates/fonts/Heebo/static/Heebo-ExtraLight.ttf');
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: 500px; 
+	src: url('../templates/fonts/Heebo/static/Heebo-Medium.ttf');
+}
+
+@font-face { 
+	font-family: Heebo; 
+	font-style: normal;
+	font-weight: 600px; 
+	src: url('../templates/fonts/Heebo/static/Heebo-SemiBold.ttf');
+} */
+
+
+body{
+	font-family: "Heebo", "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;
+}
+
+.zgFont, .uniFont{
+	display: none;
+}
+
+body, .form-control{
+	font-size: 15px !important;
+}
+
+
+body, .form-control{
+	font-size: 14px !important;
+}
+
+.main-sidebar{
+	border-radius: 0px 32px 32px 0px;
+background: #0D4671;
+width: 240px !important;
+
+}
+
+.main-header{
+	height: 80px;
+}
+
+.brand-link{
+	height: 80px;
+	padding: 1.6rem 1rem;
+}
+
+.brand-text{
+	color: #EFF9FE;
+font-family: Heebo;
+font-size: 20px;
+font-style: normal;
+font-weight: 700 !important;
+line-height: normal; 
+}
+
+.nav-item{
+	height: 60px;
+}
+
+.nav-sidebar .nav-link p{
+	margin-left: 10px;
+}
+
+.nav-item.active{
+	border-radius: 0px 16px 16px 0px; 
+	background-color: #60AFFF;
+ 	 width: 3px;
+}
+
+.nav-item.active > .nav-link{
+	color: #60AFFF !important;
+}
+
+.nav-sidebar .nav-item > .nav-link{
+	color: #EFF9FE;
+	font-family: Heebo;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal; 
+	padding-top: 15px;
+	padding-left: 50px;
+	height: inherit;
+}
+
+.content-wrapper{
+	background-color: #EFF9FE;
+}
+
+.nav-settings{
+	position: absolute;
+  bottom: 0;
+}
+
+.nav-settings .nav-sidebar .nav-link p{
+	color: #8D818C;;
+}
+
+.heading-title{
+	color: #262626;
+	font-family: Heebo;
+	font-size: 25px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal; 
+}
+
+.heading-subtitle{
+	color: #8D818C;
+font-family: Heebo;
+font-size: 15px;
+font-style: normal;
+font-weight: 500;
+line-height: normal; 
+}
+
+.title-nav{
+	list-style: none;
+}
+
+.btn.btn-search{
+	background-color: #0D4671;
+	border-radius: 0px 10px 10px 0px;
+}
+
+.fa-search, .fa-user-plus{
+	color: #EFF9FE;
+}
+
+.search-input{
+	border-radius: 12px 0px 0px 12px;
+	border: 1px solid #0D4671; 
+}
+
+table thead{
+	border-radius: 16px 16px 0px 0px;
+	border: 1px solid rgba(13, 70, 113, 0.10);
+	background: #0D4671; 
+	color: #EFF9FE;
+	font-family: Heebo;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal; 
+}
+
+/* table th:first-child{
+  border-radius:10px 0 0 10px;
+}
+
+table th:last-child{
+  border-radius:0 10px 10px 0;
+}
+
+.dataTables_scrollHead, .dataTables_scrollHeadInner, .dataTables_scrollHeadInner > .dataTable{
+  border-radius:10px 10px 10px 10px;
+} */
+
+.u-name{
+	color: #262626;
+	font-family: Heebo;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal; 
+}
+
+.u-role{
+	color: #8D818C;
+	font-family: Heebo;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 300;
+	line-height: normal; 
+}
+
+.user-panel img{
+	width: 2.5rem;
+}
+
+.nav-item .nav-link .fas{
+	font-size: 18px;
+	padding-top: 9px;
+}
+
+.row-invoice, .row-invoice .card{
+	height: 100%;
+}
+
+.row-items .card-body{
+	padding: 0px;
+}
+
+.navbar-badge{
+	right: 12px;
+	top: 14px;
+}
+
+.dropdown-menu{
+	margin: -0.875rem 0.5rem 0;
+}
+
+
+@media (min-width: 992px) {
+  .sidebar-mini.sidebar-collapse .main-sidebar, .sidebar-mini.sidebar-collapse .main-sidebar::before {
+    margin-left: 0;
+    width: 0rem !important;
+  }
+  
+   .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header {
+    margin-left: 0rem !important;
+  }
+}
+@media (min-width: 768px) {
+  body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+    transition: margin-left .3s ease-in-out;
+    margin-left: 240px;
+  }
+}
+
+.btn-outline-primary{
+	color: #0D4671;
+  	border-color: #0D4671;
+  	font-size: 14px;
+	
+}
+
+.btn-primary{
+	background-color: #0D4671;;
+  	font-size: 14px;
+	
+}
+
+.badge-info {
+  color: #fff;
+  background-color: #0D4671;
+}
+
+.btn{
+	font-size: 14px;
+}
+
+.btn-outline-primary:hover, .btn-primary:hover{
+	color: #fff;
+	background-color: #0D4671;
+  	border-color: #8D818C;
+	
+}
+
+.card-primary.card-outline-tabs > .card-header a.active, .card-primary.card-outline-tabs > .card-header a.active:hover {
+  border-top: 3px solid #0D4671;
+}
+
+a {
+  color: #0D4671;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.card.card-outline-tabs .card-header a:hover {
+  border-top: 3px solid #60AFFF;
+}
+
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+	border-right-color: rgb(96, 175, 255);
+	border-left-color: rgb(96, 175, 255);
+	border-bottom-color: #e9ecef00;
+}
+
+.page-item.active .page-link{
+	background-color: #60AFFF;
+  border-color: #60AFFF;
+}
+
+label.error{
+	color: #dc3545 !important;
+}
+
+i.fas {
+	cursor: pointer;
+}
+
+.required{
+	color: #8D818C;
+  font-family: Heebo;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.del-card{
+	padding: 0px 0px 0px 20px !important;
+}
+
+.main-sidebar{
+	overflow-y : initial;
+}

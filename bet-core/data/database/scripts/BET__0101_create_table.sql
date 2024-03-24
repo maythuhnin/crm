@@ -1,0 +1,222 @@
+SET SESSION FOREIGN_KEY_CHECKS=0;
+
+/* Drop Tables */
+
+DROP TABLE IF EXISTS expense;
+DROP TABLE IF EXISTS route;
+DROP TABLE IF EXISTS bus;
+DROP TABLE IF EXISTS loan_history;
+DROP TABLE IF EXISTS driver;
+DROP TABLE IF EXISTS expense_type;
+DROP TABLE IF EXISTS stock;
+DROP TABLE IF EXISTS inventory;
+DROP TABLE IF EXISTS path;
+DROP TABLE IF EXISTS user;
+
+
+
+
+/* Create Tables */
+
+CREATE TABLE bus
+(
+	id int NOT NULL AUTO_INCREMENT,
+	license_plate varchar(7) NOT NULL,
+	primary_driver_id int NOT NULL,
+	secondary_driver_id int,
+	phone varchar(15),
+	-- 0: OK,
+	-- 1: SERVICING
+	status smallint NOT NULL COMMENT '0: OK,
+1: SERVICING',
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id),
+	UNIQUE (license_plate)
+);
+
+
+CREATE TABLE driver
+(
+	id int NOT NULL AUTO_INCREMENT,
+	name varchar(200) NOT NULL,
+	loan_amount numeric(18,2) NOT NULL,
+	status boolean NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE expense
+(
+	id int NOT NULL AUTO_INCREMENT,
+	route_id int NOT NULL,
+	-- 0: EXPENSE_TYPE,
+	-- 1: INVENTORY,
+	-- 2: AD_HOC
+	type smallint NOT NULL COMMENT '0: EXPENSE_TYPE,
+1: INVENTORY,
+2: AD_HOC',
+	value int NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE expense_type
+(
+	id int NOT NULL AUTO_INCREMENT,
+	name varchar(100) NOT NULL,
+	amount numeric(18,2) NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE inventory
+(
+	id int NOT NULL AUTO_INCREMENT,
+	item varchar(100) NOT NULL,
+	quantity int NOT NULL,
+	price numeric(18,2) NOT NULL,
+	received_date datetime,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE loan_history
+(
+	id int NOT NULL AUTO_INCREMENT,
+	driver_id int NOT NULL,
+	amount numeric(18,2) NOT NULL,
+	-- 0: LOAN,
+	-- 1: RETURN
+	type smallint NOT NULL COMMENT '0: LOAN,
+1: RETURN',
+	description varchar(500),
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE path
+(
+	id int NOT NULL AUTO_INCREMENT,
+	from_destination varchar(100) NOT NULL,
+	to_destination varchar(100) NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE route
+(
+	id int NOT NULL AUTO_INCREMENT,
+	bus_id int NOT NULL,
+	route_date datetime NOT NULL,
+	income numeric(18,2) NOT NULL,
+	expense numeric(18,2) NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE stock
+(
+	id int NOT NULL AUTO_INCREMENT,
+	inventory_id int NOT NULL,
+	quantity int NOT NULL,
+	stock_in boolean NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE user
+(
+	id int NOT NULL AUTO_INCREMENT,
+	username varchar(20) NOT NULL,
+	password varchar(100) NOT NULL,
+	name varchar(50) NOT NULL,
+	-- 0 : ACTIVE,
+	-- 1 : IN-ACTIVE
+	status smallint DEFAULT 0 NOT NULL COMMENT '0 : ACTIVE,
+1 : IN-ACTIVE',
+	role varchar(15) NOT NULL,
+	last_logged_in datetime,
+	PRIMARY KEY (id),
+	UNIQUE (id),
+	UNIQUE (username)
+);
+
+
+
+/* Create Foreign Keys */
+
+ALTER TABLE route
+	ADD CONSTRAINT frk_bus_route FOREIGN KEY (bus_id)
+	REFERENCES bus (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE bus
+	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
+	REFERENCES driver (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE bus
+	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
+	REFERENCES driver (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE loan_history
+	ADD CONSTRAINT frk_driver_loan_history FOREIGN KEY (driver_id)
+	REFERENCES driver (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE stock
+	ADD CONSTRAINT frk_inventory_stock FOREIGN KEY (inventory_id)
+	REFERENCES inventory (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE expense
+	ADD CONSTRAINT frk_route_expense FOREIGN KEY (route_id)
+	REFERENCES route (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+

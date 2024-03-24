@@ -1,0 +1,24 @@
+@charset "ISO-8859-1";
+
+.nav-link>i{
+	margin-top: 4px;
+}
+
+.zgFont, .uniFont{
+	display: none;
+}
+
+.dataTables_scrollHeadInner, .table{ width:100%!important; }
+
+
+.no-data{
+	text-align: center;
+}
+
+.required{
+  color: #8D818C;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
