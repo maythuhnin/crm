@@ -7,13 +7,12 @@ public class BusBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum BusStatus {
-		OK, SERVICING, DELETED
+		OK, REPAIRING, DELETED
 	}
 
 	private String licensePlate;
 	private Integer primaryDriverId;
 	private Integer secondaryDriverId;
-	private String phone;
 	private BusStatus status;
 
 	public String getLicensePlate() {
@@ -40,14 +39,6 @@ public class BusBean extends BaseBean implements Serializable {
 		this.secondaryDriverId = secondaryDriverId;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public BusStatus getStatus() {
 		return status;
 	}
@@ -58,8 +49,8 @@ public class BusBean extends BaseBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("BusBean [licensePlate=%s, primaryDriverId=%s, secondaryDriverId=%s, phone=%s, status=%s]",
-				licensePlate, primaryDriverId, secondaryDriverId, phone, status);
+		return String.format("BusBean [licensePlate=%s, primaryDriverId=%s, secondaryDriverId=%s, status=%s]",
+				licensePlate, primaryDriverId, secondaryDriverId, status);
 	}
 
 }

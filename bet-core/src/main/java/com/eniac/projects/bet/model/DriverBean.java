@@ -7,6 +7,7 @@ public class DriverBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	private String phone;
 	private Double loanAmount;
 	private Boolean status;
 
@@ -16,6 +17,14 @@ public class DriverBean extends BaseBean implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public Double getLoanAmount() {
@@ -36,7 +45,8 @@ public class DriverBean extends BaseBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("DriverBean [name=%s, loanAmount=%s, status=%s]", name, loanAmount, status);
+		return String.format("DriverBean [name=%s, phone=%s, loanAmount=%s, status=%s]", name, phone, loanAmount,
+				status);
 	}
 
 }

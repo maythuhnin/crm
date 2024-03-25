@@ -24,7 +24,6 @@ CREATE TABLE bus
 	license_plate varchar(7) NOT NULL,
 	primary_driver_id int NOT NULL,
 	secondary_driver_id int,
-	phone varchar(15),
 	-- 0: OK,
 	-- 1: SERVICING
 	status smallint NOT NULL COMMENT '0: OK,
@@ -41,7 +40,8 @@ CREATE TABLE driver
 (
 	id int NOT NULL AUTO_INCREMENT,
 	name varchar(200) NOT NULL,
-	loan_amount numeric(18,2) NOT NULL,
+	phone varchar(20),
+	loan_amount numeric(18,2),
 	status boolean NOT NULL,
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
@@ -127,6 +127,7 @@ CREATE TABLE route
 (
 	id int NOT NULL AUTO_INCREMENT,
 	bus_id int NOT NULL,
+	path_id int NOT NULL,
 	route_date datetime NOT NULL,
 	income numeric(18,2) NOT NULL,
 	expense numeric(18,2) NOT NULL,
@@ -206,6 +207,14 @@ ALTER TABLE loan_history
 ALTER TABLE stock
 	ADD CONSTRAINT frk_inventory_stock FOREIGN KEY (inventory_id)
 	REFERENCES inventory (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE route
+	ADD CONSTRAINT frk_path_route FOREIGN KEY (path_id)
+	REFERENCES path (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
 ;

@@ -74,6 +74,7 @@ public class BusRestController extends BaseController {
 				results.put("bus", bus);
 				results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 				results.put("error", "License Plate already exist. Please pick a different one.");
+				return results;
 			}
 
 		} catch (MyBatisException e) {
@@ -204,9 +205,10 @@ public class BusRestController extends BaseController {
 		if (bus.getId() != 0) {
 			criteria.put("notId", bus.getId());
 		}
+		System.err.println(criteria);
 
 		BusBean selectedBus = busService.selectByCriteria(criteria);
-
+		System.err.println(selectedBus);
 		if (null != selectedBus) {
 			isExist = true;
 		}

@@ -180,14 +180,12 @@ function getBeanFromListById(list, id){
 }
 
 function showLoadingOverlay(){
-	console.log("show");
 	$("body").loadingOverlay(true, {
  		backgroundColor: 'rgba(0,0,0,0.65)',
 	});
 }
 
 function hideLoadingOverlay(){
-	console.log("hide");
 	$("body").loadingOverlay(false, {
 	});
 }

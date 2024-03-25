@@ -1,5 +1,6 @@
 let busDatatable = {}; 
 let busList = [];
+let driverList =  [];
 let busAddValidator;
 let busUpdateValidator;
 let driverAddValidator;
@@ -53,6 +54,7 @@ function bindDriverAddApi(){
 			
 			driverBean = {
 				name : $("#name").val(),
+				phone : $("#driverPhone").val(),
 				loanAmount: parseFloat(0.0)
 			};
 			
@@ -107,7 +109,6 @@ function bindBusAddApi(){
 				licensePlate : $("#licensePlate").val(),
 				primaryDriverId : parseInt($( "#primaryDriver" ).val()),
 				secondaryDriverId : parseInt($( "#secondaryDriver" ).val()),
-				phone : $( "#phone" ).val(),
 				status : $("#status").val()
 			};
 			
@@ -151,14 +152,12 @@ function bindBusUpdateApi(){
 			
 			busBean = {
 				id : parseInt($("#busId").val()),
-				name : $("#updateName").val(),
-				busname : $( "#updateBusname" ).val(),
-				role : $("#updateRole").val()
+				licensePlate : $("#updateLicensePlate").val(),
+				primaryDriverId : parseInt($( "#updatePrimaryDriver" ).val()),
+				secondaryDriverId : parseInt($( "#updateSecondaryDriver" ).val()),
+				phone : $( "#updatePhone" ).val(),
+				status : $("#updateStatus").val()
 			};
-			
-			if(!isEmpty($("#updatePassword").val()) && ($("#updatePassword").val()== $("#updateConfirmPassword").val())){
-				busBean.password = $("#updatePassword").val();	
-			}
 			
 			$.ajax({
 				url : getPathName() + "/bus/api/edit",
@@ -189,15 +188,15 @@ function bindBusUpdateApi(){
 }
 
 function resetBusForm(){
-	$("#name, #busname, #role, #password, #confirmPassword").val("");
-	$("#updateName, #updateBusname, #updatePassword, #updateConfirmPassword").val("");
-	$("#role, #updateRole").val("");
+	$("#licensePlate, #primaryDriver, #secondaryDriver, #phone").val("");
+	$("#updateLicensePlate, #updatePrimaryDriver, #updateSecondaryDriver, #updatePhone").val("");
+	$("#status, updateStatus").val("OK");
 	 busAddValidator.resetForm();
 	 busUpdateValidator.resetForm();
 }
 
 function resetDriverForm(){
-	$("#name").val("");
+	$("#name,#driverPhone").val("");
 	driverAddValidator.resetForm();
 }
 
@@ -212,19 +211,23 @@ function bindDropDown(){
 	});
 	
 	$(".select-filter").on('change', function() {
-		busDatatable.column(2).search( $('#searchRole').val()).draw();
+		busDatatable.column(4).search( $('#searchStatus').val()).draw();
 	});
 	
-	$(".select2-selection__clear").on('click', function() {	
-		busDatatable.column(2).search("").draw();
+	$("#searchBox").on('input', function() {
+		console.log($(this).val());
+		busDatatable.columns(0).search($(this).val()).draw().columns(1).search($(this).val()).draw();
+	});
+	
+	$(".select2-selection__clear, #clearFilters").on('click', function() {	
+		busDatatable.column(4).search("").draw();
 	});
 }
 
 
 function bindDriverDropDown(selectedId, updateId){
 	
-	$("#primaryDriver, #secondaryDriver").empty();
-	$("#primaryDriver, #secondaryDriver").append("<option value=''></option>")
+	$("#primaryDriver, #secondaryDriver, #updatePrimaryDriver, #updateSecondaryDriver").empty();
 	
 	$.ajax({
 		url : getPathName() + "/driver/api/dropdown",
@@ -232,15 +235,27 @@ function bindDriverDropDown(selectedId, updateId){
 		contentType: "application/json",
 		dataType: 'json',
 		success : function(data) {
-			$(data).each(function( index, driver ) {
-				$("#primaryDriver").append("<option value='" + driver.id + "'>" + driver.name + "</option>");
-				$("#secondaryDriver").append("<option value='" + driver.id + "'>" + driver.name + "</option>")
-			});
+			
+			if(null != data && data.length > 0){
+				$("#primaryDriver, #secondaryDriver, #updatePrimaryDriver, #updateSecondaryDriver").append("<option value=''></option>")
+	
+				$(data).each(function( index, driver ) {
+					$("#primaryDriver, #secondaryDriver, #updatePrimaryDriver, #updateSecondaryDriver").append("<option value='" + driver.id + "'>" + driver.name + " ["+driver.phone+"]</option>");
+				});
+				
+				driverList = data;
+			}
+			
 		},
 		complete : function(data){
 			if(null != selectedId){
 				$("#" + updateId).val(selectedId);	
 			}
+			
+			$( "#primaryDriver" ).on( "change", function() {
+				var driverBean = getBeanFromListById(driverList, $(this).val());
+				$( "#phone" ).val(driverBean.phone);
+			});
 		}
 	});	
 }
@@ -302,9 +317,11 @@ function initDatatable() {
 				var busId = $(this).attr("data-id");
 				var busBean = getBeanFromListById(busList, busId);
 				$("#busId").val(busId);
-				$("#updateName").val(busBean.name);
-				$("#updateBusname").val(busBean.busname);
-				$("#updateRole").val(busBean.role);
+				$("#updateLicensePlate").val(busBean.licensePlate);
+				$("#updatePrimaryDriver").val(busBean.primaryDriverId);
+				$("#updateSecondaryDriver").val(busBean.secondaryDriverId);
+				$("#updatePhone").val(busBean.phone);
+				$("#updateStatus").val(busBean.status);
 				$("#updateBusModal").modal();
 			});
 			
@@ -312,19 +329,19 @@ function initDatatable() {
 				var busId = $(this).attr("data-id");
 				var busBean = getBeanFromListById(busList, busId);
 				$("#delBusId").val(busId);
-				$("#delName").text(busBean.name + " [" + busBean.busname+ "] ");
+				$("#delName").text(busBean.licensePlate);
 				$("#deleteModal").modal();
 			});
 	   } 
-	})
+	});
 	
 }
 
 function getBusStatus(status){
 	switch(status) {
-	  case 0:
+	  case "OK":
 		  return "<span class='text-success'>OK</span>";
-	  case 1:
+	  case "REPAIRING":
 		  return "<span class='text-warning'>REPAIRING</span>";
 	  default:
 	}

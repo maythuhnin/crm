@@ -23,14 +23,30 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-          	<div class="col-sm-3">
+          	<div class="col-sm-2">
 			        <select class="form-control select2 select-filter" style="width: 100%;" id="searchStatus">
 			        	<option></option>
 			            <option value="OK">OK</option>
 				        <option value="REPAIRING">REPAIRING</option>
 			        </select>
 			    </div>
-			     <div class="col-sm-7"></div>
+			     <div class="col-sm-3">
+					<div class="input-group">
+		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+		              	<div class="input-group-append">
+		                	<button class="btn btn-navbar" type="button">
+		                  		<i class="fas fa-search"></i>
+		                	</button>
+		            
+		              	</div>
+		            </div>
+			     </div>
+			<div class="col-sm-2">
+				<button type="button" class="btn btn-default" id="clearFilters">
+	            	Clear Filters
+	            </button>
+	        </div>
+	        <div class="col-sm-3"></div>
           	<div class="col-sm-2">
 	             	 <button type="button" class="btn btn-primary float-right" id="addBus">
 	                   Add Bus
@@ -102,7 +118,7 @@
             
              <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="secondaryDriver" class="col-sm-4 col-form-label">Secondary Driver <span class="required">[required]</span></label>
+              <label for="secondaryDriver" class="col-sm-4 col-form-label">Secondary Driver</span></label>
               <div class="col-sm-6">
                     <div class="input-group">
 						  <select class="custom-select" id="secondaryDriver">
@@ -118,9 +134,9 @@
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="phone" class="col-sm-4 col-form-label">Primary Driver Phone <span class="required">[required]</span></label>
+              <label for="phone" class="col-sm-4 col-form-label">Primary Driver Phone</label>
               <div class="col-sm-6">
-                <input type="text" name="phone" class="form-control" id="phone">
+                <input type="text" name="phone" class="form-control" id="phone" disabled="true">
               </div>
             </div>
             
@@ -165,50 +181,67 @@
               <!-- form start -->
         <form class="form-horizontal" id="updateBusForm">
           <div class="card-body">
-            <div class="form-group row">
+            
+            
+           <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="name" class="col-sm-3 col-form-label">Name <span class="required">[required]</span></label>
+              <label for="licensePlate" class="col-sm-4 col-form-label">License Plate <span class="required">[required]</span></label>
               <div class="col-sm-6">
-                <input type="text" name="updateName" class="form-control" id="updateName">
+                <input type="text" name="updateLicensePlate" class="form-control" id="updateLicensePlate" data-inputmask='"mask": "9A-9999"' data-mask>
               </div>
             </div>
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="busname" class="col-sm-3 col-form-label">Busname <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                <input type="text" name="updateBusname" class="form-control" id="updateBusname">
-                </div>
+              <label for="updatePrimaryDriver" class="col-sm-4 col-form-label">Primary Driver <span class="required">[required]</span></label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+						  <select class="custom-select" id="updatePrimaryDriver">
+						    <option selected></option>
+						
+						  </select>
+						  <div class="input-group-append">
+						    <button class="btn btn-default add-driver" data-type="primaryDriver" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
+						  </div>
+					</div>
+              </div>
             </div>
             
              <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="updateRole" class="col-sm-3 col-form-label">Role <span class="required">[required]</span></label>
+              <label for="updateSecondaryDriver" class="col-sm-4 col-form-label">Secondary Driver </label>
               <div class="col-sm-6">
-                   <select class="form-control select2 select-filter" style="width: 100%;" id="updateRole">
-			            <option value="ROLE_ADMIN">ADMIN</option>
-			            <option value="ROLE_SALES">SALES</option>
-			            <option value="ROLE_WAREHOUSE">WAREHOUSE</option>
-			            <option value="ROLE_SELLER">SELLER</option>
+                    <div class="input-group">
+						  <select class="custom-select" id="updateSecondaryDriver">
+						    <option selected></option>
+						  
+						  </select>
+						  <div class="input-group-append">
+						    <button class="btn btn-default add-driver" data-type="updateSecondaryDriver" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
+						  </div>
+					</div>
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <div class="col-sm-1"></div>
+              <label for="updatePhone" class="col-sm-4 col-form-label">Primary Driver Phone</label>
+              <div class="col-sm-6">
+                <input type="text" name="updatePhone" class="form-control" id="updatePhone" disabled="true">
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <div class="col-sm-1"></div>
+              <label for="updateStatus" class="col-sm-4 col-form-label">Status <span class="required">[required]</span></label>
+              <div class="col-sm-6">
+                 <select class="form-control" style="width: 100%;" id="updateStatus" name="updateStatus">
+			            <option value="OK">OK</option>
+			            <option value="REPAIRING">REPAIRING</option>
 			   		</select>
               </div>
             </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="password" class="col-sm-3 col-form-label">Password</label>
-              <div class="col-sm-6">
-                <input type="password" name="updatePassword" class="form-control" id="updatePassword">
-              </div>
-            </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
-              <div class="col-sm-6">
-                <input type="password"  name="updateConfirmPassword" class="form-control" id="updateConfirmPassword">
-              </div>
-            </div>
+         
          
            
           </div> 
@@ -281,6 +314,13 @@
               <label for="licensePlate" class="col-sm-4 col-form-label">Name <span class="required">[required]</span></label>
               <div class="col-sm-6">
                 <input type="text" name="name" class="form-control" id="name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-1"></div>
+              <label for="phone" class="col-sm-4 col-form-label">Phone </label>
+              <div class="col-sm-6">
+                <input type="text" name="driverPhone" class="form-control" id="driverPhone">
               </div>
             </div>
           </div> 

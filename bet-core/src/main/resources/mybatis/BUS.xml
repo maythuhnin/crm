@@ -8,7 +8,6 @@
 		<result 		property="licensePlate" 		column="license_plate" />
 		<result		 	property="primaryDriverId" 		column="primary_driver_id" />
 		<result 		property="secondaryDriverId" 	column="secondary_driver_id" />
-		<result 		property="phone" 				column="phone" />
 		<result 		property="status" 				column="status" />
 		<result 		property="updatedId" 			column="updated_id" />
 		<result 		property="updatedDateTime" 		column="updated_datetime" />
@@ -19,7 +18,6 @@
 			license_plate,
 			primary_driver_id,
 			secondary_driver_id,
-			phone,
 			status,
 			updated_id,
 			updated_datetime
@@ -28,7 +26,6 @@
 			#{licensePlate},
 			#{primaryDriverId},
 			#{secondaryDriverId},
-			#{phone},
 			#{status},
 			#{updatedId},
 			NOW()
@@ -45,9 +42,6 @@
 			</if>
 			<if test="secondaryDriverId != null">
 				,SECONDARY_DRIVER_ID = #{secondaryDriverId}
-			</if>
-			<if test="phone != null">
-				,PHONE = #{phone}
 			</if>
 			<if test="status != null">
 				,STATUS = #{status}
@@ -66,10 +60,16 @@
 		SELECT 
 		 b.id,
 		 b.license_plate AS licensePlate,
+		 b.primary_driver_id AS primaryDriverId,
+		 b.secondary_driver_id AS secondaryDriverId,
 		 IFNULL(pd.name,"-") AS primaryDriver,
 		 IFNULL(sd.name,"-") AS secondaryDriver,
-		 IFNULL(b.phone,"-") AS phone,
-		 b.status
+		 IFNULL(pd.phone,"-") AS phone,
+		 CASE b.status
+		    WHEN 0 THEN "OK"
+		    WHEN 1 THEN "REPAIRING"
+		    ELSE "DELETED"
+		 END AS status
 		
 		FROM bus b
 		LEFT JOIN driver pd ON pd.id = b.primary_driver_id
@@ -78,10 +78,10 @@
 	</select>
 	
 	<select id="selectByCriteria" parameterType="map" resultMap="BusResult">
-		SELECT * FROM bus 
+		SELECT * FROM BUS 
 			<where>
-				<if test="license_plate != null">
-					AND LICENSE_PLATE = #{license_plate}
+				<if test="licensePlate != null">
+					AND LICENSE_PLATE = #{licensePlate}
 				</if>
 				<if test="notId != null">
 					AND ID != #{notId}
