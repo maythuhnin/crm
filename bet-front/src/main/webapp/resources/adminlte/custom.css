@@ -22,3 +22,11 @@
   font-weight: 500;
   line-height: normal;
 }
+
+
+table thead{
+	border-radius: 16px 16px 0px 0px;
+	border: 1px solid rgba(13, 70, 113, 0.10);
+	background-color: #343a40; 
+	color: #EFF9FE;
+}

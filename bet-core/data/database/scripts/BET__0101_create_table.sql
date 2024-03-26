@@ -98,6 +98,7 @@ CREATE TABLE loan_history
 (
 	id int NOT NULL AUTO_INCREMENT,
 	driver_id int NOT NULL,
+	loan_date datetime NOT NULL,
 	amount numeric(18,2) NOT NULL,
 	-- 0: LOAN,
 	-- 1: RETURN

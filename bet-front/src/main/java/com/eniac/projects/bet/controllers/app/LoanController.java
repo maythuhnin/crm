@@ -12,9 +12,8 @@ import com.eniac.projects.bet.controllers.base.BaseController;
 public class LoanController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String user(Model model) {
-		model.addAttribute("title", "Loan");
-		model.addAttribute("titleDescription", "ADD | EDIT | DELETE user accounts.");
+	public String loan(Model model) {
+		model.addAttribute("title", "Driver Loan");
 		model.addAttribute("url", "/loan");
 		model.addAttribute("page", "loan");
 		return "loan";

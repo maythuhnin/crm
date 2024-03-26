@@ -11,8 +11,8 @@ function init() {
 	
 	bindValidator();
 	bindModal();
-	bindDropDown();
 	initDatatable();
+	bindDropDown();
 }
 
 function bindModal(){
@@ -207,19 +207,24 @@ function bindDropDown(){
 	$('#searchStatus').select2({
 		theme: 'bootstrap4',
     	placeholder: "Search Status.",
-    	allowClear: true
+    	allowClear: false
 	});
+	
+	$('.select2-selection__rendered').addClass("float-left");
 	
 	$(".select-filter").on('change', function() {
 		busDatatable.column(4).search( $('#searchStatus').val()).draw();
 	});
 	
 	$("#searchBox").on('input', function() {
-		console.log($(this).val());
-		busDatatable.columns(0).search($(this).val()).draw().columns(1).search($(this).val()).draw();
+		console.log($(this).val()); 
+		busDatatable.column(0).search($("#searchBox").val()).draw();
+		console.log(busDatatable.column(0).search($("#searchBox").val()));
+		//busDatatable.column(1).search($("#searchBox").val()).draw();
 	});
 	
 	$(".select2-selection__clear, #clearFilters").on('click', function() {	
+		$('#searchStatus').val("");
 		busDatatable.column(4).search("").draw();
 	});
 }
@@ -334,6 +339,25 @@ function initDatatable() {
 			});
 	   } 
 	});
+	
+	$("#busDatatable_filter").prepend(getFilters);
+	 $("#busDatatable_filter label").addClass("float-right");
+	
+}
+
+function getFilters(){
+	var filters = '<div class="row">' +
+	'<div class="col-sm-3"><select class="form-control select2 select-filter" style="width: 100%;" id="searchStatus">' +
+			        	'<option></option>' +
+			            '<option value="OK">OK</option>' +
+				       '<option value="REPAIRING">REPAIRING</option>' +
+			        '</select></div>'+   
+	'<div class="col-sm-2">' +
+				'<button type="button" class="btn btn-default float-left" id="clearFilters">' +
+	           'Clear Filters </button>' +
+	        '</div>';
+	        
+	        return filters;
 	
 }
 

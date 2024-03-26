@@ -74,19 +74,19 @@
               </li>
        
           <li class="nav-header">MASTER DATA</li>
+           <li class="nav-item">
+            <a href="<c:url value="/expense"/>" class="nav-link ${page eq 'expense' ? 'active' : ''}">
+              <i class="nav-icon far fa-address-card"></i>
+              <p>
+                DRIVER
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="<c:url value="/bus"/>" class="nav-link ${page eq 'bus' ? 'active' : ''}">
               <i class="nav-icon fas fa-bus"></i>
               <p>
                 BUS
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="<c:url value="/expense"/>" class="nav-link ${page eq 'expense' ? 'active' : ''}">
-              <i class="nav-icon fas fa-coins"></i>
-              <p>
-                EXPENSE TYPE
               </p>
             </a>
           </li>

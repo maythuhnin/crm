@@ -23,7 +23,7 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-          	<div class="col-sm-2">
+          	<!-- <div class="col-sm-2">
 			        <select class="form-control select2 select-filter" style="width: 100%;" id="searchStatus">
 			        	<option></option>
 			            <option value="OK">OK</option>
@@ -40,13 +40,9 @@
 		            
 		              	</div>
 		            </div>
-			     </div>
-			<div class="col-sm-2">
-				<button type="button" class="btn btn-default" id="clearFilters">
-	            	Clear Filters
-	            </button>
-	        </div>
-	        <div class="col-sm-3"></div>
+			     </div> -->
+			
+	        <div class="col-sm-10"></div>
           	<div class="col-sm-2">
 	             	 <button type="button" class="btn btn-primary float-right" id="addBus">
 	                   Add Bus

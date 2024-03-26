@@ -1,5 +1,7 @@
 package com.eniac.projects.bet.apis.validators;
 
+import java.sql.Date;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
@@ -15,13 +17,25 @@ public class CommonValidator {
 		
 	}
 	
+	protected void checkIfEmpty(Double value, String fieldName, Errors errors) {
+		
+		if(value == 0) {
+			errors.rejectValue(fieldName, REQUIRED_MSG);
+		}
+		
+	}
+	
 	protected void checkIfEmpty(Integer value, String fieldName, Errors errors) {
+		ValidationUtils.rejectIfEmpty(errors, fieldName, REQUIRED_MSG);
+	}
+	
+	protected void checkIfEmpty(String value, String fieldName, Errors errors) {
 		
 		ValidationUtils.rejectIfEmpty(errors, fieldName, REQUIRED_MSG);
 		
 	}
 	
-	protected void checkIfEmpty(String value, String fieldName, Errors errors) {
+	protected void checkIfEmpty(Date value, String fieldName, Errors errors) {
 		
 		ValidationUtils.rejectIfEmpty(errors, fieldName, REQUIRED_MSG);
 		

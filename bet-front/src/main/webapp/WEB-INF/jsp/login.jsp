@@ -17,15 +17,16 @@
   		  <!-- SweetAlert2 -->
   <link rel="stylesheet" href="<c:url value="/resources/plugins/toastr/toastr.min.css"/>">
   <link rel="stylesheet" href="<c:url value="/resources/template/custom.css"/>"> 
+  <link rel="stylesheet" href="<c:url value="/resources/css/login.css"/>"> 
    <link rel="icon" type="image/png" href="<c:url value="/resources/images/logo-tab.png"/>"/>
 		
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-  <%-- <img src="<c:url value="/resources/images/logo-header.png"/>" alt="Sayy Sine Logo" class="" style="opacity: .8"> --%>
-    <b>Expense</b>Tracker
-  </div>
+		<div class="login-box">
+            <div class="login-logo">
+			   <img src="<c:url value="/resources/images/login.png"/>" alt="Logo" class="float-left" style="opacity: .8">
+			   <p class="logo-text">ExpenseTracker</p>
+			  </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">

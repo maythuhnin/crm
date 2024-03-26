@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</typeAliases>
 	<typeHandlers>
 		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.eniac.projects.bet.model.BusBean$BusStatus"/>
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.eniac.projects.bet.model.LoanHistoryBean$LoanType"/>
  	</typeHandlers>
 	<environments default="development">
 		<environment id="development">
@@ -30,5 +31,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/USER.xml" />
 		<mapper resource="mybatis/BUS.xml" />
 		<mapper resource="mybatis/DRIVER.xml" />
+		<mapper resource="mybatis/LOAN_HISTORY.xml" />
 	</mappers>
 </configuration>

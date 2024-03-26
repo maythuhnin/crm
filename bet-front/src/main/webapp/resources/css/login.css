@@ -7,4 +7,10 @@
 
 img {
 	width: 270px;
+	margin-bottom: -15px;
+}
+
+.logo-text{
+	margin-left: 140px;
+	font-size: 30px;
 }
