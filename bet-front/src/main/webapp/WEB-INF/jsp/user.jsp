@@ -34,7 +34,7 @@
 			    </div>
 			     <div class="col-sm-7"></div>
           	<div class="col-sm-2">
-	             	 <button type="button" class="btn btn-primary float-right" id="addUser">
+	             	 <button type="button" class="btn btn-outline-primary float-right" id="addUser">
 	                   Add User
 	                  </button>
 	            </div>
@@ -131,7 +131,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="saveUser">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="saveUser">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -207,7 +207,7 @@
             <div class="modal-footer">
             	<input type="hidden" id="userId"/>
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="updateUser">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="updateUser">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -242,7 +242,7 @@
         	 <input type="hidden" id="delUserId"/>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-              <button type="button" class="btn btn-primary" id="deleteUser">YES</button>
+              <button type="button" class="btn btn-outline-primary" id="deleteUser">YES</button>
             </div>
           </div>
           <!-- /.modal-content -->

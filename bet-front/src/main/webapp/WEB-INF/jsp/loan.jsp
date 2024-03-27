@@ -170,7 +170,7 @@
             <div class="modal-footer">
             	<input type="hidden" id="driverId"/>
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="saveLoan">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="saveLoan">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -206,7 +206,7 @@
         	 <input type="hidden" id="delDriverId"/>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-              <button type="button" class="btn btn-primary" id="deleteLoan">YES</button>
+              <button type="button" class="btn btn-outline-primary" id="deleteLoan">YES</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -250,7 +250,7 @@
             <div class="modal-footer">
             <input type="hidden" id="driverType"/>
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="saveDriver">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="saveDriver">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->

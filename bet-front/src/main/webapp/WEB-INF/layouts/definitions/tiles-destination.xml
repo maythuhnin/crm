@@ -3,9 +3,9 @@
 
 <tiles-definitions>
 
-	<definition name="path" extends="baseLayout">
-		<put-attribute name="title" value="Path" />
-		<put-attribute name="content" value="/WEB-INF/jsp/path.jsp" />
+	<definition name="destination" extends="baseLayout">
+		<put-attribute name="title" value="Destination" />
+		<put-attribute name="content" value="/WEB-INF/jsp/destination.jsp" />
 	</definition>
 	
 </tiles-definitions>

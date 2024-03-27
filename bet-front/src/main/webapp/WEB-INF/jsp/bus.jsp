@@ -44,7 +44,7 @@
 			
 	        <div class="col-sm-10"></div>
           	<div class="col-sm-2">
-	             	 <button type="button" class="btn btn-primary float-right" id="addBus">
+	             	 <button type="button" class="btn btn-outline-primary float-right" id="addBus">
 	                   Add Bus
 	                  </button>
 	            </div>
@@ -155,7 +155,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="saveBus">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="saveBus">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -248,7 +248,7 @@
             <div class="modal-footer">
             	<input type="hidden" id="busId"/>
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="updateBus">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="updateBus">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -283,7 +283,7 @@
         	 <input type="hidden" id="delBusId"/>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-              <button type="button" class="btn btn-primary" id="deleteBus">YES</button>
+              <button type="button" class="btn btn-outline-primary" id="deleteBus">YES</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -327,7 +327,7 @@
             <div class="modal-footer">
             <input type="hidden" id="driverType"/>
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="saveDriver">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="saveDriver">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->

@@ -32,5 +32,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/BUS.xml" />
 		<mapper resource="mybatis/DRIVER.xml" />
 		<mapper resource="mybatis/LOAN_HISTORY.xml" />
+		<mapper resource="mybatis/DESTINATION.xml" />
 	</mappers>
 </configuration>

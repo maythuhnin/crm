@@ -5,12 +5,12 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS expense;
 DROP TABLE IF EXISTS route;
 DROP TABLE IF EXISTS bus;
+DROP TABLE IF EXISTS destination;
 DROP TABLE IF EXISTS loan_history;
 DROP TABLE IF EXISTS driver;
 DROP TABLE IF EXISTS expense_type;
 DROP TABLE IF EXISTS stock;
 DROP TABLE IF EXISTS inventory;
-DROP TABLE IF EXISTS path;
 DROP TABLE IF EXISTS user;
 
 
@@ -36,12 +36,24 @@ CREATE TABLE bus
 );
 
 
+CREATE TABLE destination
+(
+	id int NOT NULL AUTO_INCREMENT,
+	name varchar(100) NOT NULL,
+	is_order boolean NOT NULL,
+	status boolean NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
 CREATE TABLE driver
 (
 	id int NOT NULL AUTO_INCREMENT,
 	name varchar(200) NOT NULL,
 	phone varchar(20),
-	loan_amount numeric(18,2),
 	status boolean NOT NULL,
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
@@ -71,8 +83,7 @@ CREATE TABLE expense
 CREATE TABLE expense_type
 (
 	id int NOT NULL AUTO_INCREMENT,
-	name varchar(100) NOT NULL,
-	amount numeric(18,2) NOT NULL,
+	name varchar(200) NOT NULL,
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
@@ -112,23 +123,10 @@ CREATE TABLE loan_history
 );
 
 
-CREATE TABLE path
-(
-	id int NOT NULL AUTO_INCREMENT,
-	from_destination varchar(100) NOT NULL,
-	to_destination varchar(100) NOT NULL,
-	updated_datetime datetime NOT NULL,
-	updated_id int NOT NULL,
-	PRIMARY KEY (id),
-	UNIQUE (id)
-);
-
-
 CREATE TABLE route
 (
 	id int NOT NULL AUTO_INCREMENT,
 	bus_id int NOT NULL,
-	path_id int NOT NULL,
 	route_date datetime NOT NULL,
 	income numeric(18,2) NOT NULL,
 	expense numeric(18,2) NOT NULL,
@@ -182,7 +180,7 @@ ALTER TABLE route
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
+	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
@@ -190,7 +188,7 @@ ALTER TABLE bus
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
+	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
@@ -208,14 +206,6 @@ ALTER TABLE loan_history
 ALTER TABLE stock
 	ADD CONSTRAINT frk_inventory_stock FOREIGN KEY (inventory_id)
 	REFERENCES inventory (id)
-	ON UPDATE NO ACTION
-	ON DELETE NO ACTION
-;
-
-
-ALTER TABLE route
-	ADD CONSTRAINT frk_path_route FOREIGN KEY (path_id)
-	REFERENCES path (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
 ;

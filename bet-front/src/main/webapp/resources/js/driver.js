@@ -34,7 +34,7 @@ function bindDriverAddApi(){
 	
 	$("#saveDriver").click(function () {
 		
-		if($("#driverForm").valid()){
+		if($("#addDriverForm").valid()){
 			
 			showLoadingOverlay();
 			
@@ -154,10 +154,10 @@ function initDriverDatatable() {
 				driverList.push(full);
 				return full.phone			
 			},
-		    sClass: "text-right"} ,
+		    sClass: "text-center"} ,
 		      { render : function(data, type, full, meta) {
 	
-				return '<button type="button" class="btn btn-primary mr-1 edit-driver" data-id="' + full.id + '" title="Driver History"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-default delete-driver" data-id="' + full.id + '" title="Driver History"><i class="fas fa-trash"></i></button>';
+				return '<button type="button" class="btn btn-outline-danger delete-driver mr-1" data-id="' + full.id + '" title="Delete Driver">Delete <i class="fas fa-trash"></i></button><button type="button" class="btn btn-outline-primary edit-driver" data-id="' + full.id + '" title="Edit Driver">Edit <i class="fas fa-edit"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }

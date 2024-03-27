@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.eniac.projects.bet.controllers.base.BaseController;
 
 @Controller
-@RequestMapping("/path")
-public class PathController extends BaseController {
+@RequestMapping("/destination")
+public class DestinationController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String user(Model model) {
-		model.addAttribute("title", "Path");
-		model.addAttribute("titleDescription", "ADD | EDIT | DELETE user accounts.");
-		model.addAttribute("url", "/path");
-		model.addAttribute("page", "path");
-		return "bus";
+		model.addAttribute("title", "Destination");
+		model.addAttribute("url", "/destination");
+		model.addAttribute("page", "destination");
+		return "destination";
 	}
 
 }

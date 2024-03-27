@@ -91,10 +91,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<c:url value="/path"/>" class="nav-link ${page eq 'path' ? 'active' : ''}">
+            <a href="<c:url value="/destination"/>" class="nav-link ${page eq 'destination' ? 'active' : ''}">
               <i class="nav-icon fas fa-route"></i>
               <p>
-                PATH
+                DESTINATION
               </p>
             </a>
           </li>
