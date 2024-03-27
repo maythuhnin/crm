@@ -24,7 +24,7 @@ public class DriverApiValidator extends CommonValidator implements Validator{
 			checkIfEmpty(driver.getName(), "name", errors);
 		}else if (driver.getMode().equals(Mode.EDIT)){
 			checkIfEmpty(driver.getId(), "id", errors);
-			checkIfEmpty(driver.getName(), "licensePlate", errors);
+			checkIfEmpty(driver.getName(), "name", errors);
 		}else if (driver.getMode().equals(Mode.DELETE)){
 			checkIfEmpty(driver.getId(), "id", errors);	
 		}

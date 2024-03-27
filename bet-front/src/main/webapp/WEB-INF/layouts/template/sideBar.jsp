@@ -75,7 +75,7 @@
        
           <li class="nav-header">MASTER DATA</li>
            <li class="nav-item">
-            <a href="<c:url value="/expense"/>" class="nav-link ${page eq 'expense' ? 'active' : ''}">
+            <a href="<c:url value="/driver"/>" class="nav-link ${page eq 'driver' ? 'active' : ''}">
               <i class="nav-icon far fa-address-card"></i>
               <p>
                 DRIVER

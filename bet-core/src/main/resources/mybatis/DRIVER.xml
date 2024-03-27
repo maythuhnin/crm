@@ -64,13 +64,17 @@
 	
 	<select id="selectForDatatable" resultType="map">
 		SELECT 
-		 id,
-		 name,
-		 loan_amount AS loanAmount,
-		 phone
+		 d.id,
+		 d.name,
+		(SELECT 
+			SUM(CASE type 
+				 WHEN 0 THEN (amount)
+				 WHEN 1 THEN (amount * -1)
+				END) FROM LOAN_HISTORY WHERE DRIVER_ID = d.id) AS loanAmount,
+		d.phone
 		
-		FROM driver
-		WHERE status != 0
+		FROM driver d
+		WHERE d.status != 0
 	</select>
 	
 	<select id="selectForDropDown" resultMap="DriverResult">

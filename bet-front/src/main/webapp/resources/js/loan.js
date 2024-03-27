@@ -1,10 +1,6 @@
 let loanDatatable = {}; 
 let loanHistoryDatatable = {};
-let loanList = [];
-let driverList =  [];
 let loanAddValidator;
-let loanUpdateValidator;
-let driverAddValidator;
 
 $(init);
 
@@ -12,7 +8,7 @@ function init() {
 	
 	bindValidator();
 	bindModal();
-	initDatatable();
+	initLoanDatatable();
 }
 
 function bindModal(){
@@ -23,11 +19,6 @@ function bindModal(){
 	bindLoanDeleteApi();
 	
 	bindModalCloseButtonClick();
-	
-	 $('#loanHistoryModal').on('show.bs.modal', function() {
-		
-		//loanHistoryDatatable.columns.adjust().draw();
-	 });
 	
 }
 
@@ -106,9 +97,6 @@ function initLoanHistoryDatatable(driverId) {
 		ajax: {
 	        url:  getPathName() + '/loan/api/' + driverId+ '/datatable',
 	        type: "GET",
-	         data : function(d) {
-				
-			},
 	        dataSrc: 'responseData',
 	        dataType: "json"
 	    },
@@ -188,7 +176,7 @@ function initLoanHistoryDatatable(driverId) {
 }
 
 
-function initDatatable() {
+function initLoanDatatable() {
 	
 	loanDatatable = $('#loanDatatable').DataTable({
 		lengthChange: false, 
@@ -231,13 +219,10 @@ function initDatatable() {
 				 setTimeout(function() {
 				     initLoanHistoryDatatable(driverId);
 				  }, 100);
-				
-				
 			});
 			
 			$( ".add-loan" ).on( "click", function() {
 				var driverId = $(this).attr("data-id");
-				
 			    $('#driverId').val(driverId);
 				$("#addLoanModal").modal();
 			});
