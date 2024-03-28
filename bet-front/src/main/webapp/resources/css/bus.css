@@ -10,3 +10,6 @@
   	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+table tr > td{
+	padding: 0.50rem !important;
+}

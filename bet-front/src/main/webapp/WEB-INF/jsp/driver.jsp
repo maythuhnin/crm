@@ -27,7 +27,22 @@
       <div class="card">
        	 <div class="card-header">
           <div class="row">	
-	        <div class="col-sm-10"></div>
+	         <div class="col-sm-3">
+					<div class="input-group">
+		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+		              	<div class="input-group-append">
+		                	<button class="btn btn-navbar" type="button">
+		                  		<i class="fas fa-search"></i>
+		                	</button>
+		              	</div>
+		            </div>
+			     </div>
+			     <div class="col-sm-2">
+	             	 <button type="button" class="btn btn-default" id="clearFilters">
+	             	 	Clear  <i class="fas fa-times"></i>
+	                  </button>
+	            </div>
+	            <div class="col-sm-5"></div>
           	<div class="col-sm-2">
 	             	 <button type="button" class="btn btn-outline-primary float-right" id="addDriver">
 	                   Add <i class="fas fa-plus-circle"></i>
@@ -84,7 +99,7 @@
         	 <input type="hidden" id="delDriverId"/>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-              <button type="button" class="btn btn-outline-primary" id="deleteDriver">YES</button>
+              <button type="button" class="btn btn-outline-danger" id="deleteDriver">YES</button>
             </div>
           </div>
           <!-- /.modal-content -->

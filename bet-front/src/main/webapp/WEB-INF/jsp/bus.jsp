@@ -23,11 +23,16 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-          	<!-- <div class="col-sm-2">
+          		<div class="col-sm-2">
 			        <select class="form-control select2 select-filter" style="width: 100%;" id="searchStatus">
 			        	<option></option>
 			            <option value="OK">OK</option>
 				        <option value="REPAIRING">REPAIRING</option>
+			        </select>
+			    </div>
+			    <div class="col-sm-3">
+			        <select class="form-control select2 select-filter" style="width: 100%;" id="searchDriver">
+			        	<option></option>
 			        </select>
 			    </div>
 			     <div class="col-sm-3">
@@ -37,15 +42,21 @@
 		                	<button class="btn btn-navbar" type="button">
 		                  		<i class="fas fa-search"></i>
 		                	</button>
+		                	
 		            
 		              	</div>
 		            </div>
-			     </div> -->
+			     </div>
+			     <div class="col-sm-2">
+	             	 <button type="button" class="btn btn-default" id="clearFilters">
+	             	 	
+	                   Clear  <i class="fas fa-times"></i>
+	                  </button>
+	            </div>
 			
-	        <div class="col-sm-10"></div>
-          	<div class="col-sm-2">
-	             	 <button type="button" class="btn btn-outline-primary float-right" id="addBus">
-	                   Add Bus
+          		<div class="col-sm-2">
+	                  <button type="button" class="btn btn-outline-primary btn-sm float-right" id="addBus">
+	                   Add <i class="fas fa-plus-circle"></i>
 	                  </button>
 	            </div>
 			    
@@ -75,7 +86,7 @@
     </section>
     
             <!-- /.card -->
-	<div class="modal fade" id="busModal">
+	<div class="modal fade" id="addBusModal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -86,7 +97,7 @@
             </div>
             <div class="modal-body">
               <!-- form start -->
-        <form class="form-horizontal" id="busForm">
+        <form class="form-horizontal" id="addBusForm">
           <div class="card-body">
             <div class="form-group row">
               <div class="col-sm-1"></div>
@@ -100,8 +111,8 @@
               <div class="col-sm-1"></div>
               <label for="primaryDriver" class="col-sm-4 col-form-label">Primary Driver <span class="required">[required]</span></label>
                 <div class="col-sm-6">
-                    <div class="input-group">
-						  <select class="custom-select" id="primaryDriver">
+                    <div class="input-group add-input-group">
+						  <select class="custom-select" id="primaryDriver" name="primaryDriver">
 						    <option selected></option>
 						
 						  </select>
@@ -164,7 +175,7 @@
       </div>
       
             <!-- /.card -->
-	<div class="modal fade" id="updateBusModal">
+	<div class="modal fade" id="editBusModal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -175,7 +186,7 @@
             </div>
             <div class="modal-body">
               <!-- form start -->
-        <form class="form-horizontal" id="updateBusForm">
+        <form class="form-horizontal" id="editBusForm">
           <div class="card-body">
             
             
@@ -183,16 +194,16 @@
               <div class="col-sm-1"></div>
               <label for="licensePlate" class="col-sm-4 col-form-label">License Plate <span class="required">[required]</span></label>
               <div class="col-sm-6">
-                <input type="text" name="updateLicensePlate" class="form-control" id="updateLicensePlate" data-inputmask='"mask": "9A-9999"' data-mask>
+                <input type="text" name="editLicensePlate" class="form-control" id="editLicensePlate" data-inputmask='"mask": "9A-9999"' data-mask>
               </div>
             </div>
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="updatePrimaryDriver" class="col-sm-4 col-form-label">Primary Driver <span class="required">[required]</span></label>
+              <label for="editPrimaryDriver" class="col-sm-4 col-form-label">Primary Driver <span class="required">[required]</span></label>
                 <div class="col-sm-6">
-                    <div class="input-group">
-						  <select class="custom-select" id="updatePrimaryDriver">
+                    <div class="input-group edit-input-group">
+						  <select class="custom-select" id="editPrimaryDriver" name="editPrimaryDriver">
 						    <option selected></option>
 						
 						  </select>
@@ -205,15 +216,15 @@
             
              <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="updateSecondaryDriver" class="col-sm-4 col-form-label">Secondary Driver </label>
+              <label for="editSecondaryDriver" class="col-sm-4 col-form-label">Secondary Driver </label>
               <div class="col-sm-6">
                     <div class="input-group">
-						  <select class="custom-select" id="updateSecondaryDriver">
+						  <select class="custom-select" id="editSecondaryDriver">
 						    <option selected></option>
 						  
 						  </select>
 						  <div class="input-group-append">
-						    <button class="btn btn-default add-driver" data-type="updateSecondaryDriver" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
+						    <button class="btn btn-default add-driver" data-type="editSecondaryDriver" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
 						  </div>
 					</div>
               </div>
@@ -221,17 +232,17 @@
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="updatePhone" class="col-sm-4 col-form-label">Primary Driver Phone</label>
+              <label for="editPhone" class="col-sm-4 col-form-label">Primary Driver Phone</label>
               <div class="col-sm-6">
-                <input type="text" name="updatePhone" class="form-control" id="updatePhone" disabled="true">
+                <input type="text" name="editPhone" class="form-control" id="editPhone" disabled="true">
               </div>
             </div>
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="updateStatus" class="col-sm-4 col-form-label">Status <span class="required">[required]</span></label>
+              <label for="editStatus" class="col-sm-4 col-form-label">Status <span class="required">[required]</span></label>
               <div class="col-sm-6">
-                 <select class="form-control" style="width: 100%;" id="updateStatus" name="updateStatus">
+                 <select class="form-control" style="width: 100%;" id="editStatus" name="editStatus">
 			            <option value="OK">OK</option>
 			            <option value="REPAIRING">REPAIRING</option>
 			   		</select>
@@ -248,7 +259,7 @@
             <div class="modal-footer">
             	<input type="hidden" id="busId"/>
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-outline-primary" id="updateBus">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="editBus">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -283,7 +294,7 @@
         	 <input type="hidden" id="delBusId"/>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-              <button type="button" class="btn btn-outline-primary" id="deleteBus">YES</button>
+              <button type="button" class="btn btn-outline-danger" id="deleteBus">YES</button>
             </div>
           </div>
           <!-- /.modal-content -->

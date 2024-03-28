@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -49,7 +48,7 @@ public class DriverRestController extends BaseController {
 	}
 
 	@PostMapping("/driver/api/add")
-	public Map<String, Object> addDriver(@RequestBody DriverBean driver, HttpServletResponse response) {
+	public Map<String, Object> addDriver(@RequestBody DriverBean driver) {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -63,7 +62,6 @@ public class DriverRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("driver", driver);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -73,7 +71,7 @@ public class DriverRestController extends BaseController {
 
 			driver.setUpdatedId(getLoggedInUser().getId());
 			int createdId = driverService.createDriver(driver);
-			response.setStatus(200);
+			
 			results.put("createdId", createdId);
 			results.put("httpStatus", HttpStatus.OK);
 			results.put("status", "Success!");
@@ -100,7 +98,7 @@ public class DriverRestController extends BaseController {
 	}
 
 	@PostMapping("/driver/api/edit")
-	public Map<String, Object> editDriver(@RequestBody DriverBean driver, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> editDriver(@RequestBody DriverBean driver) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -114,7 +112,6 @@ public class DriverRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("driver", driver);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -122,11 +119,9 @@ public class DriverRestController extends BaseController {
 				return results;
 			}
 			
-			
-				driverService.updateDriver(driver);
-				results.put("httpStatus", HttpStatus.OK);
-				results.put("status", "Success!");
-			
+			driverService.updateDriver(driver);
+			results.put("httpStatus", HttpStatus.OK);
+			results.put("status", "Success!");
 
 		} catch (MyBatisException e) {
 			e.printStackTrace();
@@ -149,7 +144,7 @@ public class DriverRestController extends BaseController {
 	}
 
 	@PostMapping("/driver/api/delete")
-	public Map<String, Object> deleteDriver(@RequestBody Integer driverId, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> deleteDriver(@RequestBody Integer driverId) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -165,7 +160,6 @@ public class DriverRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("driver", driver);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");

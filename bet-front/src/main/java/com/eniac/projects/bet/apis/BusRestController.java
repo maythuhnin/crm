@@ -3,7 +3,6 @@ package com.eniac.projects.bet.apis;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -41,7 +40,7 @@ public class BusRestController extends BaseController {
 	}
 
 	@PostMapping("/bus/api/add")
-	public Map<String, Object> addBus(@RequestBody BusBean bus, HttpServletResponse response) {
+	public Map<String, Object> addBus(@RequestBody BusBean bus) {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -55,7 +54,6 @@ public class BusRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("bus", bus);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -66,15 +64,12 @@ public class BusRestController extends BaseController {
 			if (!checkBusLicenseUnique(bus)) {
 				bus.setUpdatedId(getLoggedInUser().getId());
 				busService.createBus(bus);
-				response.setStatus(200);
 				results.put("httpStatus", HttpStatus.OK);
 				results.put("status", "Success!");
 			} else {
-				response.sendError(500);
 				results.put("bus", bus);
 				results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
-				results.put("error", "License Plate already exist. Please pick a different one.");
-				return results;
+				results.put("error", "License Plate already exist. Please try again.");
 			}
 
 		} catch (MyBatisException e) {
@@ -93,13 +88,13 @@ public class BusRestController extends BaseController {
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", BUSINESS_EXCEPTION_MSG);
 		}
-
+	
 		return results;
 
 	}
 
 	@PostMapping("/bus/api/edit")
-	public Map<String, Object> editBus(@RequestBody BusBean bus, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> editBus(@RequestBody BusBean bus) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -113,7 +108,6 @@ public class BusRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("bus", bus);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -126,10 +120,9 @@ public class BusRestController extends BaseController {
 				results.put("httpStatus", HttpStatus.OK);
 				results.put("status", "Success!");
 			} else {
-				response.sendError(500);
 				results.put("bus", bus);
 				results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
-				results.put("error", "License Plate already exist. Please pick a different one.");
+				results.put("error", "License Plate already exist. Please try again.");
 			}
 
 		} catch (MyBatisException e) {
@@ -153,7 +146,7 @@ public class BusRestController extends BaseController {
 	}
 
 	@PostMapping("/bus/api/delete")
-	public Map<String, Object> deleteBus(@RequestBody Integer busId, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> deleteBus(@RequestBody Integer busId) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -169,9 +162,8 @@ public class BusRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("bus", bus);
-				results.put("httpStatus", HttpStatus.BAD_REQUEST);
+				results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 				results.put("error", "Validation Error.");
 				
 				return results;
@@ -205,10 +197,9 @@ public class BusRestController extends BaseController {
 		if (bus.getId() != 0) {
 			criteria.put("notId", bus.getId());
 		}
-		System.err.println(criteria);
-
+		
 		BusBean selectedBus = busService.selectByCriteria(criteria);
-		System.err.println(selectedBus);
+		
 		if (null != selectedBus) {
 			isExist = true;
 		}

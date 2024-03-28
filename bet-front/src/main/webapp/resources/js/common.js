@@ -1,55 +1,4 @@
 
-let baseUOMList = [
-	'BOX', 'STRIP', 'EACH', 'BOTTLE', 'SATCHET', 'TUBE', 'PACK'
-]
-
-let countryList = [
-	'Myanmar',
-	'Germany',
-	'Switzerland',
-	'United States',
-	'Ireland',
-	'Belgium',
-	'France',
-	'Italy',
-	'Netherlands',
-	'United Kingdom',
-	'Denmark',
-	'China',
-	'Spain',
-	'Austria',
-	'Sweden',
-	'Singapore',
-	'Canada',
-	'Japan',
-	'Hungary',
-	'Slovenia',
-	'Australia',
-	'South Korea',
-	'Poland',
-	'Czech Republic',
-	'Israel',
-	'Greece',
-	'Mexico',
-	'Turkey',
-	'Portugal',
-	'Romania',
-	'Lithuania',
-	'Finland',
-	'Russia',
-	'Norway',
-	'Argentina',
-	'Taiwan',
-	'Latvia',
-	'Slovakia',
-	'South Africa',
-	'Colombia',
-	'New Zealand',
-	'Chile',
-	'Luxembourg',
-	'Estonia',
-	'Iceland'
-]
 
 function getUrl(){
 	return window.location.href;
@@ -74,66 +23,11 @@ function getRoleText(role){
 	switch(role) {
 	  case "ROLE_ADMIN":
 		  return "ADMIN";
-	  case "ROLE_SALES":
-		  return "SALES";
-	  case "ROLE_WAREHOUSE":
-		  return "WAREHOUSE";
-	  case "ROLE_SELLER":
-		  return "SELLER";
+	  case "ROLE_USER":
+		  return "USER";
 	  default:
 	} 
 }
-
-function getUOMText(uom){
-	switch(uom) {
-	  case 0:
-		  return "BOX";
-	  case 1:
-		  return "STRIP";
-	  case 2:
-		  return "EACH";
-	  case 3:
-		  return "BOTTLE";
-	  case 4:
-		  return "SATCHET";
-	  case 5:
-		  return "TUBE";
-	  case 6:
-		  return "PACK";
-	  default:
-	} 
-}
-
-function getMonthText(month){
-	switch(month) {
-	  case 1:
-		  return "JANUARY";
-	  case 2:
-		  return "FEBRUARY";
-	  case 3:
-		  return "MARCH";
-	  case 4:
-		  return "APRIL";
-	  case 5:
-		  return "MAY";
-	  case 6:
-		  return "JUNE";
-	  case 7:
-		  return "JULY";
-	  case 8:
-		  return "AUGUST";
-	  case 9:
-		  return "SEPTEMBER";
-	  case 10:
-		  return "OCTOBER";
-	  case 11:
-		  return "NOVEMBER";
-	  case 12:
-		  return "DECEMBER";
-	  default:
-	} 
-}
-
 
 function isEmpty(data){
 	var isEmpty = false;

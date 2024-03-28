@@ -10,6 +10,7 @@ function init() {
 	bindValidator();
 	bindModal();
 	initDriverDatatable();
+	bindSearch();
 }
 
 function bindModal(){
@@ -22,6 +23,20 @@ function bindModal(){
 	
 	bindModalCloseButtonClick();
 	
+}
+
+function bindSearch(){
+	
+	$("#driverDatatable_filter label").addClass("d-none");
+	
+	$("#searchBox").on('input', function() {
+		driverDatatable.search($("#searchBox").val()).draw();
+	});
+	
+	$("#clearFilters").on('click', function() {	
+		$("#searchBox").val("");
+		driverDatatable.search("").draw();
+	});
 }
 
 function bindModalCloseButtonClick(){
@@ -146,18 +161,18 @@ function initDriverDatatable() {
         scrollCollapse: true,
          columnDefs: [{ width: '20%', targets: 2 }],
 	    columns: [
-		{ render : function(data, type, full, meta) {
-				return full.name;
+		{ mData : function(data, type, full, meta) {
+				return data.name;
 			},
 		    sClass: "text-center"},      
-	      { render : function(data, type, full, meta) {
-				driverList.push(full);
-				return full.phone			
+	      { mData : function(data, type, full, meta) {
+				driverList.push(data);
+				return data.phone			
 			},
 		    sClass: "text-center"} ,
-		      { render : function(data, type, full, meta) {
+		      { mData : function(data, type, full, meta) {
 	
-				return '<button type="button" class="btn btn-outline-danger delete-driver mr-1" data-id="' + full.id + '" title="Delete Driver">Delete <i class="fas fa-trash"></i></button><button type="button" class="btn btn-outline-primary edit-driver" data-id="' + full.id + '" title="Edit Driver">Edit <i class="fas fa-edit"></i></button>';
+				return '<button type="button" class="btn btn-outline-danger btn-sm delete-driver mr-1" data-id="' + data.id + '" title="Delete Driver">Delete <i class="fas fa-trash"></i></button><button type="button" class="btn btn-outline-primary btn-sm edit-driver" data-id="' + data.id + '" title="Edit Driver">Edit <i class="fas fa-edit"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
@@ -221,10 +236,11 @@ function bindValidator(){
 	driverAddValidator = $("#addDriverForm").validate({
 		rules : {
 			name : {
-				required : true
+				required : true,
+				maxlength: 200
 			},
 			phone : {
-				required : true
+				maxlength : 100
 			}
 		}
 	});
@@ -232,10 +248,11 @@ function bindValidator(){
 	driverEditValidator = $("#editDriverForm").validate({
 		rules : {
 			editName : {
-				required : true
+				required : true,
+				maxlength: 200
 			},
 			editPhone : {
-				required : true
+				maxlength : 100
 			}
 		}
 	});

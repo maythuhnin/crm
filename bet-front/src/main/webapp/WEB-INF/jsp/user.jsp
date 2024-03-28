@@ -23,19 +23,32 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-          	<div class="col-sm-3">
+          	<div class="col-sm-2">
 			        <select class="form-control select2 select-filter" style="width: 100%;" id="searchRole">
 			        	<option></option>
 			            <option value="ADMIN">ADMIN</option>
-				        <option value="SALES">SALES</option>
-				        <option value="WAREHOUSE">WAREHOUSE</option>
-				        <option value="SELLER">SELLER</option>
+				        <option value="USER">USER</option>
 			        </select>
 			    </div>
-			     <div class="col-sm-7"></div>
+			    <div class="col-sm-3">
+					<div class="input-group">
+		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+		              	<div class="input-group-append">
+		                	<button class="btn btn-navbar" type="button">
+		                  		<i class="fas fa-search"></i>
+		                	</button>
+		              	</div>
+		            </div>
+			     </div>
+			     <div class="col-sm-2">
+	             	 <button type="button" class="btn btn-default" id="clearFilters">
+	             	 	Clear  <i class="fas fa-times"></i>
+	                  </button>
+	            </div>
+			     <div class="col-sm-3"></div>
           	<div class="col-sm-2">
-	             	 <button type="button" class="btn btn-outline-primary float-right" id="addUser">
-	                   Add User
+	             	<button type="button" class="btn btn-outline-primary float-right" id="addUser">
+	                   Add <i class="fas fa-plus-circle"></i>
 	                  </button>
 	            </div>
 			    
@@ -100,9 +113,7 @@
               <div class="col-sm-6">
                    <select class="form-control" style="width: 100%;" id="role" name="role">
 			            <option value="ROLE_ADMIN">ADMIN</option>
-			            <option value="ROLE_SALES">SALES</option>
-			            <option value="ROLE_WAREHOUSE">WAREHOUSE</option>
-			            <option value="ROLE_SELLER">SELLER</option>
+				        <option value="ROLE_USER">USER</option>
 			   		</select>
               </div>
             </div>
@@ -175,9 +186,7 @@
               <div class="col-sm-6">
                    <select class="form-control select2 select-filter" style="width: 100%;" id="updateRole">
 			            <option value="ROLE_ADMIN">ADMIN</option>
-			            <option value="ROLE_SALES">SALES</option>
-			            <option value="ROLE_WAREHOUSE">WAREHOUSE</option>
-			            <option value="ROLE_SELLER">SELLER</option>
+				        <option value="ROLE_USER">USER</option>
 			   		</select>
               </div>
             </div>
@@ -242,7 +251,7 @@
         	 <input type="hidden" id="delUserId"/>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-              <button type="button" class="btn btn-outline-primary" id="deleteUser">YES</button>
+              <button type="button" class="btn btn-outline-danger" id="deleteUser">YES</button>
             </div>
           </div>
           <!-- /.modal-content -->

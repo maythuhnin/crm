@@ -9,8 +9,8 @@ function init() {
 	
 	bindValidator();
 	bindModal();
-	bindDropDown();
 	initDatatable();
+	bindSearch();
 }
 
 function bindModal(){
@@ -23,6 +23,34 @@ function bindModal(){
 	
 	bindModalCloseButtonClick();
 	
+}
+
+
+function bindSearch(){
+	
+	$("#userDatatable_filter label").addClass("d-none");
+	
+	$('#searchRole').select2({
+		theme: 'bootstrap4',
+    	placeholder: "Search Role.",
+    	allowClear: false
+	});
+	
+	$("#searchRole").on('change', function() {
+		userDatatable.column(2).search( $('#searchRole').val()).draw();
+	});
+	
+	$("#searchBox").on('input', function() {
+		userDatatable.search($("#searchBox").val()).draw();
+	});
+	
+	$("#clearFilters").on('click', function() {	
+		$("#searchBox").val("");
+		$("#searchRole").val("");
+		$("#searchRole").trigger("change");
+		userDatatable.search("").draw();
+	});
+
 }
 
 function bindModalCloseButtonClick(){
@@ -141,24 +169,6 @@ function resetUserForm(){
 	 userUpdateValidator.resetForm();
 }
 
-function bindDropDown(){
-
-	$('#searchRole').select2({
-		theme: 'bootstrap4',
-    	placeholder: "Search Role.",
-    	allowClear: true
-	});
-	
-	$(".select-filter").on('change', function() {
-		userDatatable.column(2).search( $('#searchRole').val()).draw();
-	});
-	
-	$(".select2-selection__clear").on('click', function() {	
-		userDatatable.column(2).search("").draw();
-	});
-}
-
-
 function initDatatable() {
 	
 	userDatatable = $('#userDatatable').DataTable({
@@ -178,34 +188,34 @@ function initDatatable() {
 	    scrollX:        true,
         scrollCollapse: true,
 	    columns: [
-		{ render : function(data, type, full, meta) {
-				return full.name;
+		{ mData : function(data, type, full, meta) {
+				return data.name;
 			},
 		    sClass: "text-center"}, 
-	     { render : function(data, type, full, meta) {
-				userList.push(full);
-				return full.username;
+	     { mData : function(data, type, full, meta) {
+				userList.push(data);
+				return data.username;
 			},
 		    sClass: "text-center"}, 
 	      
-	      { render : function(data, type, full, meta) {
+	      { mData : function(data, type, full, meta) {
 	
-				return getRoleText(full.role);
+				return getRoleText(data.role);
 			},
 		    sClass: "text-center"}, 
-	    { render : function(data, type, full, meta) {
+	    { mData : function(data, type, full, meta) {
 	
-				return isEmpty(full.lastLoggedIn) ? "-" : full.lastLoggedIn;
+				return isEmpty(data.lastLoggedIn) ? "-" : data.lastLoggedIn;
 			},
 		    sClass: "text-center"},
-	    { render : function(data, type, full, meta) {
+	    { mData : function(data, type, full, meta) {
 	
-				return full.status == 1 ? "<span class='text-success'>ACTIVE</span>" : "<span class='text-muted'>IN-ACTIVE<span>";
+				return data.status == 1 ? "<span class='text-success'>ACTIVE</span>" : "<span class='text-muted'>IN-ACTIVE<span>";
 			},
 		    sClass: "text-center" },
-	    { render : function(data, type, full, meta) {
+	    { mData : function(data, type, full, meta) {
 	
-				return '<div><i class="fas fa-edit update-user mt-1 mr-1" data-id="' + full.id + '" title="Edit"></i><i class="fas fa-trash delete-user mt-1" data-id="' + full.id + '" title="Delete"></i></div>';
+				return '<div><button type="button" class="btn btn-outline-danger btn-sm delete-user mr-1" data-id="' + data.id + '" title="Delete User">Delete <i class="fas fa-trash"></i></button><button type="button" class="btn btn-outline-primary btn-sm update-user mr-1" data-id="' + data.id + '" title="Edit User">Edit <i class="fas fa-edit"></i></button></div>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
@@ -270,19 +280,22 @@ function bindValidator(){
 		rules : {
 			name : {
 				required : true,
-				maxlength : 50
+				maxlength : 200
 			},
 			username : {
-				required : true
+				required : true,
+				maxlength : 100
 			},
 			role : {
 				required : true
 			},
 			password : {
-				required : true
+				required : true,
+				maxlength : 200
 			},
 			confirmPassword : {
-				required : true
+				required : true,
+				maxlength : 200
 			}
 		}
 	});
@@ -291,13 +304,22 @@ function bindValidator(){
 		rules : {
 			updateName : {
 				required : true,
-				maxlength : 50
+				maxlength : 200
 			},
 			updateUsername : {
-				required : true
+				required : true,
+				maxlength : 100
 			},
 			updateRole : {
 				required : true
+			},
+			updatePassword : {
+				required : true,
+				maxlength : 200
+			},
+			updateConfirmPassword : {
+				required : true,
+				maxlength : 200
 			}
 		}
 	});

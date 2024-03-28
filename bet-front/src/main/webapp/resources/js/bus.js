@@ -93,7 +93,7 @@ function bindBusAddButtonClick(){
 	$("#addBus").click(function () {
 		resetBusForm();
 		 $('[data-mask]').inputmask();
-		$("#busModal").modal("show");
+		$("#addBusModal").modal("show");
 	});
 }
 
@@ -101,7 +101,7 @@ function bindBusAddApi(){
 	
 	$("#saveBus").click(function () {
 
-		if($("#busForm").valid()){
+		if($("#addBusForm").valid()){
 			
 			showLoadingOverlay();
 			
@@ -119,13 +119,12 @@ function bindBusAddApi(){
 				data :JSON.stringify(busBean),
 				dataType: 'json',
 				success : function(data) {
+					
 					if(data.httpStatus == "OK"){
 						busDatatable.ajax.reload();
-						$("#busModal").modal("hide");
+						$("#addBusModal").modal("hide");
 		
 						resetBusForm();
-						
-						$("#busModal").modal("hide");
 						
 						toastr.success('Bus added successfully.');
 					}else if(data.httpStatus == "INTERNAL_SERVER_ERROR"){
@@ -144,19 +143,19 @@ function bindBusAddApi(){
 
 
 function bindBusUpdateApi(){
-	$( "#updateBus" ).on( "click", function()  {
+	$( "#editBus" ).on( "click", function()  {
 		
-		if($("#updateBusForm").valid()){
+		if($("#editBusForm").valid()){
 			
 			showLoadingOverlay();
 			
 			busBean = {
 				id : parseInt($("#busId").val()),
-				licensePlate : $("#updateLicensePlate").val(),
-				primaryDriverId : parseInt($( "#updatePrimaryDriver" ).val()),
-				secondaryDriverId : parseInt($( "#updateSecondaryDriver" ).val()),
-				phone : $( "#updatePhone" ).val(),
-				status : $("#updateStatus").val()
+				licensePlate : $("#editLicensePlate").val(),
+				primaryDriverId : parseInt($( "#editPrimaryDriver" ).val()),
+				secondaryDriverId : parseInt($( "#editSecondaryDriver" ).val()),
+				phone : $( "#editPhone" ).val(),
+				status : $("#editStatus").val()
 			};
 			
 			$.ajax({
@@ -168,7 +167,7 @@ function bindBusUpdateApi(){
 				success : function(data) {
 					if(data.httpStatus == "OK"){
 						busDatatable.ajax.reload();
-						$("#updateBusModal").modal("hide");
+						$("#editBusModal").modal("hide");
 		
 						resetBusForm();
 						
@@ -189,8 +188,8 @@ function bindBusUpdateApi(){
 
 function resetBusForm(){
 	$("#licensePlate, #primaryDriver, #secondaryDriver, #phone").val("");
-	$("#updateLicensePlate, #updatePrimaryDriver, #updateSecondaryDriver, #updatePhone").val("");
-	$("#status, updateStatus").val("OK");
+	$("#editLicensePlate, #editPrimaryDriver, #editSecondaryDriver, #editPhone").val("");
+	$("#status, editStatus").val("OK");
 	 busAddValidator.resetForm();
 	 busUpdateValidator.resetForm();
 }
@@ -210,29 +209,36 @@ function bindDropDown(){
     	allowClear: false
 	});
 	
+	$('#searchDriver').select2({
+		theme: 'bootstrap4',
+    	placeholder: "Search Driver.",
+    	allowClear: false
+	});
+	
 	$('.select2-selection__rendered').addClass("float-left");
 	
-	$(".select-filter").on('change', function() {
+	$("#searchStatus").on('change', function() {
 		busDatatable.column(4).search( $('#searchStatus').val()).draw();
 	});
 	
-	$("#searchBox").on('input', function() {
-		console.log($(this).val()); 
-		busDatatable.column(0).search($("#searchBox").val()).draw();
-		console.log(busDatatable.column(0).search($("#searchBox").val()));
-		//busDatatable.column(1).search($("#searchBox").val()).draw();
+	$("#searchDriver").on('change', function() {
+		busDatatable.search( $('#searchDriver').val()).draw();
 	});
 	
-	$(".select2-selection__clear, #clearFilters").on('click', function() {	
-		$('#searchStatus').val("");
-		busDatatable.column(4).search("").draw();
+	$("#searchBox").on('input', function() {
+		busDatatable.search($("#searchBox").val()).draw();
+	});
+	
+	$("#clearFilters").on('click', function() {	
+		$("#searchBox, #searchDriver, #searchStatus").val("");
+		$("#searchBox, #searchDriver, #searchStatus").trigger("change");
 	});
 }
 
 
-function bindDriverDropDown(selectedId, updateId){
+function bindDriverDropDown(selectedId, editId){
 	
-	$("#primaryDriver, #secondaryDriver, #updatePrimaryDriver, #updateSecondaryDriver").empty();
+	$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver, #searchDriver").empty();
 	
 	$.ajax({
 		url : getPathName() + "/driver/api/dropdown",
@@ -242,10 +248,12 @@ function bindDriverDropDown(selectedId, updateId){
 		success : function(data) {
 			
 			if(null != data && data.length > 0){
-				$("#primaryDriver, #secondaryDriver, #updatePrimaryDriver, #updateSecondaryDriver").append("<option value=''></option>")
+				$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver, #searchDriver").append("<option value=''></option>")
 	
 				$(data).each(function( index, driver ) {
-					$("#primaryDriver, #secondaryDriver, #updatePrimaryDriver, #updateSecondaryDriver").append("<option value='" + driver.id + "'>" + driver.name + " ["+driver.phone+"]</option>");
+					$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver").append("<option value='" + driver.id + "'>" + driver.name + " [" + driver.phone +"]</option>");
+					$("#searchDriver").append("<option value='" + driver.name + "'>" + driver.name + "</option>");
+				
 				});
 				
 				driverList = data;
@@ -254,7 +262,7 @@ function bindDriverDropDown(selectedId, updateId){
 		},
 		complete : function(data){
 			if(null != selectedId){
-				$("#" + updateId).val(selectedId);	
+				$("#" + editId).val(selectedId);	
 			}
 			
 			$( "#primaryDriver" ).on( "change", function() {
@@ -285,49 +293,49 @@ function initDatatable() {
 	    scrollX:        true,
         scrollCollapse: true,
 	    columns: [
-		{ render : function(data, type, full, meta) {
-				return full.licensePlate;
+		{ mData : function(data, type, full, meta) {
+				return data.licensePlate;
 			},
 		    sClass: "text-center"}, 
-	     { render : function(data, type, full, meta) {
-				busList.push(full);
-				return full.primaryDriver;
+	     { mData : function(data, type, full, meta) {
+				busList.push(data);
+				return data.primaryDriver;
 			},
 		    sClass: "text-center"}, 
 	      
-	      { render : function(data, type, full, meta) {
+	      { mData : function(data, type, full, meta) {
 	
-				return full.secondaryDriver;
+				return data.secondaryDriver;
 			},
 		    sClass: "text-center"}, 
-	    { render : function(data, type, full, meta) {
+	    { mData : function(data, type, full, meta) {
 	
-				return full.phone;
+				return data.phone;
 			},
 		    sClass: "text-center"},
-	    { render : function(data, type, full, meta) {
+	    { mData : function(data, type, full, meta) {
 	
-				return getBusStatus(full.status);
+				return getBusStatus(data.status);
 			},
 		    sClass: "text-center" },
-	    { render : function(data, type, full, meta) {
+	    { mData : function(data, type, full, meta) {
 	
-				return '<div><i class="fas fa-edit update-bus mt-1 mr-1" data-id="' + full.id + '" title="Edit"></i><i class="fas fa-trash delete-bus mt-1" data-id="' + full.id + '" title="Delete"></i></div>';
+				return '<div><button type="button" class="btn btn-outline-danger btn-sm delete-bus mr-1" data-id="' + data.id + '" title="Delete Bus">Delete <i class="fas fa-trash" data-id="' + data.id + '" title="Delete Bus"></i></button><button type="button" class="btn btn-outline-primary edit-bus btn-sm" data-id="' + data.id + '" title="Edit Bus">Edit <i class="fas fa-edit mt-1" data-id="' + data.id + '" title="Edit Bus"></i></button></div>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
 	    ],
 		"fnDrawCallback": function () {
-			$( ".update-bus" ).on( "click", function() {
+			$( ".edit-bus" ).on( "click", function() {
 				var busId = $(this).attr("data-id");
 				var busBean = getBeanFromListById(busList, busId);
 				$("#busId").val(busId);
-				$("#updateLicensePlate").val(busBean.licensePlate);
-				$("#updatePrimaryDriver").val(busBean.primaryDriverId);
-				$("#updateSecondaryDriver").val(busBean.secondaryDriverId);
-				$("#updatePhone").val(busBean.phone);
-				$("#updateStatus").val(busBean.status);
-				$("#updateBusModal").modal();
+				$("#editLicensePlate").val(busBean.licensePlate);
+				$("#editPrimaryDriver").val(busBean.primaryDriverId);
+				$("#editSecondaryDriver").val(busBean.secondaryDriverId);
+				$("#editPhone").val(busBean.phone);
+				$("#editStatus").val(busBean.status);
+				$("#editBusModal").modal();
 			});
 			
 			$( ".delete-bus" ).on( "click", function() {
@@ -340,26 +348,10 @@ function initDatatable() {
 	   } 
 	});
 	
-	$("#busDatatable_filter").prepend(getFilters);
-	 $("#busDatatable_filter label").addClass("float-right");
+	$("#busDatatable_filter label").addClass("d-none");
 	
 }
 
-function getFilters(){
-	var filters = '<div class="row">' +
-	'<div class="col-sm-3"><select class="form-control select2 select-filter" style="width: 100%;" id="searchStatus">' +
-			        	'<option></option>' +
-			            '<option value="OK">OK</option>' +
-				       '<option value="REPAIRING">REPAIRING</option>' +
-			        '</select></div>'+   
-	'<div class="col-sm-2">' +
-				'<button type="button" class="btn btn-default float-left" id="clearFilters">' +
-	           'Clear Filters </button>' +
-	        '</div>';
-	        
-	        return filters;
-	
-}
 
 function getBusStatus(status){
 	switch(status) {
@@ -404,38 +396,46 @@ function bindBusDeleteApi(){
 }
 
 function bindValidator(){
-	busAddValidator = $("#busForm").validate({
+	busAddValidator = $("#addBusForm").validate({
 		rules : {
-			name : {
+			licensePlate : {
 				required : true,
-				maxlength : 50
+				maxlength : 7
 			},
-			busname : {
+			primaryDriver : {
 				required : true
 			},
-			role : {
+			status : {
 				required : true
-			},
-			password : {
-				required : true
-			},
-			confirmPassword : {
-				required : true
+			}
+		},
+		errorPlacement : function(error, element) {
+			if ($(element).prop("id") === "primaryDriver") {
+				error.insertAfter($(".add-input-group"));
+			} else {
+				error.insertAfter(element); // default error placement.
 			}
 		}
 	});
 	
-	busUpdateValidator = $("#updateBusForm").validate({
+	busUpdateValidator = $("#editBusForm").validate({
 		rules : {
-			updateName : {
+			editLicensePlate : {
 				required : true,
-				maxlength : 50
+				maxlength : 7
 			},
-			updateBusname : {
+			editPrimaryDriver : {
 				required : true
 			},
-			updateRole : {
+			editStatus : {
 				required : true
+			}
+		},
+		errorPlacement : function(error, element) {
+			if ($(element).prop("id") === "editPrimaryDriver") {
+				error.insertAfter($(".edit-input-group"));
+			} else {
+				error.insertAfter(element); // default error placement.
 			}
 		}
 	});
@@ -445,6 +445,9 @@ function bindValidator(){
 			name : {
 				required : true,
 				maxlength : 200
+			},
+			driverPhone:{
+				maxlength : 100
 			}
 		}
 	});

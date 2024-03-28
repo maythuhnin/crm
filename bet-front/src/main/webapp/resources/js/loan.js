@@ -9,6 +9,7 @@ function init() {
 	bindValidator();
 	bindModal();
 	initLoanDatatable();
+	bindSearch();
 }
 
 function bindModal(){
@@ -20,6 +21,22 @@ function bindModal(){
 	
 	bindModalCloseButtonClick();
 	
+}
+
+
+function bindSearch(){
+	
+	$("#loanDatatable_filter label").addClass("d-none");
+	
+	$("#searchBox").on('input', function() {
+		loanDatatable.search($("#searchBox").val()).draw();
+	});
+	
+	$("#clearFilters").on('click', function() {	
+		$("#searchBox").val("");
+		loanDatatable.search("").draw();
+	});
+
 }
 
 function bindModalCloseButtonClick(){
@@ -40,7 +57,7 @@ function bindLoanAddApi(){
 				driverId : parseInt($("#driverId").val()),
 				loanDateAsString : $("#loanDate").find("input").val(),
 				amount : parseFloat($("#amount").val()),
-				description : $("#description").val(),
+				remark : $("#remark").val(),
 				type:  $('input[name=type]:checked', '#loanForm').val()
 			};
 			
@@ -81,7 +98,7 @@ function bindLoanAddButtonClick(){
 
 
 function resetLoanAddForm(){
-	$("#loanDate, #amount, #description").val("");
+	$("#loanDate, #amount, #remark").val("");
 	$("#typeLoan").prop("checked", true);
 	loanAddValidator.resetForm();
 }
@@ -107,16 +124,16 @@ function initLoanHistoryDatatable(driverId) {
         searching: false,
          columnDefs: [{ width: '20%', targets: 2 }],
 	    columns: [
-		{ render : function(data, type, full, meta) {
-				return full.loanDate;
+		{ mData : function(data, type, full, meta) {
+				return data.loanDate;
 			},
 		    sClass: "text-center"},
-		   { render : function(data, type, full, meta) {
-				return isEmpty(full.description) ? "-" : full.description ;
+		   { mData : function(data, type, full, meta) {
+				return isEmpty(data.remark) ? "-" : data.remark;
 			},
 		    sClass: "text-center"}, 
-		    { render : function(data, type, full, meta) {
-				return getLoanType(full.type);
+		    { mData : function(data, type, full, meta) {
+				return getLoanType(data.type);
 			},
 		    sClass: "text-center"},     
 	      { mData : function(data, type, full, meta) {
@@ -124,9 +141,9 @@ function initLoanHistoryDatatable(driverId) {
 				return (data.type == 0 ? "+" : "-") + data.loanAmount;
 			},
 		    sClass: "text-right"} ,
-		      { render : function(data, type, full, meta) {
+		      { mData : function(data, type, full, meta) {
 	
-				return '<button type="button" class="btn btn-danger delete-loan" data-driver="'+ full.driverId+'"  data-amount="' + full.loanAmount +'" data-date="' + full.loanDate + '" data-id="' + full.id + '" title="Delete Loan"><i class="fas fa-trash"></i></button>';
+				return '<button type="button" class="btn btn-danger btn-sm delete-loan" data-driver="'+ data.driverId+'"  data-amount="' + fudatall.loanAmount +'" data-date="' + data.loanDate + '" data-id="' + data.id + '" title="Delete Loan"><i class="fas fa-trash"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
@@ -194,20 +211,20 @@ function initLoanDatatable() {
 	    "order": [0],
 	    scrollX:        true,
         scrollCollapse: true,
-         columnDefs: [{ width: '20%', targets: 2 }],
+         columnDefs: [{ width: '30%', targets: 2 }],
 	    columns: [
-		{ render : function(data, type, full, meta) {
-				return full.name;
+		{ mData : function(data, type, full, meta) {
+				return data.name;
 			},
 		    sClass: "text-center"},      
-	      { render : function(data, type, full, meta) {
+	      { mData : function(data, type, full, meta) {
 	
-				return full.loanAmount			
+				return isEmpty(data.loanAmount) ? "-" : data.loanAmount;			
 			},
 		    sClass: "text-right"} ,
-		      { render : function(data, type, full, meta) {
+		      { mData : function(data, type, full, meta) {
 	
-				return '<button type="button" class="btn btn-primary mr-1 add-loan" data-id="' + full.id + '" title="Loan History"><i class="fas fa-plus-circle"></i></button><button type="button" class="btn btn-default loan-history" data-id="' + full.id + '" title="Loan History"><i class="fas fa-info-circle"></i></button>';
+				return '<button type="button" class="btn btn-default btn-sm loan-history mr-1" data-id="' + data.id + '" title="Loan History">Loan History <i class="fas fa-info-circle"></i></button><button type="button" class="btn btn-outline-primary btn-sm add-loan" data-id="' + data.id + '" title="Add Loan">Add Loan <i class="fas fa-plus-circle"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
@@ -281,10 +298,14 @@ function bindValidator(){
 				required : true
 			},
 			amount : {
-				required : true
+				required : true,
+				digit: true
 			},
 			type : {
 				required : true
+			},
+			remark : {
+				maxlength: 500
 			}
 		}
 	});

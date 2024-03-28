@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -49,7 +48,7 @@ public class DestinationRestController extends BaseController {
 	}
 
 	@PostMapping("/destination/api/add")
-	public Map<String, Object> addDestination(@RequestBody DestinationBean destination, HttpServletResponse response) {
+	public Map<String, Object> addDestination(@RequestBody DestinationBean destination) {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -63,7 +62,6 @@ public class DestinationRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("destination", destination);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -73,7 +71,6 @@ public class DestinationRestController extends BaseController {
 
 			destination.setUpdatedId(getLoggedInUser().getId());
 			int createdId = destinationService.createDestination(destination);
-			response.setStatus(200);
 			results.put("createdId", createdId);
 			results.put("httpStatus", HttpStatus.OK);
 			results.put("status", "Success!");
@@ -100,7 +97,7 @@ public class DestinationRestController extends BaseController {
 	}
 
 	@PostMapping("/destination/api/edit")
-	public Map<String, Object> editDestination(@RequestBody DestinationBean destination, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> editDestination(@RequestBody DestinationBean destination) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -114,7 +111,6 @@ public class DestinationRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("destination", destination);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -122,11 +118,9 @@ public class DestinationRestController extends BaseController {
 				return results;
 			}
 			
-			
-				destinationService.updateDestination(destination);
-				results.put("httpStatus", HttpStatus.OK);
-				results.put("status", "Success!");
-			
+			destinationService.updateDestination(destination);
+			results.put("httpStatus", HttpStatus.OK);
+			results.put("status", "Success!");
 
 		} catch (MyBatisException e) {
 			e.printStackTrace();
@@ -149,7 +143,7 @@ public class DestinationRestController extends BaseController {
 	}
 
 	@PostMapping("/destination/api/delete")
-	public Map<String, Object> deleteDestination(@RequestBody Integer destinationId, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> deleteDestination(@RequestBody Integer destinationId) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -165,7 +159,6 @@ public class DestinationRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("destination", destination);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");

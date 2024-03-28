@@ -39,7 +39,7 @@
 		<script src="<c:url value="/resources/adminlte/adminlte.js"/>"></script>
 		<script src="<c:url value="/resources/js/common.js"/>"></script>
 		<script src="<c:url value="/resources/js/base.js"/>"></script>
-		 <link rel="icon" type="image/png" href="<c:url value="/resources/images/logo-tab.png"/>"/>
+		 <link rel="icon" type="image/png" href="<c:url value="/resources/images/favicon.png"/>"/>
 		<title> Expense Tracker | <tiles:insertAttribute name="title" /></title>
 	</head>
 

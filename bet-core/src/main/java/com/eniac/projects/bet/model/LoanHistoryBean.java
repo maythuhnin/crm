@@ -16,7 +16,7 @@ public class LoanHistoryBean extends BaseBean implements Serializable {
 	private String loanDateAsString;
 	private Double amount;
 	private LoanType type;
-	private String description;
+	private String remark;
 
 	public Integer getDriverId() {
 		return driverId;
@@ -61,19 +61,19 @@ public class LoanHistoryBean extends BaseBean implements Serializable {
 		this.type = type;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	@Override
 	public String toString() {
 		return String.format(
-				"LoanHistoryBean [driverId=%s, loanDate=%s, loanDateAsString=%s, amount=%s, type=%s, description=%s]",
-				driverId, loanDate, loanDateAsString, amount, type, description);
+				"LoanHistoryBean [driverId=%s, loanDate=%s, loanDateAsString=%s, amount=%s, type=%s, remark=%s]",
+				driverId, loanDate, loanDateAsString, amount, type, remark);
 	}
 
 }

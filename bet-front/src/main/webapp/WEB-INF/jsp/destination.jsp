@@ -22,7 +22,22 @@
       <div class="card">
       	 <div class="card-header">
           <div class="row">	
-	        <div class="col-sm-10"></div>
+          	 <div class="col-sm-3">
+					<div class="input-group">
+		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+		              	<div class="input-group-append">
+		                	<button class="btn btn-navbar" type="button">
+		                  		<i class="fas fa-search"></i>
+		                	</button>
+		              	</div>
+		            </div>
+			     </div>
+			     <div class="col-sm-2">
+	             	 <button type="button" class="btn btn-default" id="clearFilters">
+	             	 	Clear  <i class="fas fa-times"></i>
+	                  </button>
+	            </div>
+	        <div class="col-sm-5"></div>
           	<div class="col-sm-2">
 	             	 <button type="button" class="btn btn-outline-primary float-right" id="addDestination">
 	                   Add <i class="fas fa-plus-circle"></i>
@@ -33,7 +48,7 @@
 			</div>
         </div>
         <div class="card-body">
-          <table id="destinationDatatable" class="table table-bordered">
+          <table id="destinationDatatable" class="table table-bordered table-condensed">
             <thead>
             <tr>
               <th>Destination</th>
@@ -53,7 +68,7 @@
     
             <!-- /.card -->
 	<div class="modal fade" id="addDestinationModal">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title user-title">Add Destination</h4>
@@ -100,7 +115,7 @@
       
             <!-- /.card -->
 	<div class="modal fade" id="editDestinationModal">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xs">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title user-title">Edit Destination</h4>

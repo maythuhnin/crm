@@ -13,3 +13,7 @@
 table {
   width: 100%;
 }
+
+table tr > td{
+	padding: 0.50rem !important;
+}

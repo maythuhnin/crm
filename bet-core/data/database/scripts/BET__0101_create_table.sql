@@ -31,15 +31,14 @@ CREATE TABLE bus
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
-	UNIQUE (id),
-	UNIQUE (license_plate)
+	UNIQUE (id)
 );
 
 
 CREATE TABLE destination
 (
 	id int NOT NULL AUTO_INCREMENT,
-	name varchar(100) NOT NULL,
+	name varchar(200) NOT NULL,
 	is_order boolean NOT NULL,
 	status boolean NOT NULL,
 	updated_datetime datetime NOT NULL,
@@ -53,7 +52,7 @@ CREATE TABLE driver
 (
 	id int NOT NULL AUTO_INCREMENT,
 	name varchar(200) NOT NULL,
-	phone varchar(20),
+	phone varchar(100),
 	status boolean NOT NULL,
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
@@ -115,7 +114,7 @@ CREATE TABLE loan_history
 	-- 1: RETURN
 	type smallint NOT NULL COMMENT '0: LOAN,
 1: RETURN',
-	description varchar(500),
+	remark varchar(500),
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
@@ -153,9 +152,9 @@ CREATE TABLE stock
 CREATE TABLE user
 (
 	id int NOT NULL AUTO_INCREMENT,
-	username varchar(20) NOT NULL,
-	password varchar(100) NOT NULL,
-	name varchar(50) NOT NULL,
+	username varchar(100) NOT NULL,
+	password varchar(200) NOT NULL,
+	name varchar(200) NOT NULL,
 	-- 0 : ACTIVE,
 	-- 1 : IN-ACTIVE
 	status smallint DEFAULT 0 NOT NULL COMMENT '0 : ACTIVE,
@@ -180,7 +179,7 @@ ALTER TABLE route
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
+	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
@@ -188,7 +187,7 @@ ALTER TABLE bus
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
+	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION

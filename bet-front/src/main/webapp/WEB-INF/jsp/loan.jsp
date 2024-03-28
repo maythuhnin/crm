@@ -25,7 +25,26 @@
 
       <!-- Default box -->
       <div class="card">
-       
+       <div class="card-header">
+          <div class="row">
+			    <div class="col-sm-3">
+					<div class="input-group">
+		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+		              	<div class="input-group-append">
+		                	<button class="btn btn-navbar" type="button">
+		                  		<i class="fas fa-search"></i>
+		                	</button>
+		              	</div>
+		            </div>
+			     </div>
+			     <div class="col-sm-2">
+	             	 <button type="button" class="btn btn-default" id="clearFilters">
+	             	 	Clear  <i class="fas fa-times"></i>
+	                  </button>
+	            </div>
+			     <div class="col-sm-7"></div>
+			</div>
+        </div>
         <div class="card-body">
           <table id="loanDatatable" class="table table-bordered">
             <thead>
@@ -63,7 +82,7 @@
 		            <thead>
 		            <tr>
 		              <th>Date</th>
-		              <th>Description</th>
+		              <th>Remark</th>
 		              <th>Type</th>
 		              <th>Amount</th>
 		              <th></th>
@@ -135,9 +154,9 @@
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="licensePlate" class="col-sm-4 col-form-label">Description</label>
+              <label for="licensePlate" class="col-sm-4 col-form-label">Remark</label>
               <div class="col-sm-6">
-              	<textarea class="form-control" name="description" id="description"></textarea>
+              	<textarea class="form-control" name="remark" id="remark"></textarea>
               </div>
             </div>
             

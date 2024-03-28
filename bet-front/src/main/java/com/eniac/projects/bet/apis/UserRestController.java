@@ -3,7 +3,6 @@ package com.eniac.projects.bet.apis;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -43,7 +42,7 @@ public class UserRestController extends BaseController {
 	}
 
 	@PostMapping("/user/api/add")
-	public Map<String, Object> addUser(@RequestBody UserBean user, HttpServletResponse response) {
+	public Map<String, Object> addUser(@RequestBody UserBean user) {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -57,7 +56,6 @@ public class UserRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("user", user);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -65,14 +63,11 @@ public class UserRestController extends BaseController {
 				return results;
 			}
 
-			System.err.println(checkUsernameUnique(user));
 			if (!checkUsernameUnique(user)) {
 				userService.createUser(user);
-				response.sendError(200);
 				results.put("httpStatus", HttpStatus.OK);
 				results.put("status", "Success!");
 			} else {
-				response.sendError(500);
 				results.put("user", user);
 				results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 				results.put("error", "Username already exist. Please pick a different one.");
@@ -100,7 +95,7 @@ public class UserRestController extends BaseController {
 	}
 
 	@PostMapping("/user/api/edit")
-	public Map<String, Object> editUser(@RequestBody UserBean user, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> editUser(@RequestBody UserBean user) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -114,7 +109,6 @@ public class UserRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("user", user);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -127,7 +121,6 @@ public class UserRestController extends BaseController {
 				results.put("httpStatus", HttpStatus.OK);
 				results.put("status", "Success!");
 			} else {
-				response.sendError(500);
 				results.put("user", user);
 				results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 				results.put("error", "Username already exist. Please pick a different one.");
@@ -154,7 +147,7 @@ public class UserRestController extends BaseController {
 	}
 
 	@PostMapping("/user/api/password")
-	public Map<String, Object> updatePassword(@RequestBody UserBean user, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> updatePassword(@RequestBody UserBean user) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -169,7 +162,6 @@ public class UserRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("user", user);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -186,7 +178,6 @@ public class UserRestController extends BaseController {
 				results.put("httpStatus", HttpStatus.OK);
 				results.put("status", "Success!");
 			} else {
-				response.sendError(500);
 				results.put("user", user);
 				results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 				results.put("error", "Wrong password.");
@@ -213,7 +204,7 @@ public class UserRestController extends BaseController {
 	}
 
 	@PostMapping("/user/api/delete")
-	public Map<String, Object> deleteUser(@RequestBody Integer userId, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> deleteUser(@RequestBody Integer userId) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -229,7 +220,6 @@ public class UserRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("user", user);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");

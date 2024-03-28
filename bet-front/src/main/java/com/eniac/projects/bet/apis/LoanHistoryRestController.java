@@ -3,7 +3,6 @@ package com.eniac.projects.bet.apis;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,9 +41,8 @@ public class LoanHistoryRestController extends BaseController {
 	}
 	
 	@PostMapping("/loan/api/add")
-	public Map<String, Object> addLoan(@RequestBody LoanHistoryBean loan, HttpServletResponse response) {
+	public Map<String, Object> addLoan(@RequestBody LoanHistoryBean loan) {
 
-		System.err.println(loan);
 		Map<String, Object> results = new HashMap<String, Object>();
 
 		try {
@@ -58,7 +55,6 @@ public class LoanHistoryRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("loan", loan);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -68,7 +64,6 @@ public class LoanHistoryRestController extends BaseController {
 
 			loan.setUpdatedId(getLoggedInUser().getId());
 			int createdId = loanHistoryService.createLoanHistory(loan);
-			response.setStatus(200);
 			results.put("createdId", createdId);
 			results.put("httpStatus", HttpStatus.OK);
 			results.put("status", "Success!");
@@ -95,7 +90,7 @@ public class LoanHistoryRestController extends BaseController {
 	}
 
 	@PostMapping("/loan/api/edit")
-	public Map<String, Object> editLoan(@RequestBody LoanHistoryBean loan, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> editLoan(@RequestBody LoanHistoryBean loan) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -109,7 +104,6 @@ public class LoanHistoryRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("loan", loan);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
@@ -117,11 +111,9 @@ public class LoanHistoryRestController extends BaseController {
 				return results;
 			}
 			
-			
-				loanHistoryService.updateLoanHistory(loan);
-				results.put("httpStatus", HttpStatus.OK);
-				results.put("status", "Success!");
-			
+			loanHistoryService.updateLoanHistory(loan);
+			results.put("httpStatus", HttpStatus.OK);
+			results.put("status", "Success!");
 
 		} catch (MyBatisException e) {
 			e.printStackTrace();
@@ -144,7 +136,7 @@ public class LoanHistoryRestController extends BaseController {
 	}
 
 	@PostMapping("/loan/api/delete")
-	public Map<String, Object> deleteLoan(@RequestBody Integer loanId, HttpServletResponse response) throws MyBatisException {
+	public Map<String, Object> deleteLoan(@RequestBody Integer loanId) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
@@ -160,7 +152,6 @@ public class LoanHistoryRestController extends BaseController {
 			
 			if (bindException.hasErrors()) {
 				
-				response.sendError(400);
 				results.put("loan", loan);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");

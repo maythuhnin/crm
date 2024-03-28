@@ -10,6 +10,7 @@ function init() {
 	bindValidator();
 	bindModal();
 	initDestinationDatatable();
+	bindSearch();
 }
 
 function bindModal(){
@@ -22,6 +23,21 @@ function bindModal(){
 	
 	bindModalCloseButtonClick();
 	
+}
+
+
+function bindSearch(){
+	
+	$("#destinationDatatable_filter label").addClass("d-none");
+	
+	$("#searchBox").on('input', function() {
+		destinationDatatable.search($("#searchBox").val()).draw();
+	});
+	
+	$("#clearFilters").on('click', function() {	
+		$("#searchBox").val("");
+		destinationDatatable.search("").draw();
+	});
 }
 
 function bindModalCloseButtonClick(){
@@ -155,18 +171,18 @@ function initDestinationDatatable() {
         scrollCollapse: true,
          columnDefs: [{ width: '20%', targets: 2 }],
 	    columns: [
-		{ render : function(data, type, full, meta) {
-				return full.name;
+		{ mData : function(data, type, full, meta) {
+				return data.name;
 			},
 		    sClass: "text-center"},      
-	      { render : function(data, type, full, meta) {
-				destinationList.push(full);
-				return getIsOrder(full.isOrder);			
+	      { mData : function(data, type, full, meta) {
+				destinationList.push(data);
+				return getIsOrder(data.isOrder);			
 			},
 		    sClass: "text-center"} ,
-		      { render : function(data, type, full, meta) {
+		      { mData : function(data, type, full, meta) {
 	
-				return '<button type="button" class="btn btn-outline-danger delete-destination mr-1" data-id="' + full.id + '" title="Delete Destination">Delete <i class="fas fa-trash"></i></button><button type="button" class="btn btn-outline-primary edit-destination" data-id="' + full.id + '" title="Edit Destination">Edit <i class="fas fa-edit"></i></button>';
+				return '<button type="button" class="btn btn-outline-danger delete-destination mr-1 btn-sm" data-id="' + data.id + '" title="Delete Destination">Delete <i class="fas fa-trash"></i></button><button type="button" class="btn btn-outline-primary edit-destination btn-sm" data-id="' + data.id + '" title="Edit Destination">Edit <i class="fas fa-edit"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
@@ -231,7 +247,8 @@ function bindValidator(){
 	destinationAddValidator = $("#addDestinationForm").validate({
 		rules : {
 			name : {
-				required : true
+				required : true,
+				maxlength : 200
 			}
 		}
 	});
@@ -239,7 +256,8 @@ function bindValidator(){
 	destinationEditValidator = $("#editDestinationForm").validate({
 		rules : {
 			editName : {
-				required : true
+				required : true,
+				maxlength : 200
 			}
 		}
 	});

@@ -9,7 +9,7 @@
 		<result		 	property="loanDate" 		column="loan_date" />
 		<result		 	property="amount" 			column="amount" />
 		<result 		property="type" 			column="type" />
-		<result 		property="description" 		column="description" />
+		<result 		property="remark" 			column="remark" />
 		<result 		property="updatedId" 		column="updated_id" />
 		<result 		property="updatedDateTime" 	column="updated_datetime" />
 	</resultMap>
@@ -20,8 +20,8 @@
 			loan_date,
 			amount,
 			type,
-			<if test="description != null">
-				description,
+			<if test="remark != null">
+				remark,
 			</if>
 			updated_id,
 			updated_datetime
@@ -31,8 +31,8 @@
 			#{loanDate},
 			#{amount},
 			#{type},
-			<if test="description != null">
-				#{description},
+			<if test="remark != null">
+				#{remark},
 			</if>
 			#{updatedId},
 			NOW()
@@ -50,8 +50,8 @@
 			<if test="type != null">
 				,TYPE = #{type}
 			</if>
-			<if test="description != null">
-				,DESCRIPTION = #{description}
+			<if test="remark != null">
+				,REMARK = #{remark}
 			</if>
 		WHERE ID =#{id} 
 	</update>
@@ -67,7 +67,7 @@
 		 DATE_FORMAT(loan_date,'%d/%m/%Y') AS loanDate,
 		 amount AS loanAmount,
 		 type,
-		 description
+		 remark
 		
 		FROM LOAN_HISTORY
 		WHERE driver_id = #{driverId}
