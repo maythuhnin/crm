@@ -11,7 +11,8 @@
    		<link rel="stylesheet" href="<c:url value="/resources/plugins/daterangepicker/daterangepicker.css"/>">
 	    <!-- Tempusdominus Bootstrap 4 -->
 	  	<link rel="stylesheet" href="<c:url value="/resources/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"/>">
-	   
+	    <!-- Tagsinput -->
+	    <link rel="stylesheet" href="<c:url value="/resources/plugins/tagsinput/tagsinput.css"/>">	
     	<!-- DataTables -->
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>">
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>">
@@ -132,7 +133,7 @@
               <div class="col-sm-1"></div>
               <label for="phone" class="col-sm-4 col-form-label">Phone </label>
               <div class="col-sm-6">
-                <input type="text" name="phone" class="form-control" id="phone">
+                <input type="text" data-role="tagsinput" name="phone" class="form-control" id="phone">
               </div>
             </div>
           </div> 
@@ -176,7 +177,7 @@
               <div class="col-sm-1"></div>
               <label for="phone" class="col-sm-4 col-form-label">Phone </label>
               <div class="col-sm-6">
-                <input type="text" name="editPhone" class="form-control" id="editPhone">
+                <input type="text" data-role="tagsinput" name="editPhone" class="form-control" id="editPhone">
               </div>
             </div>
           </div> 
@@ -208,7 +209,8 @@
 	<script src="<c:url value="/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"/>"></script>
 	<!-- Select2 -->
 	<script src="<c:url value="/resources/plugins/select2/js/select2.full.min.js"/>"></script>
-	
+	<!-- TagsInput -->
+	<script src="<c:url value="/resources/plugins/tagsinput/tagsinput.js"/>"></script>
 	<script src="<c:url value="/resources/plugins/jquery-validation/dist/jquery.validate.min.js"/>"></script>
 	<script src="<c:url value="/resources/js/validator.js"/>"></script>
 	<script src="<c:url value="/resources/js/driver.js"/>"></script>

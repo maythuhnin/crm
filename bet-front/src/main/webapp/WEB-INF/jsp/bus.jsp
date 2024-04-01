@@ -56,7 +56,7 @@
 			
           		<div class="col-sm-2">
 	                  <button type="button" class="btn btn-outline-primary btn-sm float-right" id="addBus">
-	                   Add <i class="fas fa-plus-circle"></i>
+	                   Add Bus <i class="fas fa-plus-circle"></i>
 	                  </button>
 	            </div>
 			    
@@ -109,7 +109,7 @@
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="primaryDriver" class="col-sm-4 col-form-label">Primary Driver <span class="required">[required]</span></label>
+              <label for="primaryDriver" class="col-sm-4 col-form-label">Primary Driver</label>
                 <div class="col-sm-6">
                     <div class="input-group add-input-group">
 						  <select class="custom-select" id="primaryDriver" name="primaryDriver">
@@ -200,7 +200,7 @@
             
             <div class="form-group row">
               <div class="col-sm-1"></div>
-              <label for="editPrimaryDriver" class="col-sm-4 col-form-label">Primary Driver <span class="required">[required]</span></label>
+              <label for="editPrimaryDriver" class="col-sm-4 col-form-label">Primary Driver</label>
                 <div class="col-sm-6">
                     <div class="input-group edit-input-group">
 						  <select class="custom-select" id="editPrimaryDriver" name="editPrimaryDriver">

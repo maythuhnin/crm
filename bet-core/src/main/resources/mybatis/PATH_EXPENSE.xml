@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eniac.projects.bet.mappers.IPathExpenseMapper">
+
+	<resultMap 			type="PathExpenseBean" 		id="PathExpenseResult">
+		<id 			property="id" 				column="id" />
+		<result 		property="pathId" 			column="path_id" />
+		<result 		property="expenseId" 		column="expense_id" />
+		<result 		property="amount" 			column="amount" />
+		<result 		property="updatedId" 		column="updated_id" />
+		<result 		property="updatedDateTime" 	column="updated_datetime" />
+	</resultMap>
+
+	<insert id="insertPathExpense" parameterType="PathExpenseBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO path_expense(
+			path_id,
+			expense_id,
+			amount,
+			updated_id,
+			updated_datetime
+			)
+		VALUES(
+			#{pathId},
+			#{expenseId},
+			#{amount},
+			#{updatedId},
+			NOW()
+		)
+	</insert>
+	
+	<delete id="deletePathExpense" parameterType="int">
+		DELETE FROM PATH_EXPENSE WHERE PATH_ID =#{id}
+	</delete>
+	
+	<select id="selectForDatatable" resultType="map" parameterType="int">
+		SELECT 
+		 pe.path_id AS pathId,
+		 pe.expense_id AS expenseId,
+		 e.name,
+		 pe.amount
+		FROM path_expense pe
+		LEFT JOIN expense_type e ON e.id = pe.expense_id
+		WHERE pe.path_id = #{id}
+	</select>
+	
+</mapper>

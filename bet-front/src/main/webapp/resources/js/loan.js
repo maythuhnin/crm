@@ -138,12 +138,12 @@ function initLoanHistoryDatatable(driverId) {
 		    sClass: "text-center"},     
 	      { mData : function(data, type, full, meta) {
 	
-				return (data.type == 0 ? "+" : "-") + data.loanAmount;
+				return (data.type == 0 ? "+" : "-") + data.loanAmount.toLocaleString("en");
 			},
 		    sClass: "text-right"} ,
 		      { mData : function(data, type, full, meta) {
 	
-				return '<button type="button" class="btn btn-danger btn-sm delete-loan" data-driver="'+ data.driverId+'"  data-amount="' + fudatall.loanAmount +'" data-date="' + data.loanDate + '" data-id="' + data.id + '" title="Delete Loan"><i class="fas fa-trash"></i></button>';
+				return '<button type="button" class="btn btn-danger btn-sm delete-loan" data-driver="'+ data.driverId+'"  data-amount="' + data.loanAmount +'" data-date="' + data.loanDate + '" data-id="' + data.id + '" title="Delete Loan"><i class="fas fa-trash"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
@@ -152,10 +152,10 @@ function initLoanHistoryDatatable(driverId) {
 			
 			$( ".delete-loan" ).on( "click", function() {
 					var loanId = $(this).attr("data-id");
-						
+					 
 					$('#delLoanId').val(loanId);
 					$('#delDriverId').val($(this).attr("data-driver"));
-					$('#delName').text($(this).attr("data-date") + " ("+ $(this).attr("data-amount") + ")");
+					$('#delName').text($(this).attr("data-date") + " ("+ parseInt($(this).attr("data-amount")).toLocaleString("en") + ")");
 					$("#deleteModal").modal();
 				});
 			
@@ -186,7 +186,7 @@ function initLoanHistoryDatatable(driverId) {
  
         // Update footer
         api.column(3).footer().innerHTML =
-            'MMK' + pageTotal + ' (MMK' + total + ' total)';
+            'MMK ' + pageTotal.toLocaleString("en") + ' (MMK ' + total.toLocaleString("en") + ' total)';
     }
 	});
 		
@@ -219,12 +219,12 @@ function initLoanDatatable() {
 		    sClass: "text-center"},      
 	      { mData : function(data, type, full, meta) {
 	
-				return isEmpty(data.loanAmount) ? "-" : data.loanAmount;			
+				return isEmpty(data.loanAmount) ? "-" : data.loanAmount.toLocaleString("en");			
 			},
 		    sClass: "text-right"} ,
 		      { mData : function(data, type, full, meta) {
 	
-				return '<button type="button" class="btn btn-default btn-sm loan-history mr-1" data-id="' + data.id + '" title="Loan History">Loan History <i class="fas fa-info-circle"></i></button><button type="button" class="btn btn-outline-primary btn-sm add-loan" data-id="' + data.id + '" title="Add Loan">Add Loan <i class="fas fa-plus-circle"></i></button>';
+				return '<button type="button" class="btn btn-default btn-sm loan-history mr-1" data-id="' + data.id + '" title="Loan History">Loan History <i class="fas fa-info-circle"></i></button><button type="button" class="btn btn-outline-primary btn-sm add-loan" data-id="' + data.id + '" title="Add Loan">Add/Return Loan <i class="fas fa-plus-circle"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
@@ -275,7 +275,7 @@ function bindLoanDeleteApi(){
 						
 						loanDatatable.ajax.reload();
 						
-						getLoanHistoryTable($("#delDriverId").val());
+						loanHistoryDatatable.ajax.reload();
 						$("#deleteModal").modal("hide");
 						
 						toastr.success('Driver Loan deleted successfully.');
@@ -298,8 +298,7 @@ function bindValidator(){
 				required : true
 			},
 			amount : {
-				required : true,
-				digit: true
+				required : true
 			},
 			type : {
 				required : true

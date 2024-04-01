@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eniac.projects.bet.mappers.IPathMapper">
+
+	<resultMap 			type="PathBean" 			id="PathResult">
+		<id 			property="id" 				column="id" />
+		<result 		property="path" 			column="path" />
+		<result 		property="updatedId" 		column="updated_id" />
+		<result 		property="updatedDateTime" 	column="updated_datetime" />
+	</resultMap>
+
+	<insert id="insertPath" parameterType="PathBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO path(
+			path,
+			updated_id,
+			updated_datetime
+			)
+		VALUES(
+			#{path},
+			#{updatedId},
+			NOW()
+		)
+	</insert>
+	
+	<update id="updatePath" parameterType="PathBean">
+		UPDATE PATH SET 
+			<if test="path != null">
+				PATH = #{path}
+			</if>
+		WHERE ID =#{id} 
+	</update>
+	
+	<delete id="deletePath" parameterType="int">
+		DELETE FROM PATH
+		WHERE ID =#{id}
+	</delete>
+	
+	<select id="selectForDatatable" resultType="map">
+		SELECT 
+		 p.id,
+		 p.path
+		FROM path p
+	</select>
+	
+	<select id="selectForDropDown" resultMap="PathResult">
+		SELECT 
+		 id,
+		 path
+		
+		FROM path
+	</select>
+	
+	<select id="selectById" parameterType="int" resultMap="PathResult">
+		SELECT * FROM path WHERE id = #{id}
+	</select>
+	
+</mapper>

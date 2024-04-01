@@ -148,7 +148,7 @@
               <div class="col-sm-1"></div>
               <label for="licensePlate" class="col-sm-4 col-form-label">Amount <span class="required">[required]</span></label>
               <div class="col-sm-6">
-                <input type="number" name="amount" class="form-control" id="amount" >
+                <input type="number" name="amount" class="form-control" id="amount" min="1">
               </div>
             </div>
             

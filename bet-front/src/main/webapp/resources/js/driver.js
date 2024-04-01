@@ -167,7 +167,7 @@ function initDriverDatatable() {
 		    sClass: "text-center"},      
 	      { mData : function(data, type, full, meta) {
 				driverList.push(data);
-				return data.phone			
+				return isEmpty(data.phone) ? "-" : data.phone;			
 			},
 		    sClass: "text-center"} ,
 		      { mData : function(data, type, full, meta) {
@@ -184,8 +184,9 @@ function initDriverDatatable() {
 				var driverBean = getBeanFromListById(driverList, driverId);
 			    $('#editDriverId').val(driverId);
 			    $('#editName').val(driverBean.name);
-			    $('#editPhone').val(driverBean.phone);
-				$("#editDriverModal").modal();
+			    $('#editPhone').tagsinput('removeAll');
+			    $('#editPhone').tagsinput('add', driverBean.phone);
+			    $("#editDriverModal").modal();
 			});
 			
 			$( ".delete-driver" ).on( "click", function() {

@@ -35,7 +35,7 @@
                 <a href="<c:url value="/daily"/>" class="nav-link ${page eq 'daily' ? 'active' : ''}">
                   <i class="nav-icon fas fa-road"></i>
                   <p>
-                    Daily Route
+                    Daily Income/Expense
                   </p>
                 </a>
               </li>
@@ -95,6 +95,14 @@
               <i class="nav-icon fas fa-route"></i>
               <p>
                 DESTINATION
+              </p>
+            </a>
+          </li>
+           <li class="nav-item">
+            <a href="<c:url value="/fixed-expense"/>" class="nav-link ${page eq 'fixedExpense' ? 'active' : ''}">
+              <i class="nav-icon fas fa-coins"></i>
+              <p>
+                FIXED EXPENSE
               </p>
             </a>
           </li>

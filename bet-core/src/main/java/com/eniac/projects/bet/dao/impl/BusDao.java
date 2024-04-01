@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.eniac.projects.bet.config.MyBatisSqlSessionFactory;
 import com.eniac.projects.bet.dao.interfaces.IBusDao;
-import com.eniac.projects.bet.exception.DuplicatedEntryException;
 import com.eniac.projects.bet.exception.MyBatisException;
 import com.eniac.projects.bet.mappers.IBusMapper;
 import com.eniac.projects.bet.model.BusBean;

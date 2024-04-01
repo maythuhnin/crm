@@ -248,7 +248,7 @@ function bindDriverDropDown(selectedId, editId){
 		success : function(data) {
 			
 			if(null != data && data.length > 0){
-				$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver, #searchDriver").append("<option value=''></option>")
+				$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver, #searchDriver").append("<option value=''></option>");
 	
 				$(data).each(function( index, driver ) {
 					$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver").append("<option value='" + driver.id + "'>" + driver.name + " [" + driver.phone +"]</option>");
@@ -310,7 +310,7 @@ function initDatatable() {
 		    sClass: "text-center"}, 
 	    { mData : function(data, type, full, meta) {
 	
-				return data.phone;
+				return isEmpty(data.phone) ? "-" : data.phone;
 			},
 		    sClass: "text-center"},
 	    { mData : function(data, type, full, meta) {
@@ -335,6 +335,10 @@ function initDatatable() {
 				$("#editSecondaryDriver").val(busBean.secondaryDriverId);
 				$("#editPhone").val(busBean.phone);
 				$("#editStatus").val(busBean.status);
+				$( "#editPrimaryDriver" ).on( "change", function() {
+					var driverBean = getBeanFromListById(driverList, $(this).val());
+					$( "#editPhone" ).val(driverBean.phone);
+				});
 				$("#editBusModal").modal();
 			});
 			
@@ -402,18 +406,8 @@ function bindValidator(){
 				required : true,
 				maxlength : 7
 			},
-			primaryDriver : {
-				required : true
-			},
 			status : {
 				required : true
-			}
-		},
-		errorPlacement : function(error, element) {
-			if ($(element).prop("id") === "primaryDriver") {
-				error.insertAfter($(".add-input-group"));
-			} else {
-				error.insertAfter(element); // default error placement.
 			}
 		}
 	});
@@ -424,18 +418,8 @@ function bindValidator(){
 				required : true,
 				maxlength : 7
 			},
-			editPrimaryDriver : {
-				required : true
-			},
 			editStatus : {
 				required : true
-			}
-		},
-		errorPlacement : function(error, element) {
-			if ($(element).prop("id") === "editPrimaryDriver") {
-				error.insertAfter($(".edit-input-group"));
-			} else {
-				error.insertAfter(element); // default error placement.
 			}
 		}
 	});

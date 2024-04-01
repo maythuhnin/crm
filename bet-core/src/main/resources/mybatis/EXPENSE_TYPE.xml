@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eniac.projects.bet.mappers.IExpenseTypeMapper">
+
+	<resultMap 			type="ExpenseTypeBean" 			id="ExpenseTypeResult">
+		<id 			property="id" 					column="id" />
+		<result 		property="name" 				column="name" />
+		<result 		property="updatedId" 			column="updated_id" />
+		<result 		property="updatedDateTime" 		column="updated_datetime" />
+	</resultMap>
+
+	<insert id="insertExpenseType" parameterType="ExpenseTypeBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO expense_type(
+			name,
+			updated_id,
+			updated_datetime
+			)
+		VALUES(
+			#{name},
+			#{updatedId},
+			NOW()
+		)
+	</insert>
+	
+	<delete id="deleteExpenseType" parameterType="int">
+		DELETE FROM EXPENSE_TYPE WHERE ID =#{id}
+	</delete>
+	
+	<select id="selectForDropDown" resultMap="ExpenseTypeResult">
+		SELECT 
+		 id,
+		 name
+		
+		FROM expense_type
+	</select>
+	
+</mapper>

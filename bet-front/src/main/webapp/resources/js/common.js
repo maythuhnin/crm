@@ -73,6 +73,17 @@ function getBeanFromListById(list, id){
 	return returnBean;
 }
 
+function getIndexFromListById(list, id){
+	var returnIndex = {};
+	$.each(list, function(key, value) {
+		if(value.id == id){
+			returnIndex = key;
+		}
+	});
+	
+	return returnIndex;
+}
+
 function showLoadingOverlay(){
 	$("body").loadingOverlay(true, {
  		backgroundColor: 'rgba(0,0,0,0.65)',

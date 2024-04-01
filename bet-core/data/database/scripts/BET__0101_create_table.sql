@@ -8,9 +8,11 @@ DROP TABLE IF EXISTS bus;
 DROP TABLE IF EXISTS destination;
 DROP TABLE IF EXISTS loan_history;
 DROP TABLE IF EXISTS driver;
+DROP TABLE IF EXISTS path_expense;
 DROP TABLE IF EXISTS expense_type;
 DROP TABLE IF EXISTS stock;
 DROP TABLE IF EXISTS inventory;
+DROP TABLE IF EXISTS path;
 DROP TABLE IF EXISTS user;
 
 
@@ -22,7 +24,7 @@ CREATE TABLE bus
 (
 	id int NOT NULL AUTO_INCREMENT,
 	license_plate varchar(7) NOT NULL,
-	primary_driver_id int NOT NULL,
+	primary_driver_id int,
 	secondary_driver_id int,
 	-- 0: OK,
 	-- 1: SERVICING
@@ -122,6 +124,30 @@ CREATE TABLE loan_history
 );
 
 
+CREATE TABLE path
+(
+	id int NOT NULL AUTO_INCREMENT,
+	path varchar(20) NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE path_expense
+(
+	id int NOT NULL AUTO_INCREMENT,
+	path_id int NOT NULL,
+	expense_id int NOT NULL,
+	amount numeric(18,2) NOT NULL,
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
 CREATE TABLE route
 (
 	id int NOT NULL AUTO_INCREMENT,
@@ -202,9 +228,25 @@ ALTER TABLE loan_history
 ;
 
 
+ALTER TABLE path_expense
+	ADD CONSTRAINT frk_expense_type_path_expense FOREIGN KEY (expense_id)
+	REFERENCES expense_type (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
 ALTER TABLE stock
 	ADD CONSTRAINT frk_inventory_stock FOREIGN KEY (inventory_id)
 	REFERENCES inventory (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE path_expense
+	ADD CONSTRAINT frk_path_path_expense FOREIGN KEY (path_id)
+	REFERENCES path (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
 ;
