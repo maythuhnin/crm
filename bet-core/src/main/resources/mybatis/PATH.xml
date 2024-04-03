@@ -6,6 +6,7 @@
 	<resultMap 			type="PathBean" 			id="PathResult">
 		<id 			property="id" 				column="id" />
 		<result 		property="path" 			column="path" />
+		<result 		property="bus" 				column="bus" />
 		<result 		property="updatedId" 		column="updated_id" />
 		<result 		property="updatedDateTime" 	column="updated_datetime" />
 	</resultMap>
@@ -13,11 +14,13 @@
 	<insert id="insertPath" parameterType="PathBean" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO path(
 			path,
+			bus,
 			updated_id,
 			updated_datetime
 			)
 		VALUES(
 			#{path},
+			#{bus},
 			#{updatedId},
 			NOW()
 		)
@@ -28,6 +31,11 @@
 			<if test="path != null">
 				PATH = #{path}
 			</if>
+			<if test="bus != null">
+				,BUS = #{bus}
+			</if>
+			,updated_id = #{updatedId}
+			,updated_datetime = NOW()
 		WHERE ID =#{id} 
 	</update>
 	
@@ -39,14 +47,16 @@
 	<select id="selectForDatatable" resultType="map">
 		SELECT 
 		 p.id,
-		 p.path
+		 p.path,
+		 p.bus
 		FROM path p
 	</select>
 	
 	<select id="selectForDropDown" resultMap="PathResult">
 		SELECT 
 		 id,
-		 path
+		 path,
+		 bus
 		
 		FROM path
 	</select>

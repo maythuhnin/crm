@@ -48,4 +48,8 @@ public class BusServiceImpl {
 	public void deleteBus(int busId) throws MyBatisException {
 		busDao.delete(busId);
 	}
+	
+	public List<BusBean> selectForDropDown() throws MyBatisException {
+		return busDao.selectForDropDown();
+	}
 }

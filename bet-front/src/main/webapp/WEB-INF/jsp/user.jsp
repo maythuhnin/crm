@@ -15,7 +15,7 @@
 	</head>
 	<!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-
+	<input type="hidden" id="loggedInUser" value="${loggedInUserId}"/>
     <!-- Main content -->
     <section class="content pt-2 pb-1">
 

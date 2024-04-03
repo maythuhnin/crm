@@ -20,5 +20,7 @@ public interface IBusMapper {
 	BusBean selectByCriteria(Map<String, Object> criteria);
 
 	BusBean selectById(int id);
+	
+	List<BusBean> selectForDropDown();
 
 }

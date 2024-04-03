@@ -17,6 +17,8 @@ public interface IBusDao {
 	
 	public List<Object> selectForDatatable() throws MyBatisException;
 	
+	public List<BusBean> selectForDropDown() throws MyBatisException;
+	
 	public BusBean selectByCriteria(Map<String, Object> criteria) throws MyBatisException;
 	
 	public BusBean selectById(int id) throws MyBatisException;

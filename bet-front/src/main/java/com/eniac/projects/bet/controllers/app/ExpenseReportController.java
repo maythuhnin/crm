@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.eniac.projects.bet.controllers.base.BaseController;
 
 @Controller
-@RequestMapping("/inventory")
-public class InventoryController extends BaseController {
+@RequestMapping("/expense-report")
+public class ExpenseReportController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String daily(Model model) {
-		model.addAttribute("title", "Inventory");
-		model.addAttribute("url", "/inventory");
-		model.addAttribute("page", "inventory");
-		return "inventory";
+		model.addAttribute("title", "Expense Report");
+		model.addAttribute("url", "/expense-report");
+		model.addAttribute("page", "expenseReport");
+		return "expense-report";
 	}
 
 }

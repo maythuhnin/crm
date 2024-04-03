@@ -53,6 +53,7 @@
             <tr>
            	  <th width="50px" class="dt-control"></th> 
               <th>Path</th>
+              <th>Bus</th>
               <th></th>
             </tr>
             </thead>
@@ -98,6 +99,16 @@
                
               </div>
             </div>
+             <div class="form-group row">
+             
+              <label for="licensePlate" class="col-sm-3 col-form-label text-right">Bus :</label>
+               <div class="col-sm-1 exchange-col"></div>
+              <div class="col-sm-7 col-bus">
+                 <select class="select2" id="bus" multiple="multiple" data-placeholder="Select Bus" style="width: 100%;">
+                   
+                  </select>
+              </div>
+              </div>
             </form>
             <div class="row"><div class="col-sm-12"><hr></div></div>
             <form class="form-horizontal" id="expenseForm">

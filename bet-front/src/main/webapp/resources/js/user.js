@@ -214,8 +214,16 @@ function initDatatable() {
 			},
 		    sClass: "text-center" },
 	    { mData : function(data, type, full, meta) {
-	
-				return '<div><button type="button" class="btn btn-outline-danger btn-sm delete-user mr-1" data-id="' + data.id + '" title="Delete User">Delete <i class="fas fa-trash"></i></button><button type="button" class="btn btn-outline-primary btn-sm update-user mr-1" data-id="' + data.id + '" title="Edit User">Edit <i class="fas fa-edit"></i></button></div>';
+				
+				var returnButtons = "";
+				
+				if(data.id != $("#loggedInUser").val()){
+					returnButtons += '<button type="button" class="btn btn-outline-danger btn-sm delete-user mr-1" data-id="' + data.id + '" title="Delete User">Delete <i class="fas fa-trash"></i></button>';
+				}
+				
+				returnButtons += '<button type="button" class="btn btn-outline-primary btn-sm update-user mr-1" data-id="' + data.id + '" title="Edit User">Edit <i class="fas fa-edit"></i></button>'; 	
+				
+				return returnButtons;
 			},
 		    sClass: "text-center",
 	    	bSortable: false }

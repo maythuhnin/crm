@@ -1,6 +1,7 @@
 package com.eniac.projects.bet.apis;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,12 @@ public class BusRestController extends BaseController {
 		Map<String, Object> results = new HashMap<String, Object>();
 		results.put("responseData", busService.selectForDatatable());
 		return results;
+	}
+	
+	@GetMapping("/bus/api/dropdown")
+	public List<BusBean> getForBusDropDown() throws MyBatisException {
+		
+		return busService.selectForDropDown();
 	}
 
 	@PostMapping("/bus/api/add")

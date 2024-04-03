@@ -94,4 +94,13 @@
 		SELECT * FROM bus WHERE id = #{id} AND status != 2
 	</select>
 	
+	<select id="selectForDropDown" resultMap="BusResult">
+		SELECT 
+		 id,
+		 license_plate As licensePlate
+		
+		FROM bus
+		WHERE status != 2
+	</select>
+	
 </mapper>

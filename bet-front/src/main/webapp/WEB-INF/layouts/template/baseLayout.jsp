@@ -39,8 +39,8 @@
 		<script src="<c:url value="/resources/adminlte/adminlte.js"/>"></script>
 		<script src="<c:url value="/resources/js/common.js"/>"></script>
 		<script src="<c:url value="/resources/js/base.js"/>"></script>
-		 <link rel="icon" type="image/png" href="<c:url value="/resources/images/favicon.png"/>"/>
-		<title> Expense Tracker | <tiles:insertAttribute name="title" /></title>
+		 <link rel="icon" type="image/png" href="<c:url value="/resources/images/logo-circle.png"/>"/>
+		<title> ExpenseTracker | <tiles:insertAttribute name="title" /></title>
 	</head>
 
 	<body class="hold-transition sidebar-mini layout-fixed"> 

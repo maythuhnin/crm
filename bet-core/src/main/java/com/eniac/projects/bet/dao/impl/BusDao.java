@@ -14,7 +14,9 @@ import com.eniac.projects.bet.config.MyBatisSqlSessionFactory;
 import com.eniac.projects.bet.dao.interfaces.IBusDao;
 import com.eniac.projects.bet.exception.MyBatisException;
 import com.eniac.projects.bet.mappers.IBusMapper;
+import com.eniac.projects.bet.mappers.IDriverMapper;
 import com.eniac.projects.bet.model.BusBean;
+import com.eniac.projects.bet.model.DriverBean;
 
 @Repository
 public class BusDao implements IBusDao {
@@ -112,6 +114,21 @@ public class BusDao implements IBusDao {
 			return busMapper.selectById(id);
 		} catch (Exception e) {
 			throw new MyBatisException("Mybatis Exception occured when selecting Bus By Id : " + id, e);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Override
+	public List<BusBean> selectForDropDown() throws MyBatisException {
+
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			logger.info("=====> Selecting selectForDropDown <=====");
+			IBusMapper busMapper = sqlSession.getMapper(IBusMapper.class);
+			return busMapper.selectForDropDown();
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when selecting selectForDropDown", e);
 		} finally {
 			sqlSession.close();
 		}

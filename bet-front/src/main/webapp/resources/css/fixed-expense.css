@@ -45,3 +45,16 @@ table tr > td{
 .sub-table{
 	margin-bottom: 0px !important;
 }
+
+.dataTables_filter{
+	display: none !important;
+}
+
+.select2-selection--multiple{
+	height: 67px;
+}
+
+.col-bus{
+	max-width: 62.499%;
+  	flex: 0 0 74.333%;
+}

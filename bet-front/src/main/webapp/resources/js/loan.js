@@ -185,8 +185,7 @@ function initLoanHistoryDatatable(driverId) {
             .reduce((a, b) => intVal(a) + intVal(b), 0);
  
         // Update footer
-        api.column(3).footer().innerHTML =
-            'MMK ' + pageTotal.toLocaleString("en") + ' (MMK ' + total.toLocaleString("en") + ' total)';
+        api.column(3).footer().innerHTML = pageTotal.toLocaleString("en") + ' Ks (' + total.toLocaleString("en") + ' Ks total)';
     }
 	});
 		
@@ -219,7 +218,7 @@ function initLoanDatatable() {
 		    sClass: "text-center"},      
 	      { mData : function(data, type, full, meta) {
 	
-				return isEmpty(data.loanAmount) ? "-" : data.loanAmount.toLocaleString("en");			
+				return isEmpty(data.loanAmount) ? "-" : data.loanAmount.toLocaleString("en") + " Ks";			
 			},
 		    sClass: "text-right"} ,
 		      { mData : function(data, type, full, meta) {

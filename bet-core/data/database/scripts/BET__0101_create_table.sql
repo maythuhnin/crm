@@ -128,6 +128,7 @@ CREATE TABLE path
 (
 	id int NOT NULL AUTO_INCREMENT,
 	path varchar(20) NOT NULL,
+	bus varchar(100),
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
@@ -205,7 +206,7 @@ ALTER TABLE route
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
+	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
@@ -213,7 +214,7 @@ ALTER TABLE bus
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
+	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION

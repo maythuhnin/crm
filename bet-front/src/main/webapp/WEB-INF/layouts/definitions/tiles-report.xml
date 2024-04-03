@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="expense-report" extends="baseLayout">
+		<put-attribute name="title" value="Expense Report" />
+		<put-attribute name="content" value="/WEB-INF/jsp/expense-report.jsp" />
+	</definition>
+	
+	<definition name="income-report" extends="baseLayout">
+		<put-attribute name="title" value="Income Report" />
+		<put-attribute name="content" value="/WEB-INF/jsp/income-report.jsp" />
+	</definition>
+	
+</tiles-definitions>

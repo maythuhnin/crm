@@ -2,6 +2,7 @@ let fixedExpenseDatatable = {};
 let fixedExpenseList = [];
 let destinationList = [];
 let expenseList = [];
+let busList = [];
 let fixedExpenseAddValidator;
 let expenseAddValidator;
 
@@ -23,6 +24,7 @@ function bindModal(){
 	initExpenseDatatable();
 	
 	bindExpenseTypeDropDown();
+	bindBusDropDown();
 	
 	bindFixedExpenseAddButtonClick();
 	
@@ -112,10 +114,40 @@ function bindExpenseTypeDropDown(){
 			});
 }
 
+function bindBusDropDown(){
+	
+
+			$.ajax({
+				url : getPathName() + "/bus/api/dropdown",
+				type : "GET",
+				contentType: "application/json",
+				dataType: 'json',
+				success : function(data) {
+					if(null != data && data.length > 0){
+					
+					$("#bus").append("<option value=''></option>")
+					
+					$(data).each(function( index, bus ) {
+						$("#bus").append("<option value='" + bus.id + "'>" + bus.licensePlate + "</option>");				
+					});
+					
+					busList = data;
+					
+			}
+				},
+				complete : function(data){
+					$('#bus').select2({
+						theme: 'bootstrap4',
+				    	allowClear: true
+					});
+				}
+			});
+}
+
 
 function bindSearch(){
-	
-	$("#fixedExpenseDatatable_filter label").addClass("d-none");
+	 
+	$(".dataTables_filter").addClass("d-none");
 	
 	$("#searchBox").on('input', function() {
 		fixedExpenseDatatable.search($("#searchBox").val()).draw();
@@ -156,6 +188,7 @@ function bindFixedExpenseAddApi(){
 				pathBean = {
 					id: $("#editFixedExpenseId").val(),
 					path: ($("#path1").val() + "," + $("#path2").val() + "," + $("#path3").val()),
+					bus: $("#bus").val().join(","),
 					pathExpenseList: expenseList
 				};
 				
@@ -203,8 +236,6 @@ function bindFixedExpenseAddButtonClick(){
 	
 	$( "#addExpense" ).on( "click", function() {
 			
-			console.log("add Expense");
-			
 			if($("#expenseForm").valid()){
 				
 				expenseList.push({
@@ -226,8 +257,14 @@ function bindFixedExpenseAddButtonClick(){
 
 function resetFixedExpenseAddForm(){
 	$("#amount").val("");
-	$("#path1, #path2, #path3, #expenseType").val(null).trigger('change');
+	$("#path1, #path2, #path3, #expenseType, #bus").val(null).trigger('change');
 	fixedExpenseAddValidator.resetForm();
+	expenseAddValidator.resetForm();
+	
+	expenseList = [];
+	expenseDatatable.clear().draw();
+	expenseDatatable.rows.add(expenseList); // Add new data
+	expenseDatatable.columns.adjust().draw();
 }
 
 
@@ -249,7 +286,7 @@ function initFixedExpenseDatatable() {
 	    "order": [0],
 	    scrollX:        true,
         scrollCollapse: true,
-         columnDefs: [{ width: '20%', targets: 2 }],
+         columnDefs: [{ width: '20%', targets: 3 }],
 	    columns: [
 		 {
                 className: 'dt-control',
@@ -260,6 +297,10 @@ function initFixedExpenseDatatable() {
             },  
 		{ mData : function(data, type, full, meta) {
 				return getPathText(data.path);
+			},
+		    sClass: "text-center"}, 
+		{ mData : function(data, type, full, meta) {
+				return isEmpty(data.bus) ? "-" : getBusText(data.bus);
 			},
 		    sClass: "text-center"},      
 	 
@@ -285,6 +326,7 @@ function initFixedExpenseDatatable() {
 					$("#path" + (index+1)).val(destinationId).trigger('change');
 				});
 				
+				 $('#bus').val([1,2,3]).change();
 				expenseList = getExpense(fixedExpenseId);
 				
 				expenseDatatable.clear().draw();
@@ -385,7 +427,6 @@ function initExpenseDatatable() {
 	    "order": [0],
 	    scrollX:        true,
         scrollCollapse: true,
-        searching: false,
          columnDefs: [{ width: '10%', targets: 2 }],
 	    columns: [
 		{ mData : function(data, type, full, meta) {
@@ -407,10 +448,7 @@ function initExpenseDatatable() {
 		"fnDrawCallback": function (){
 			
 			$( ".delete-expense" ).on( "click", function() {
-				console.log(expenseList);
-				console.log(parseInt($(this).attr("data-id")));
 				expenseList.splice(getIndexFromExpenseListById(expenseList, parseInt($(this).attr("data-id")), 1)); 
-				console.log(expenseList);
 				expenseDatatable.clear().draw();
 				expenseDatatable.rows.add(expenseList); // Add new data
 				expenseDatatable.columns.adjust().draw();
@@ -477,6 +515,21 @@ function getPathText(path){
 	});
 	
 	return pathText;
+}
+
+function getBusText(bus){
+	var busText = "";
+	var busIds = bus.split(",");
+	
+	$(busIds).each(function( index, busId ) {
+		$(busList).each(function( index, bus ) {
+			if(busId == bus.id){
+				busText += (busText != "" ? ' , ' : "") + bus.licensePlate;
+			}
+		});
+	});
+	
+	return busText;
 }
 
 function bindValidator(){
