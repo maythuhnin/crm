@@ -2,6 +2,9 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 /* Drop Tables */
 
+DROP TABLE IF EXISTS expense_item;
+DROP TABLE IF EXISTS daily_expense;
+DROP TABLE IF EXISTS path_bus;
 DROP TABLE IF EXISTS expense;
 DROP TABLE IF EXISTS route;
 DROP TABLE IF EXISTS bus;
@@ -30,6 +33,24 @@ CREATE TABLE bus
 	-- 1: SERVICING
 	status smallint NOT NULL COMMENT '0: OK,
 1: SERVICING',
+	updated_datetime datetime NOT NULL,
+	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE daily_expense
+(
+	id int NOT NULL AUTO_INCREMENT,
+	bus_id int NOT NULL,
+	from_date datetime NOT NULL,
+	to_date datetime,
+	path varchar(10) NOT NULL,
+	on_paper_income numeric(18,2) NOT NULL,
+	in_hand_cash numeric(18,2) NOT NULL,
+	adjustment numeric(18,2),
+	lan_kyay numeric(18,2),
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
@@ -76,6 +97,19 @@ CREATE TABLE expense
 	value int NOT NULL,
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE (id)
+);
+
+
+CREATE TABLE expense_item
+(
+	id int NOT NULL AUTO_INCREMENT,
+	daily_expense_id int NOT NULL,
+	expense_type_id int,
+	inventory_id int,
+	amount numeric(18,2) NOT NULL,
+	quantity int,
 	PRIMARY KEY (id),
 	UNIQUE (id)
 );
@@ -128,11 +162,17 @@ CREATE TABLE path
 (
 	id int NOT NULL AUTO_INCREMENT,
 	path varchar(20) NOT NULL,
-	bus varchar(100),
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
 	UNIQUE (id)
+);
+
+
+CREATE TABLE path_bus
+(
+	path_id int NOT NULL,
+	bus_id int NOT NULL
 );
 
 
@@ -169,6 +209,7 @@ CREATE TABLE stock
 	inventory_id int NOT NULL,
 	quantity int NOT NULL,
 	stock_in boolean NOT NULL,
+	transaction_date datetime NOT NULL,
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
@@ -197,11 +238,35 @@ CREATE TABLE user
 
 /* Create Foreign Keys */
 
+ALTER TABLE daily_expense
+	ADD CONSTRAINT frk_bus_daily_expense FOREIGN KEY (bus_id)
+	REFERENCES bus (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE path_bus
+	ADD CONSTRAINT frk_bus_bus_path FOREIGN KEY (bus_id)
+	REFERENCES bus (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
 ALTER TABLE route
 	ADD CONSTRAINT frk_bus_route FOREIGN KEY (bus_id)
 	REFERENCES bus (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE expense_item
+	ADD FOREIGN KEY (daily_expense_id)
+	REFERENCES daily_expense (id)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
 ;
 
 
@@ -229,6 +294,14 @@ ALTER TABLE loan_history
 ;
 
 
+ALTER TABLE expense_item
+	ADD CONSTRAINT frk_expense_type_expense_item FOREIGN KEY (expense_type_id)
+	REFERENCES expense_type (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
 ALTER TABLE path_expense
 	ADD CONSTRAINT frk_expense_type_path_expense FOREIGN KEY (expense_id)
 	REFERENCES expense_type (id)
@@ -237,9 +310,25 @@ ALTER TABLE path_expense
 ;
 
 
+ALTER TABLE expense_item
+	ADD CONSTRAINT frk_inventory_expense_item FOREIGN KEY (inventory_id)
+	REFERENCES inventory (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
 ALTER TABLE stock
 	ADD CONSTRAINT frk_inventory_stock FOREIGN KEY (inventory_id)
 	REFERENCES inventory (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+;
+
+
+ALTER TABLE path_bus
+	ADD CONSTRAINT frk_path_path_bus FOREIGN KEY (path_id)
+	REFERENCES path (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
 ;

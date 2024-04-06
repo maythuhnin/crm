@@ -6,7 +6,6 @@
 	<resultMap 			type="PathBean" 			id="PathResult">
 		<id 			property="id" 				column="id" />
 		<result 		property="path" 			column="path" />
-		<result 		property="bus" 				column="bus" />
 		<result 		property="updatedId" 		column="updated_id" />
 		<result 		property="updatedDateTime" 	column="updated_datetime" />
 	</resultMap>
@@ -14,13 +13,11 @@
 	<insert id="insertPath" parameterType="PathBean" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO path(
 			path,
-			bus,
 			updated_id,
 			updated_datetime
 			)
 		VALUES(
 			#{path},
-			#{bus},
 			#{updatedId},
 			NOW()
 		)
@@ -30,9 +27,6 @@
 		UPDATE PATH SET 
 			<if test="path != null">
 				PATH = #{path}
-			</if>
-			<if test="bus != null">
-				,BUS = #{bus}
 			</if>
 			,updated_id = #{updatedId}
 			,updated_datetime = NOW()
@@ -48,17 +42,32 @@
 		SELECT 
 		 p.id,
 		 p.path,
-		 p.bus
-		FROM path p
+		 GROUP_CONCAT(b.license_plate) AS bus,
+		 GROUP_CONCAT(b.id) AS busIds
+		FROM path p 
+		LEFT JOIN path_bus pb ON p.id = pb.path_id
+		LEFT JOIN bus b ON b.id = pb.bus_id
+		GROUP BY p.id, p.path
 	</select>
 	
-	<select id="selectForDropDown" resultMap="PathResult">
+	<select id="selectForDropDown" resultType="map" parameterType="map">
 		SELECT 
-		 id,
-		 path,
-		 bus
-		
-		FROM path
+			pe.expense_id AS expenseId,
+			e.name,
+			pe.amount
+			
+		FROM path p 
+		LEFT JOIN path_expense pe ON pe.path_id = p.id
+		LEFT JOIN path_bus pb ON pb.path_id = p.id
+ 		LEFT JOIN expense_type e ON e.id = pe.expense_id  
+		<where>
+			<if test="busId != null">
+				pb.bus_id = #{busId}
+			</if>
+			<if test="path != null">
+				AND p.path = #{path}
+			</if>
+		</where>
 	</select>
 	
 	<select id="selectById" parameterType="int" resultMap="PathResult">

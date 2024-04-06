@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eniac.projects.bet.mappers.IPathBusMapper">
+
+	<insert id="insertPathBus" parameterType="PathBusBean">
+		INSERT INTO path_bus(
+			path_id,
+			bus_id
+			)
+		VALUES(
+			#{pathId},
+			#{busId}
+		)
+	</insert>
+	
+	<delete id="deletePathBus" parameterType="int">
+		DELETE FROM PATH_BUS WHERE PATH_ID =#{id}
+	</delete>
+		
+</mapper>

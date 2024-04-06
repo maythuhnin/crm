@@ -8,8 +8,8 @@ public class PathBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String path;
-	private String bus;
 
+	private List<PathBusBean> pathBusList;
 	private List<PathExpenseBean> pathExpenseList;
 
 	public String getPath() {
@@ -20,12 +20,12 @@ public class PathBean extends BaseBean implements Serializable {
 		this.path = path;
 	}
 
-	public String getBus() {
-		return bus;
+	public List<PathBusBean> getPathBusList() {
+		return pathBusList;
 	}
 
-	public void setBus(String bus) {
-		this.bus = bus;
+	public void setPathBusList(List<PathBusBean> pathBusList) {
+		this.pathBusList = pathBusList;
 	}
 
 	public List<PathExpenseBean> getPathExpenseList() {
@@ -38,7 +38,8 @@ public class PathBean extends BaseBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("PathBean [path=%s, bus=%s, pathExpenseList=%s]", path, bus, pathExpenseList);
+		return String.format("PathBean [path=%s, pathBusList=%s, pathExpenseList=%s]", path, pathBusList,
+				pathExpenseList);
 	}
 
 }

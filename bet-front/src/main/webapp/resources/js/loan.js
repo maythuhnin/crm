@@ -138,7 +138,7 @@ function initLoanHistoryDatatable(driverId) {
 		    sClass: "text-center"},     
 	      { mData : function(data, type, full, meta) {
 	
-				return (data.type == 0 ? "+" : "-") + data.loanAmount.toLocaleString("en");
+				return (data.type == 0 ? "+" : "-") + data.loanAmount.toLocaleString("en") + " Ks";
 			},
 		    sClass: "text-right"} ,
 		      { mData : function(data, type, full, meta) {
@@ -166,7 +166,7 @@ function initLoanHistoryDatatable(driverId) {
         // Remove the formatting to get integer data for summation
         let intVal = function (i) {
             return typeof i === 'string'
-                ? i.replace(/[\$,]/g, '') * 1
+                ? i.replace(/[\Ks,]/g, '') * 1
                 : typeof i === 'number'
                 ? i
                 : 0;

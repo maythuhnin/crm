@@ -185,10 +185,15 @@ function bindFixedExpenseAddApi(){
 				}
 				showLoadingOverlay();
 				
+				var busList = [];
+				$($("#bus").val()).each(function( index, busId ) {
+					busList.push({busId : parseInt(busId)})
+				});
+				
 				pathBean = {
 					id: $("#editFixedExpenseId").val(),
 					path: ($("#path1").val() + "," + $("#path2").val() + "," + $("#path3").val()),
-					bus: $("#bus").val().join(","),
+					pathBusList: busList,
 					pathExpenseList: expenseList
 				};
 				
@@ -300,7 +305,7 @@ function initFixedExpenseDatatable() {
 			},
 		    sClass: "text-center"}, 
 		{ mData : function(data, type, full, meta) {
-				return isEmpty(data.bus) ? "-" : getBusText(data.bus);
+				return isEmpty(data.bus) ? "-" : data.bus;
 			},
 		    sClass: "text-center"},      
 	 
@@ -326,7 +331,7 @@ function initFixedExpenseDatatable() {
 					$("#path" + (index+1)).val(destinationId).trigger('change');
 				});
 				
-				 $('#bus').val([1,2,3]).change();
+				$('#bus').val(fixedExpenseBean.busIds.split(",")).change();
 				expenseList = getExpense(fixedExpenseId);
 				
 				expenseDatatable.clear().draw();

@@ -10,7 +10,13 @@
  		<!-- DataTables -->
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>">
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>">
-	    <link rel="stylesheet" href="<c:url value="/resources/css/destination.css"/>"> 
+	     <!-- daterange picker -->
+	     
+ 		 <link rel="stylesheet" href="<c:url value="/resources/plugins/daterangepicker/daterangepicker.css"/>">
+	    <!-- Tempusdominus Bootstrap 4 -->
+	  	<link rel="stylesheet" href="<c:url value="/resources/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"/>">
+	   
+	     <link rel="stylesheet" href="<c:url value="/resources/css/daily.css"/>"> 
 	</head>
 	<!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -18,7 +24,167 @@
     <!-- Main content -->
     <section class="content pt-2 pb-1">
 
+      <!-- Default box -->
+      <div class="card">
+    <form class="form-horizontal" id="addDailyForm">
+      <div class="card-body">
+		<div class="form-group row">
+              <label for="bus" class="col-sm-2 col-form-label text-right">Bus <span class="required">[required]</span> </label>
+               <div class="col-sm-2">
+                    <select class="form-control" style="width: 100%;" id="bus" name="bus">
+			           
+			   		</select>
+	              </div>
+	              <label for="dateRange" class="col-sm-1 col-form-label text-right exchange-col">Date <span class="required">[required]</span> </label>
+              
+	              <div class="col-sm-5 col-bus">
+	               <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="far fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="dateRange">
+                  </div>
+                  </div>
+            </div>
+            <div class="form-group row">
+            	  <label for="reservation" class="col-sm-2 col-form-label text-right">Path <span class="required">[required]</span> </label>
+              <div class="col-sm-2">
+                <select style="width: 100%;" class="form-control path" id="path1" name="path1"></select>
+               
+              </div>
+               <div class="col-sm-1 exchange-col"><i class="fas fa-exchange-alt"></i></div>
+                <div class="col-sm-2">
+                <select style="width: 100%;" class="form-control path" id="path2" name="path2"></select>
+               
+              </div>
+            <div class="col-sm-1 exchange-col"><i class="fas fa-exchange-alt"></i></div>
+               <div class="col-sm-2">
+                <select style="width: 100%;" class="form-control path" id="path3" name="path3"></select>
+               
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="receivedDate" class="col-sm-2 col-form-label text-right">On Paper Income <span class="required">[required]</span> </label>
+               <div class="col-sm-2">
+                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncome" name="onPaperIncome"/>
+	              </div>
+	            <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">In Hand Cash <span class="required">[required]</span> </label>
+               <div class="col-sm-2">
+                    <input type="number" class="form-control" style="width: 100%;" id="inHandCash" name="inHandCash"/>
+	              </div> 
+	             <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">Adjustment : </label>
+               <div class="col-sm-2">
+                   <label class="col-form-label text-center" id="adjustment"> - </label>
+	              </div>   
+	              
+            </div>
+             <div class="form-group row">
+              <label for="receivedDate" class="col-sm-2 col-form-label text-right">Lan Kyay </label>
+               <div class="col-sm-2">
+                    <input type="number" class="form-control" style="width: 100%;" id="lanKyay" name="lanKyay"/>
+	              </div>
+	               <div class="col-sm-3"></div> 
+	            <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col total">Total : </label>
+               <div class="col-sm-2">
+                   <label class="col-form-label text-center" id="total"> - </label>
+	              </div>  
+	              
+            </div>
+            
+            <div class="form-group row mt-3">
+             <div class="col-sm-12"><hr>
+             </div>
+             </div>
+             <form class="form-horizontal" id="expenseForm">
+             <div class="form-group row mt-3">
+             	<div class="col-sm-1"></div>
+	              <div class="col-sm-5">
+	                <div class="input-group">
+						  <select class="custom-select" id="expenseType" name="expenseType">
+						  </select>
+						  <div class="input-group-append">
+						    <button class="btn btn-default" id="" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
+						  </div>
+					</div>
+	              </div>
+	                <div class="col-sm-4">
+	                <input type="number" class="form-control" id="amount" placeholder="Amount" name="amount"/>
+	               
+	              </div>
+	            <div class="col-sm-1"><button type="button" class="btn btn-outline-primary" id="addExpense"><i class="fas fa-plus"></i></button></div>
+	            </div>
+	            </form>
+            <div class="form-group row mt-3">
+            <div class="col-sm-1"></div>
+             <div class="col-sm-10">
+                <table id="expenseDatatable" class="table table-bordered table-condensed">
+		            <thead>
+		            <tr>
+		              <th>Expense Type</th>
+		              <th>Amount</th>
+		              <th></th>
+		            </tr>
+		            </thead>
+		            <tbody>
+		            
+		            </tbody>
+		            <tfoot>
+		            <tr>
+		              <th class="text-right">Total:</th>
+		              <th></th>
+		              <th></th>
+		            </tr>
+		        </tfoot>
+	          </table>
+              </div>
+                </div>
+   </div>
+   <div class="card-footer">
+   		<button type="button" class="btn btn-outline-primary float-right" id="saveFixedExpense" disabled="true">Save Changes</button>
+   		<a href="<c:url value="/daily"/>">
+   		<button type="button" class="btn btn-default cancel float-right">Cancel</button>
+   		</a>
+   </div>
+   </form>
+   </div>
    
+   <div class="modal fade" id="expenseTypeModal">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title bus-title">Add Expense Type</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- form start -->
+        <form class="form-horizontal" id="expenseTypeAddForm">
+          <div class="card-body">
+            <div class="form-group row">
+              <div class="col-sm-1"></div>
+              <label for="licensePlate" class="col-sm-4 col-form-label">Expense Type <span class="required">[required]</span></label>
+              <div class="col-sm-6">
+                <input type="text" name="expenseTypeName" class="form-control" id="expenseTypeName">
+              </div>
+            </div>
+          </div> 
+        
+          <!-- /.card-footer -->
+        </form>
+            </div>
+            <div class="modal-footer">
+            <input type="hidden" id="driverType"/>
+              <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-outline-primary" id="saveExpenseType">Save Changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
       <!-- /.card -->
     </section>
     
@@ -35,6 +201,16 @@
 	
 	<script src="<c:url value="/resources/plugins/jquery-validation/dist/jquery.validate.min.js"/>"></script>
 	<script src="<c:url value="/resources/js/validator.js"/>"></script>
-	<script src="<c:url value="/resources/js/destination.js"/>"></script>
+	<!-- Select2 -->
+	<script src="<c:url value="/resources/plugins/select2/js/select2.full.min.js"/>"></script>
+	
+	<!-- date-range-picker -->
+	<script src="<c:url value="/resources/plugins/moment/moment.min.js"/>"></script>
+	
+	<script src="<c:url value="/resources/plugins/daterangepicker/daterangepicker.js"/>"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script src="<c:url value="/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"/>"></script>
+	
+	<script src="<c:url value="/resources/js/daily.js"/>"></script>
 
 </html>

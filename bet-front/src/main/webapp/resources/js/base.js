@@ -13,68 +13,9 @@ function init() {
   		hideLoadingOverlay();
 	} );
 	
-	//getNotificationData();
 	bindToastr();
-	bindProfile();
 }
 
-function bindProfile(){
-	$("#profile").click(function() {
-		
-		$("#profileModal").modal();	
-		profileValidate();
-		
-		$('#changePassword').unbind('click');
-		$("#changePassword") .on( "click",function() {
-			
-			if($("#profileForm").valid()){
-				
-				if($("#headerNewPassword").val() == $("#headerConfirmPassword").val()){
-					var userBean = {
-						password : $("#headerOldPassword").val(),
-						newPassword : $("#headerNewPassword").val(),
-					}
-				}
-				
-				showLoadingOverlay();
-					
-				$.ajax({
-					url : getPathName() + "/user/api/password",
-					type : "POST",
-					contentType: "application/json",
-					data :JSON.stringify(userBean),
-					dataType: 'json',
-					success : function(data) {
-						if(data.httpStatus == "OK"){
-							$("#profileModal").modal("hide");
-							toastr.success('Password successfully changed.');
-						}else if(data.httpStatus == "INTERNAL_SERVER_ERROR"){
-							toastr.error(data.error);
-						}
-						
-					},
-					complete : function(){
-							hideLoadingOverlay();
-						}
-					});	
-				}
-		});
-	});
-}
-
-function profileValidate(){
-	$("#profileForm").validate({
-		rules : {
-			
-			headerNewPassword : {
-				required : true
-			},
-			headerConfirmPassword : {
-				required : true
-			}
-		}
-	});
-}
 	
 function bindToastr(){
 
@@ -129,21 +70,3 @@ function getUrlParameter(sParam) {
     }
     return false;
 };
-
-function getNotificationData(){
-	$.ajax({
-		url : getPathName() + "/dashboard/api/notification",
-		dataType: "json",
-		success : function(data) {
-			$("#restockNotification").text(data.restockCount);
-			$("#stockRequestNotification").text(data.stockRequest);
-			$("#expiringNotification").text(data.expiringCount);
-			$("#expiringCount").val(data.expiringCount);
-			$("#creditNotification").text(data.creditCount);
-			$("#totalNotification").text(data.restockCount + + data.stockRequest + data.expiringCount + data.creditCount);
-		},
-		complete : function(){
-		}
-	});
-    
-}

@@ -11,93 +11,83 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eniac.projects.bet.apis.validators.PathApiValidator;
+import com.eniac.projects.bet.apis.validators.InventoryApiValidator;
 import com.eniac.projects.bet.controllers.base.BaseController;
 import com.eniac.projects.bet.exception.BuisnessException;
 import com.eniac.projects.bet.exception.MyBatisException;
-import com.eniac.projects.bet.model.PathBean;
+import com.eniac.projects.bet.model.InventoryBean;
 import com.eniac.projects.bet.model.BaseBean.Mode;
-import com.eniac.projects.bet.service.PathExpenseServiceImpl;
-import com.eniac.projects.bet.service.PathServiceImpl;
+import com.eniac.projects.bet.service.InventoryServiceImpl;
 
 @RestController
-public class FixedExpenseRestController extends BaseController {
+public class InventoryRestController extends BaseController {
 
 	@Autowired
-	PathServiceImpl pathService;
-	
-	@Autowired
-	PathExpenseServiceImpl pathExpenseService;
+	InventoryServiceImpl inventoryService;
 
 	@Autowired
-	PathApiValidator pathApiValidator;
+	InventoryApiValidator inventoryApiValidator;
 
-	@PostMapping("/fixed-expense/amount/api/datatable")
-	public List<Object> getForSubTable(@RequestParam int pathId) throws MyBatisException {
-		
-		return pathExpenseService.selectForDatatable(pathId);
-	}
-	
-	@GetMapping("/fixed-expense/api/datatable")
-	public Map<String, Object> getForPathsDatatable() throws MyBatisException {
+	@GetMapping("/inventory/api/datatable")
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Object> getForInventorysDatatable() throws MyBatisException {
 		
 		Map<String, Object> results = new HashMap<String, Object>();
-		results.put("responseData", pathService.selectForDatatable());
+		results.put("responseData", inventoryService.selectForDatatable());
 		return results;
 	}
 	
-	@PostMapping("/fixed-expense/api/dropdown")
-	public List<Object> getForPathDropDown(@RequestParam String path, @RequestParam int busId) throws MyBatisException {
-		Map<String, Object> criteria = new HashMap<String, Object>();
-		criteria.put("path", path);
-		criteria.put("busId", busId);
-		return pathService.selectForDropDown(criteria);
+	@GetMapping("/inventory/api/dropdown")
+	@ResponseStatus(HttpStatus.OK)
+	public List<InventoryBean> getForInventoryDropDown() throws MyBatisException {
+		
+		return inventoryService.selectForDropDown();
 	}
 
-	@PostMapping("/fixed-expense/api/add")
-	public Map<String, Object> addPath(@RequestBody PathBean path) {
+	@PostMapping("/inventory/api/add")
+	public Map<String, Object> addInventory(@RequestBody InventoryBean inventory) {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
 		try {
 			
-			path.setMode(Mode.ADD);
+			inventory.setMode(Mode.ADD);
 			
-			BindException bindException = new BindException(path, "path");
+			BindException bindException = new BindException(inventory, "inventory");
 			
-			ValidationUtils.invokeValidator(pathApiValidator, path, bindException);
+			ValidationUtils.invokeValidator(inventoryApiValidator, inventory, bindException);
 			
 			if (bindException.hasErrors()) {
 				
-				results.put("path", path);
+				results.put("inventory", inventory);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
 				
 				return results;
 			}
 
-			path.setUpdatedId(getLoggedInUser().getId());
-			pathService.createPath(path);
+			inventory.setUpdatedId(getLoggedInUser().getId());
+			inventoryService.createInventory(inventory);
+			
 			results.put("httpStatus", HttpStatus.OK);
 			results.put("status", "Success!");
 
 		} catch (MyBatisException e) {
 			e.printStackTrace();
-			results.put("path", path);
+			results.put("inventory", inventory);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", MYBATIS_EXCEPTION_MSG);
 		} catch (BuisnessException e) {
 			e.printStackTrace();
-			results.put("path", path);
+			results.put("inventory", inventory);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", BUSINESS_EXCEPTION_MSG);
 		} catch (Exception e) {
 			e.printStackTrace();
-			results.put("path", path);
+			results.put("inventory", inventory);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", BUSINESS_EXCEPTION_MSG);
 		}
@@ -106,46 +96,45 @@ public class FixedExpenseRestController extends BaseController {
 
 	}
 
-	@PostMapping("/fixed-expense/api/edit")
-	public Map<String, Object> editPath(@RequestBody PathBean path) throws MyBatisException {
+	@PostMapping("/inventory/api/edit")
+	public Map<String, Object> editInventory(@RequestBody InventoryBean inventory) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
 		try {
 			
-			path.setMode(Mode.EDIT);
+			inventory.setMode(Mode.EDIT);
 			
-			BindException bindException = new BindException(path, "path");
+			BindException bindException = new BindException(inventory, "inventory");
 			
-			ValidationUtils.invokeValidator(pathApiValidator, path, bindException);
+			ValidationUtils.invokeValidator(inventoryApiValidator, inventory, bindException);
 			
 			if (bindException.hasErrors()) {
 				
-				results.put("path", path);
+				results.put("inventory", inventory);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
 				
 				return results;
 			}
 			
-			path.setUpdatedId(getLoggedInUser().getId());
-			pathService.updatePath(path);
+			inventoryService.updateInventory(inventory);
 			results.put("httpStatus", HttpStatus.OK);
 			results.put("status", "Success!");
 
 		} catch (MyBatisException e) {
 			e.printStackTrace();
-			results.put("path", path);
+			results.put("inventory", inventory);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", MYBATIS_EXCEPTION_MSG);
 		} catch (BuisnessException e) {
 			e.printStackTrace();
-			results.put("path", path);
+			results.put("inventory", inventory);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", BUSINESS_EXCEPTION_MSG);
 		} catch (Exception e) {
 			e.printStackTrace();
-			results.put("path", path);
+			results.put("inventory", inventory);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", BUSINESS_EXCEPTION_MSG);
 		}
@@ -153,41 +142,41 @@ public class FixedExpenseRestController extends BaseController {
 		return results;
 	}
 
-	@PostMapping("/fixed-expense/api/delete")
-	public Map<String, Object> deletePath(@RequestBody Integer pathId) throws MyBatisException {
+	@PostMapping("/inventory/api/delete")
+	public Map<String, Object> deleteInventory(@RequestBody Integer inventoryId) throws MyBatisException {
 
 		Map<String, Object> results = new HashMap<String, Object>();
 
 		try {
 			
-			PathBean path = new PathBean();
-			path.setMode(Mode.DELETE);
-			path.setId(pathId);
+			InventoryBean inventory = new InventoryBean();
+			inventory.setMode(Mode.DELETE);
+			inventory.setId(inventoryId);
 			
-			BindException bindException = new BindException(path, "path");
+			BindException bindException = new BindException(inventory, "inventory");
 			
-			ValidationUtils.invokeValidator(pathApiValidator, path, bindException);
+			ValidationUtils.invokeValidator(inventoryApiValidator, inventory, bindException);
 			
 			if (bindException.hasErrors()) {
 				
-				results.put("path", path);
+				results.put("inventory", inventory);
 				results.put("httpStatus", HttpStatus.BAD_REQUEST);
 				results.put("error", "Validation Error.");
 				
 				return results;
 			}
 			
-			pathService.deletePath(pathId);
+			inventoryService.deleteInventory(inventoryId);
 			results.put("httpStatus", HttpStatus.OK);
 			results.put("status", "Success!");
 		} catch (MyBatisException e) {
 			e.printStackTrace();
-			results.put("pathId", pathId);
+			results.put("inventoryId", inventoryId);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", MYBATIS_EXCEPTION_MSG);
 		} catch (Exception e) {
 			e.printStackTrace();
-			results.put("pathId", pathId);
+			results.put("inventoryId", inventoryId);
 			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
 			results.put("error", BUSINESS_EXCEPTION_MSG);
 		}

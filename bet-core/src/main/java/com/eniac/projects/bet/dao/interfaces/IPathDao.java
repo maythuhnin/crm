@@ -1,6 +1,8 @@
 package com.eniac.projects.bet.dao.interfaces;
 
 import java.util.List;
+import java.util.Map;
+
 import com.eniac.projects.bet.exception.MyBatisException;
 import com.eniac.projects.bet.model.PathBean;
 
@@ -14,7 +16,7 @@ public interface IPathDao {
 	
 	public List<Object> selectForDatatable() throws MyBatisException;
 	
-	public List<PathBean> selectForDropDown() throws MyBatisException;
+	public List<Object> selectForDropDown(Map<String,Object> criteria) throws MyBatisException;
 	
 	public PathBean selectById(int id) throws MyBatisException;
 	

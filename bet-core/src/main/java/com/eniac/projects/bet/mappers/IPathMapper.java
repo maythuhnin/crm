@@ -1,6 +1,8 @@
 package com.eniac.projects.bet.mappers;
 
 import java.util.List;
+import java.util.Map;
+
 import com.eniac.projects.bet.model.PathBean;
 
 public interface IPathMapper {
@@ -13,7 +15,7 @@ public interface IPathMapper {
 	
 	List<Object> selectForDatatable();
 
-	List<PathBean> selectForDropDown();
+	List<Object> selectForDropDown(Map<String,Object> criteria);
 
 	PathBean selectById(int id);
 

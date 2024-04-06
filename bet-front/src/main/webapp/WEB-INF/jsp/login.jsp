@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="<c:url value="/resources/plugins/toastr/toastr.min.css"/>">
   <link rel="stylesheet" href="<c:url value="/resources/template/custom.css"/>"> 
   <link rel="stylesheet" href="<c:url value="/resources/css/login.css"/>"> 
-   <link rel="icon" type="image/png" href="<c:url value="/resources/images/logo-tab.png"/>"/>
+   <link rel="icon" type="image/png" href="<c:url value="/resources/images/favicon.png"/>"/>
 		
 </head>
 <body class="hold-transition login-page">

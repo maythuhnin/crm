@@ -44,4 +44,15 @@
 		WHERE pe.path_id = #{id}
 	</select>
 	
+	<select id="selectForDropDown" resultType="map" parameterType="int">
+		SELECT 
+		 pe.path_id AS pathId,
+		 pe.expense_id AS expenseId,
+		 e.name,
+		 pe.amount
+		FROM path_expense pe
+		LEFT JOIN expense_type e ON e.id = pe.expense_id
+		WHERE pe.path_id = #{id}
+	</select>
+	
 </mapper>

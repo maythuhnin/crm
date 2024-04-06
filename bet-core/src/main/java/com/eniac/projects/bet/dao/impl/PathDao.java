@@ -1,6 +1,9 @@
 package com.eniac.projects.bet.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,12 +74,12 @@ public class PathDao implements IPathDao {
 	}
 
 	@Override
-	public List<PathBean> selectForDropDown() throws MyBatisException {
+	public List<Object> selectForDropDown(Map<String,Object> criteria) throws MyBatisException {
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
 		try {
 			logger.info("=====> Selecting selectForDropDown <=====");
 			IPathMapper pathMapper = sqlSession.getMapper(IPathMapper.class);
-			return pathMapper.selectForDropDown();
+			return pathMapper.selectForDropDown(criteria);
 		} catch (Exception e) {
 			throw new MyBatisException("Mybatis Exception occured when selecting selectForDropDown ", e);
 		} finally {
