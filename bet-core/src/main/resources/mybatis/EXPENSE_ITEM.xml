@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eniac.projects.bet.mappers.IExpenseItemMapper">
+
+	<resultMap 			type="ExpenseItemBean" 			id="ExpenseItemResult">
+		<id 			property="id" 					column="id" />
+		<result 		property="dailyExpenseId" 		column="daily_expense_id" />
+		<result		 	property="expenseTypeId" 		column="expense_type_id" />
+		<result 		property="inventoryId" 			column="inventory_id" />
+		<result 		property="amount" 				column="amount" />
+		<result 		property="quantity" 			column="quantity" />
+	</resultMap>
+
+	<insert id="insertExpenseItem" parameterType="ExpenseItemBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO expense_item(
+			daily_expense_id,
+			expense_type_id,
+			inventory_id,
+			amount,
+			quantity
+			)
+		VALUES(
+			#{dailyExpenseId},
+			#{expenseTypeId},
+			#{inventoryId},
+			#{amount},
+			#{quantity}
+		)
+	</insert>
+	
+	
+	<delete id="deleteExpenseItem" parameterType="int">
+		DELETE FROM EXPENSE_ITEM 
+		WHERE DAILY_EXPENSE_ID =#{id}
+	</delete>
+	
+	<select id="selectForDatatable" resultType="map">
+		
+	</select>
+
+</mapper>

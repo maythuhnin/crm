@@ -21,11 +21,15 @@ function init() {
 	bindDropDown();
 	
 	//Date range picker
-    $('#dateRange').daterangepicker();
+    $('#dateRange').daterangepicker({
+		 locale: {
+            format: 'DD/MM/YYYY'
+        }
+	});
     
-    $("#onPaperIncome, #inHandCash").on('change', function() {
+    $("#onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash").on('change', function() {
 		if(!isEmpty($("#inHandCash").val())){
-			var adjustment = parseInt($("#onPaperIncome").val()) - parseInt($("#inHandCash").val());
+			var adjustment = (parseInt($("#onPaperIncomeLeave").val()) + parseInt($("#onPaperIncomeReturn").val())) - parseInt($("#inHandCash").val());
 			if(adjustment != 0){
 				$("#adjustment").text(adjustment.toLocaleString("en") + " Ks");
 			}else{
@@ -36,9 +40,11 @@ function init() {
 		
 	});
 	
-	$("#onPaperIncome, #lanKyay").on('change', function() {
-		amountTotal = parseInt(isEmpty($("#onPaperIncome").val()) ? 0 :$("#onPaperIncome").val()) + parseInt(isEmpty($("#lanKyay").val()) ? 0 :$("#lanKyay").val());
-		var result = amountTotal + expenseTotal;
+	$("#onPaperIncomeLeave, #onPaperIncomeReturn, #extraIncome").on('change', function() {
+		onPaperIncome = getIntFromField($("#onPaperIncomeLeave").val()) + getIntFromField($("#onPaperIncomeReturn").val());
+		extraIncome = getIntFromField($("#extraIncome").val());
+		amountTotal = onPaperIncome + extraIncome;
+		var result = amountTotal - expenseTotal;
 		if(result != 0){
 			$("#total").text(result.toLocaleString("en") + " Ks");
 		}else{
@@ -65,7 +71,7 @@ function bindModal(){
 	bindExpenseTypeAddButtonClick();
 	bindExpenseAddButtonClick();
 	
-	bindExpenseAddApi();
+	bindDailyAddApi();
 	
 	bindModalCloseButtonClick();
 	
@@ -253,6 +259,7 @@ function bindExpenseTypeDropDown(selectedId){
 								}
 							});
 						}else{
+							$('#amount').val("");
 							$('#amount').attr("placeholder", "Amount");
 						}
 					  	
@@ -304,46 +311,48 @@ function bindModalCloseButtonClick(){
 	});
 }
 
-function bindExpenseAddApi(){
+function bindDailyAddApi(){
 	
-	/*$("#addExpenseType").click(function () {
+	$("#saveDaily").click(function () {
 		
-		if($("#addFixedExpenseForm").valid()){
+		if($("#addDailyForm").valid()){
 			
 			if(expenseList.length > 0){
 				
-				var url = "";
-				var successMsg = "";
+				var dateRange = $("#dateRange").val().split(" - ");
 				
-				if(isEmpty($("#editFixedExpenseId").val())){
-					url = "/fixed-expense/api/add";
-					successMsg = 'FixedExpense added successfully.';
-				}else{
-					url = "/fixed-expense/api/edit";
-					successMsg = 'FixedExpense edited successfully.';
-				}
-				showLoadingOverlay();
+				//showLoadingOverlay();
 				
-				pathBean = {
-					id: $("#editFixedExpenseId").val(),
+				dailyExpenseBean = {
+					busId: $("#bus").val(),
 					path: ($("#path1").val() + "," + $("#path2").val() + "," + $("#path3").val()),
-					bus: $("#bus").val().join(","),
-					pathExpenseList: expenseList
+					fromDateAsString : dateRange[0],
+					toDateAsString : dateRange[1],
+					onPaperIncomeLeave: getIntFromField($("#onPaperIncomeLeave").val()),
+					onPaperIncomeReturn: getIntFromField($("#onPaperIncomeReturn").val()),
+					inHandCash: getIntFromField($("#inHandCash").val()),
+					extraIncome: getIntFromField($("#extraIncome").val()),
+					expenseItemList: expenseList
 				};
 				
+				console.log(dailyExpenseBean);
+				
 				$.ajax({
-					url : getPathName() + url,
+					url : getPathName() + "/daily-expense/api/add",
 					type : "POST",
 					contentType: "application/json",
-					data :JSON.stringify(pathBean),
+					data :JSON.stringify(dailyExpenseBean),
 					dataType: 'json',
 					success : function(data) {
 						if(data.httpStatus == "OK"){
-							expenseDatatable.ajax.reload();
-							$("#fixedExpenseModal").modal("hide");
+							expenseList = [];
+							//$("#fixedExpenseModal").modal("hide");
 	
-							resetFixedExpenseAddForm();
-							toastr.success(successMsg);
+							expenseDatatable.clear().draw();
+							expenseDatatable.rows.add(expenseList); // Add new data
+							expenseDatatable.columns.adjust().draw();
+							resetDailyExpenseForm();
+							toastr.success('Daily Income/Expense added successfully.');
 						}else if(data.httpStatus == "INTERNAL_SERVER_ERROR"){
 							toastr.error(data.error);
 						}
@@ -358,7 +367,7 @@ function bindExpenseAddApi(){
 			}
 		}
 		
-	});**/
+	});
 }
 
 function bindExpenseTypeAddButtonClick(){
@@ -429,7 +438,7 @@ function bindExpenseAddButtonClick(){
 					});
 				}else{
 					expenseList.push({
-						expenseId:  $("#expenseType").val(),
+						expenseTypeId:  $("#expenseType").val(),
 						name: $("#expenseType").find(":selected").text(),
 						type: type,
 						amount: $("#amount").val()
@@ -450,6 +459,11 @@ function bindExpenseAddButtonClick(){
 function resetExpenseTypeAddForm(){
 	$("#expenseTypeName").val("");
 	expenseTypeAddValidator.resetForm();
+}
+
+function resetDailyExpenseForm(){
+	$("#bus, #path1, #path2, #path3, #onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash, #extraIncome").val("");
+	dailyExpenseValidator.resetForm();
 }
 
 function initExpenseDatatable() {
@@ -514,7 +528,7 @@ function initExpenseDatatable() {
             .reduce((a, b) => intVal(a) + intVal(b), 0);
             
         expenseTotal = total;
-        var result = amountTotal + expenseTotal;
+        var result = amountTotal - expenseTotal;
         if(result != 0){
 			$("#total").text(result.toLocaleString("en") + " Ks");
 		}else{
@@ -532,7 +546,7 @@ function initExpenseDatatable() {
 function getIndexFromExpenseListById(list, id){
 	var returnIndex = {};
 	$.each(list, function(key, value) {
-		if(value.expenseId == id){
+		if(value.expenseTypeId == id){
 			returnIndex = key;
 		}
 	});

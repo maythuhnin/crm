@@ -14,9 +14,7 @@ import com.eniac.projects.bet.config.MyBatisSqlSessionFactory;
 import com.eniac.projects.bet.dao.interfaces.IBusDao;
 import com.eniac.projects.bet.exception.MyBatisException;
 import com.eniac.projects.bet.mappers.IBusMapper;
-import com.eniac.projects.bet.mappers.IDriverMapper;
 import com.eniac.projects.bet.model.BusBean;
-import com.eniac.projects.bet.model.DriverBean;
 
 @Repository
 public class BusDao implements IBusDao {

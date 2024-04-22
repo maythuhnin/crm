@@ -47,10 +47,10 @@ CREATE TABLE daily_expense
 	from_date datetime NOT NULL,
 	to_date datetime,
 	path varchar(10) NOT NULL,
-	on_paper_income numeric(18,2) NOT NULL,
+	on_paper_income_leave numeric(18,2) NOT NULL,
+	on_paper_income_return numeric(18,2) NOT NULL,
 	in_hand_cash numeric(18,2) NOT NULL,
-	adjustment numeric(18,2),
-	lan_kyay numeric(18,2),
+	extra_income numeric(18,2),
 	updated_datetime datetime NOT NULL,
 	updated_id int NOT NULL,
 	PRIMARY KEY (id),
@@ -271,7 +271,7 @@ ALTER TABLE expense_item
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
+	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
@@ -279,7 +279,7 @@ ALTER TABLE bus
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
+	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION

@@ -49,6 +49,10 @@ function isNotEmptyOrZero(data){
 	return isEmpty;
 }
 
+function getIntFromField(data){
+	return isEmpty(data) ? 0 : parseInt(data);
+}
+
 function unique(array){
     return $.grep(array,function(el,index){
         return index == $.inArray(el,array);

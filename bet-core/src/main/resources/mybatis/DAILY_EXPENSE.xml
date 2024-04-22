@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eniac.projects.bet.mappers.IDailyExpenseMapper">
+
+	<resultMap 			type="DailyExpenseBean" 		id="DailyExpenseResult">
+		<id 			property="id" 					column="id" />
+		<result 		property="busId" 				column="bus_id" />
+		<result		 	property="fromDate" 			column="from_date" />
+		<result 		property="toDate" 				column="to_date" />
+		<result 		property="path" 				column="path" />
+		<result 		property="onPaperIncomeLeave" 	column="on_paper_income_leave" />
+		<result 		property="onPaperIncomeReturn" 	column="on_paper_income_return" />
+		<result 		property="inHandCash" 			column="in_hand_cash" />
+		<result 		property="extraIncome" 			column="extra_income" />
+		<result 		property="updatedId" 			column="updated_id" />
+		<result 		property="updatedDateTime" 		column="updated_datetime" />
+	</resultMap>
+
+	<insert id="insertDailyExpense" parameterType="DailyExpenseBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO daily_expense(
+			bus_id,
+			from_date,
+			to_date,
+			path,
+			on_paper_income_leave,
+			on_paper_income_return,
+			in_hand_cash,
+			<if test="extraIncome != null">
+			extra_income,
+			</if>
+			updated_id,
+			updated_datetime
+			)
+		VALUES(
+			#{busId},
+			#{fromDate},
+			#{toDate},
+			#{path},
+			#{onPaperIncomeLeave},
+			#{onPaperIncomeReturn},
+			#{inHandCash},
+			<if test="extraIncome != null">
+			#{extraIncome},
+			</if>
+			#{updatedId},
+			NOW()
+		)
+	</insert>
+	
+	<update id="updateDailyExpense" parameterType="DailyExpenseBean">
+		UPDATE DAILY_EXPENSE SET 
+			<if test="busId != null">
+				BUS_ID = #{busId}
+			</if>
+			<if test="fromDate != null">
+				,FROM_DATE = #{fromDate}
+			</if>
+			<if test="toDate != null">
+				,TO_DATE = #{toDate}
+			</if>
+			<if test="path != null">
+				,PATH = #{path}
+			</if>
+			<if test="onPaperIncomeLeave != null">
+				,ON_PAPER_INCOME_LEAVE = #{onPaperIncomeLeave}
+			</if>
+			<if test="onPaperIncomeReturn != null">
+				,ON_PAPER_INCOME_RETURN = #{onPaperIncomeReturn}
+			</if>
+			<if test="inHandCash != null">
+				,IN_HAND_CASH = #{inHandCash}
+			</if>
+			,EXTRA_INCOME = #{extraIncome}
+			,updated_id = #{updatedId}
+			,updated_datetime = NOW()
+		WHERE ID =#{id} 
+	</update>
+	
+	<delete id="deleteDailyExpense" parameterType="int">
+		DELETE FROM DAILY_EXPENSE 
+		WHERE ID =#{id}
+	</delete>
+	
+	<select id="selectForDatatable" resultType="map">
+		
+	</select>
+	
+	
+	
+	<select id="selectById" parameterType="int" resultMap="DailyExpenseResult">
+		SELECT * FROM daily_expense WHERE id = #{id}
+	</select>
+	
+	
+	
+</mapper>

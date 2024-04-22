@@ -66,26 +66,30 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="receivedDate" class="col-sm-2 col-form-label text-right">On Paper Income <span class="required">[required]</span> </label>
+              <label for="receivedDate" class="col-sm-2 col-form-label text-right">On Paper Income (Leave)<span class="required">[required]</span> </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncome" name="onPaperIncome"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeLeave" name="onPaperIncome"/>
+	              </div>
+	              <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">On Paper Income (Return)<span class="required">[required]</span> </label>
+               <div class="col-sm-2">
+                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeReturn" name="onPaperIncome"/>
 	              </div>
 	            <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">In Hand Cash <span class="required">[required]</span> </label>
                <div class="col-sm-2">
                     <input type="number" class="form-control" style="width: 100%;" id="inHandCash" name="inHandCash"/>
 	              </div> 
-	             <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">Adjustment : </label>
-               <div class="col-sm-2">
-                   <label class="col-form-label text-center" id="adjustment"> - </label>
-	              </div>   
+	               
 	              
             </div>
              <div class="form-group row">
-              <label for="receivedDate" class="col-sm-2 col-form-label text-right">Lan Kyay </label>
+              <label for="receivedDate" class="col-sm-2 col-form-label text-right">Extra Income From Hitchhikers </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="lanKyay" name="lanKyay"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="extraIncome" name="extraIncome"/>
 	              </div>
-	               <div class="col-sm-3"></div> 
+	               <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">Adjustment : </label>
+               <div class="col-sm-2">
+                   <label class="col-form-label text-center" id="adjustment"> - </label>
+	              </div>
 	            <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col total">Total : </label>
                <div class="col-sm-2">
                    <label class="col-form-label text-center" id="total"> - </label>
@@ -105,7 +109,7 @@
 						  <select class="custom-select" id="expenseType" name="expenseType">
 						  </select>
 						  <div class="input-group-append">
-						    <button class="btn btn-default" id="" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
+						    <button class="btn btn-default" id="addExpenseType" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
 						  </div>
 					</div>
 	              </div>
@@ -142,7 +146,7 @@
                 </div>
    </div>
    <div class="card-footer">
-   		<button type="button" class="btn btn-outline-primary float-right" id="saveFixedExpense" disabled="true">Save Changes</button>
+   		<button type="button" class="btn btn-outline-primary float-right" id="saveDaily">Save Changes</button>
    		<a href="<c:url value="/daily"/>">
    		<button type="button" class="btn btn-default cancel float-right">Cancel</button>
    		</a>
