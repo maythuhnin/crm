@@ -10,7 +10,7 @@
  		<!-- DataTables -->
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>">
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>">
-	    <link rel="stylesheet" href="<c:url value="/resources/css/destination.css"/>"> 
+	    <link rel="stylesheet" href="<c:url value="/resources/css/expense-report.css"/>"> 
 	</head>
 	<!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -23,7 +23,7 @@
           <div class="row">	
           <div class="col-sm-2">
 					<select class="form-control select2 select-filter" style="width: 100%;" id="searchBus">
-			        	<option></option>
+			        	
 			        </select>
 			     </div>
 	         <div class="col-sm-3">
@@ -43,16 +43,14 @@
 	            </div>
 	            <div class="col-sm-3"></div>
           	<div class="col-sm-2">
-	             	 <button type="button" class="btn btn-outline-primary float-right" id="addDriver">
-	                   Add <i class="fas fa-plus-circle"></i>
-	                  </button>
+	             	 
 	            </div>
 			    
 			    
 			</div>
         </div>
-        <div class="card-body">
-          <table id="expenseReportDatatable" class="table table-bordered">
+        <div class="card-body"> 
+          <table id="expenseReportDatatable" class="table table-bordered" >
             <thead>
             <tr >
               <th width="50px" class="dt-control"></th> 
@@ -63,6 +61,7 @@
               <th>In Hand Cash</th>
               <th>Adjustment</th>
               <th>Extra Income From Hitchhikers</th>
+              <th>Expense Total</th>
               <th>Total</th>
             </tr>
             </thead>

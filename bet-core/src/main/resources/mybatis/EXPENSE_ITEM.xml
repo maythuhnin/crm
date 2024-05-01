@@ -35,8 +35,20 @@
 		WHERE DAILY_EXPENSE_ID =#{id}
 	</delete>
 	
-	<select id="selectForDatatable" resultType="map">
+	<select id="selectForDatatable" resultType="map" parameterType="int">
+		 
+		 SELECT
+		 CASE
+		    WHEN ISNULL(expense_type_id) THEN i.item
+		    ELSE et.name
+			END AS name,
+			ei.amount,
+			ei.quantity
 		
+		 FROM expense_item ei
+		 LEFT JOIN expense_type et ON ei.expense_type_id = et.id
+		 LEFT JOIN inventory i ON ei.inventory_id = i.id
+		 WHERE ei.daily_expense_id = #{id}
 	</select>
 
 </mapper>

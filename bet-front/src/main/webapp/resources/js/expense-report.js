@@ -8,10 +8,36 @@ $(init);
 function init() {
 	
 	bindBusDropDown();
-	initExpenseReportDatatable();
+	getDestinationList();
 	bindSearch();
 	
 }
+
+
+function getDestinationList(){
+	
+			$.ajax({
+				url : getPathName() + "/destination/api/dropdown",
+				type : "GET",
+				contentType: "application/json",
+				dataType: 'json',
+				success : function(data) {
+					if(null != data && data.length > 0){
+					
+					
+						destinationList = data;
+						
+						
+					}
+				},
+				complete : function(data){
+					initExpenseReportDatatable();
+				}
+				
+				
+			});
+}
+
 
 
 function bindBusDropDown(){
@@ -26,7 +52,7 @@ function bindBusDropDown(){
 				success : function(data) {
 					if(null != data && data.length > 0){
 					
-					$("#searchBus").append("<option value=''></option>")
+					$("#searchBus").append("<option value='0'></option>")
 					
 					$(data).each(function( index, bus ) {
 						$("#searchBus").append("<option value='" + bus.id + "'>" + bus.licensePlate + "</option>");				
@@ -40,6 +66,11 @@ function bindBusDropDown(){
 					$('#searchBus').select2({
 						theme: 'bootstrap4',
 				    	allowClear: true
+					});
+					
+					$("#searchBus").on('change', function() {
+						expenseReportDatatable.clear().draw();
+						expenseReportDatatable.ajax.reload();
 					});
 				}
 			});
@@ -65,23 +96,27 @@ function bindSearch(){
 function initExpenseReportDatatable() {
 	
 	expenseReportDatatable = $('#expenseReportDatatable').DataTable({
+		dom: 'Bfrtip',
 		lengthChange: false, 
-		autoWidth: false,
-      	dom: 'Bfrtip',
+		autoWidth: true,
 		ajax: {
 	        url:  getPathName() + '/daily-expense/api/datatable',
-	        type: "GET",
-	         data : function(d) {
-				
+	        type: "POST",
+	        data : function(d) {
+				d.busId = $("#searchBus").val();
 			},
 	        dataSrc: 'responseData',
 	        dataType: "json"
 	    },
-	    "order": [0],
-	    scrollX:        true,
+	    processing: true,
+        serverSide: false,
+	    "order": [1],
+	    scrollX:        false,
         scrollCollapse: true,
-         columnDefs: [{ width: '20%', targets: 3 }],
-	    columns: [
+	    paging: false,
+	    scrollY: '50vh',
+	    responsive: false,
+        columns: [
 		 {
                 className: 'dt-control',
                 orderable: false,
@@ -98,29 +133,35 @@ function initExpenseReportDatatable() {
 			},
 		    sClass: "text-center"}, 
 		{ mData : function(data, type, full, meta) {
-				return isEmpty(data.bus) ? "-" : data.bus;
+				return isEmpty(getCurrencyFormat(data.onPaperIncomeLeave)) ? "-" : getCurrencyFormat(data.onPaperIncomeLeave);
 			},
-		    sClass: "text-center"},      
+		    sClass: "text-right"},      
 		 { mData : function(data, type, full, meta) {
-				return isEmpty(data.bus) ? "-" : data.bus;
+				return isEmpty(getCurrencyFormat(data.onPaperIncomeReturn)) ? "-" : getCurrencyFormat(data.onPaperIncomeReturn);
 			},
-		    sClass: "text-center"},      
+		    sClass: "text-right"},      
 		{ mData : function(data, type, full, meta) {
-				return isEmpty(data.bus) ? "-" : data.bus;
+				return isEmpty(getCurrencyFormat(data.inHandCash)) ? "-" : getCurrencyFormat(data.inHandCash);
 			},
-		    sClass: "text-center"}, 
-	{ mData : function(data, type, full, meta) {
-				return isEmpty(data.bus) ? "-" : data.bus;
+		    sClass: "text-right"}, 
+			{ mData : function(data, type, full, meta) {
+				return getCurrencyFormat((data.onPaperIncomeLeave + data.onPaperIncomeReturn) - data.inHandCash);
 			},
-		    sClass: "text-center"},      
+		    sClass: "text-right"},      
 		    { mData : function(data, type, full, meta) {
-				return isEmpty(data.bus) ? "-" : data.bus;
+				return isEmpty(getCurrencyFormat(data.extraIncome)) ? "-" : getCurrencyFormat(data.extraIncome);
 			},
-		    sClass: "text-center"},      
+			
+		    sClass: "text-right"},  
+		     { mData : function(data, type, full, meta) {
+				return isEmpty(getCurrencyFormat(data.expenseTotal)) ? "-" : getCurrencyFormat(data.expenseTotal);
+			},
+			
+		    sClass: "text-right"},     
 		    { mData : function(data, type, full, meta) {
-				return isEmpty(data.bus) ? "-" : data.bus;
+				return getCurrencyFormat((data.onPaperIncomeLeave + data.onPaperIncomeReturn + data.extraIncome) - data.expenseTotal);
 			},
-		    sClass: "text-center"},           
+		    sClass: "text-right"},           
 	 
 		      
 	    ]
@@ -141,12 +182,14 @@ function initExpenseReportDatatable() {
         }
         
     });
+    
 		
 }
 
-function bindExpenseSubTable(pathId){
+function bindExpenseSubTable(dailyExpenseId){
 	
-	var subtableList = getExpense(pathId);
+	var total = 0;
+	var subtableList = getExpense(dailyExpenseId);
 	var returnHtml = "";
 	
 	returnHtml += '<table cellpadding="5" cellspacing="0" border="0" class="table table-bordered sub-table">' +
@@ -159,8 +202,15 @@ function bindExpenseSubTable(pathId){
 					returnHtml += '<tr>' +
 		        	'<td class="text-center">' + value.name + '</td>' +
 			        '<td class="text-right">' + value.amount.toLocaleString("en") + ' Ks </td>' +
-			        '</tr>'
+			        '</tr>';
+			        
+			        total = total + value.amount;
 	        	});
+	        	returnHtml += '<tr>' +
+		        	'<th class="text-right">Total : </th>' +
+			        '<td class="text-right">' + total.toLocaleString("en") + ' Ks </td>' +
+			        '</tr>'
+	        	
 				}else{
 					returnHtml += '<tr><td colspan="2" class="text-center">No data available in table</td></td>';
 				}
@@ -170,15 +220,15 @@ function bindExpenseSubTable(pathId){
        return returnHtml;
 }
 
-function getExpense(pathId){
+function getExpense(dailyExpenseId){
 	
 	var returnList = [];
 	
 		$.ajax({
-			url:  getPathName() + '/fixed-expense/amount/api/datatable',
+			url:  getPathName() + '/daily-expense/api/subtable',
 	        type: "POST",
 	         data : {
-				pathId : parseInt(pathId)
+				dailyExpenseId : parseInt(dailyExpenseId)
 			},
 	        dataSrc: 'responseData',
 	        dataType: "json",

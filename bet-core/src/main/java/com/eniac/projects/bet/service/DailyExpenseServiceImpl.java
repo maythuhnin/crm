@@ -1,6 +1,8 @@
 package com.eniac.projects.bet.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +39,12 @@ public class DailyExpenseServiceImpl {
 		
 	}
 
-	public List<Object> selectForDatatable() throws MyBatisException {
-		return dailyExpenseDao.selectForDatatable();
+	public List<Object> selectForDatatable(Map<String,Object> criteria) throws MyBatisException {
+		return dailyExpenseDao.selectForDatatable(criteria);
+	}
+	
+	public List<Object> selectForSubDatatable(int dailyExpenseId) throws MyBatisException {
+		return expenseItemDao.selectForDatatable(dailyExpenseId);
 	}
 
 	public void deleteDailyExpense(int dailyExpenseId) throws MyBatisException {

@@ -9,6 +9,6 @@ public interface IExpenseItemMapper {
 	
 	int deleteExpenseItem(int dailyExpenseId);
 	
-	List<Object> selectForDatatable();
+	List<Object> selectForDatatable(int dailyExpenseId);
 
 }

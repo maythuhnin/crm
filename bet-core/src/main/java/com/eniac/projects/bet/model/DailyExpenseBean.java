@@ -18,6 +18,7 @@ public class DailyExpenseBean extends BaseBean implements Serializable {
 	private Double onPaperIncomeReturn;
 	private Double inHandCash;
 	private Double extraIncome;
+	private Boolean restDay;
 
 	private List<ExpenseItemBean> expenseItemList;
 
@@ -115,12 +116,20 @@ public class DailyExpenseBean extends BaseBean implements Serializable {
 		this.expenseItemList = expenseItemList;
 	}
 
+	public Boolean getRestDay() {
+		return restDay;
+	}
+
+	public void setRestDay(Boolean restDay) {
+		this.restDay = restDay;
+	}
+
 	@Override
 	public String toString() {
 		return String.format(
-				"DailyExpenseBean [busId=%s, fromDate=%s, fromDateAsString=%s, toDate=%s, toDateAsString=%s, path=%s, onPaperIncomeLeave=%s, onPaperIncomeReturn=%s, inHandCash=%s, extraIncome=%s, expenseItemList=%s]",
+				"DailyExpenseBean [busId=%s, fromDate=%s, fromDateAsString=%s, toDate=%s, toDateAsString=%s, path=%s, onPaperIncomeLeave=%s, onPaperIncomeReturn=%s, inHandCash=%s, extraIncome=%s, restDay=%s, expenseItemList=%s]",
 				busId, fromDate, fromDateAsString, toDate, toDateAsString, path, onPaperIncomeLeave,
-				onPaperIncomeReturn, inHandCash, extraIncome, expenseItemList);
+				onPaperIncomeReturn, inHandCash, extraIncome, restDay, expenseItemList);
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.eniac.projects.bet.dao.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,13 +39,13 @@ public class DailyExpenseDao implements IDailyExpenseDao {
 	}
 
 	@Override
-	public List<Object> selectForDatatable() throws MyBatisException {
+	public List<Object> selectForDatatable(Map<String,Object> criteria) throws MyBatisException {
 
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
 		try {
 			logger.info("=====> Selecting allDailyExpense <=====");
 			IDailyExpenseMapper dailyExpenseMapper = sqlSession.getMapper(IDailyExpenseMapper.class);
-			return dailyExpenseMapper.selectForDatatable();
+			return dailyExpenseMapper.selectForDatatable(criteria);
 		} catch (Exception e) {
 			throw new MyBatisException("Mybatis Exception occured when selecting all DailyExpense", e);
 		} finally {

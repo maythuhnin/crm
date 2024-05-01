@@ -13,6 +13,7 @@
 		<result 		property="onPaperIncomeReturn" 	column="on_paper_income_return" />
 		<result 		property="inHandCash" 			column="in_hand_cash" />
 		<result 		property="extraIncome" 			column="extra_income" />
+		<result 		property="restDay" 				column="rest_day" />
 		<result 		property="updatedId" 			column="updated_id" />
 		<result 		property="updatedDateTime" 		column="updated_datetime" />
 	</resultMap>
@@ -22,13 +23,22 @@
 			bus_id,
 			from_date,
 			to_date,
+			<if test="path != null">
 			path,
+			</if>
+			<if test="onPaperIncomeLeave != null">
 			on_paper_income_leave,
+			</if>
+			<if test="onPaperIncomeReturn != null">
 			on_paper_income_return,
+			</if>
+			<if test="inHandCash != null">
 			in_hand_cash,
+			</if>
 			<if test="extraIncome != null">
 			extra_income,
 			</if>
+			rest_day,
 			updated_id,
 			updated_datetime
 			)
@@ -36,13 +46,22 @@
 			#{busId},
 			#{fromDate},
 			#{toDate},
+			<if test="path != null">
 			#{path},
+			</if>
+			<if test="onPaperIncomeLeave != null">
 			#{onPaperIncomeLeave},
+			</if>
+			<if test="onPaperIncomeReturn != null">
 			#{onPaperIncomeReturn},
+			</if>
+			<if test="inHandCash != null">
 			#{inHandCash},
+			</if>
 			<if test="extraIncome != null">
 			#{extraIncome},
 			</if>
+			#{restDay},
 			#{updatedId},
 			NOW()
 		)
@@ -59,19 +78,14 @@
 			<if test="toDate != null">
 				,TO_DATE = #{toDate}
 			</if>
-			<if test="path != null">
 				,PATH = #{path}
-			</if>
-			<if test="onPaperIncomeLeave != null">
 				,ON_PAPER_INCOME_LEAVE = #{onPaperIncomeLeave}
-			</if>
-			<if test="onPaperIncomeReturn != null">
 				,ON_PAPER_INCOME_RETURN = #{onPaperIncomeReturn}
-			</if>
-			<if test="inHandCash != null">
 				,IN_HAND_CASH = #{inHandCash}
+				,EXTRA_INCOME = #{extraIncome}
+			<if test="restDay != null">
+				,REST_DAY = #{restDay}
 			</if>
-			,EXTRA_INCOME = #{extraIncome}
 			,updated_id = #{updatedId}
 			,updated_datetime = NOW()
 		WHERE ID =#{id} 
@@ -82,8 +96,23 @@
 		WHERE ID =#{id}
 	</delete>
 	
-	<select id="selectForDatatable" resultType="map">
+	<select id="selectForDatatable" resultType="map" parameterType="map">
 		
+		SELECT 
+		 de.id,
+		 CONCAT(DATE_FORMAT(de.from_date,'%d/%m/%Y'), ' ~ ',DATE_FORMAT(de.to_date,'%d/%m/%Y')) AS dateRange,
+		 de.path,
+		 de.on_paper_income_leave AS onPaperIncomeLeave,
+		 de.on_paper_income_return AS onPaperIncomeReturn,
+		 de.in_hand_cash AS inHandCash,
+		 de.extra_income AS extraIncome,
+		(SELECT SUM(item.amount) FROM expense_item item WHERE item.daily_expense_id = de.id) AS expenseTotal,
+		 de.rest_day AS restDay
+		 FROM daily_expense  de
+		 <where>
+		 	BUS_ID = #{busId}
+		 	
+		 </where>
 	</select>
 	
 	

@@ -26,8 +26,9 @@
 
       <!-- Default box -->
       <div class="card">
-    <form class="form-horizontal" id="addDailyForm">
+    
       <div class="card-body">
+      <form class="form-horizontal" id="addDailyForm">
 		<div class="form-group row">
               <label for="bus" class="col-sm-2 col-form-label text-right">Bus <span class="required">[required]</span> </label>
                <div class="col-sm-2">
@@ -37,8 +38,8 @@
 	              </div>
 	              <label for="dateRange" class="col-sm-1 col-form-label text-right exchange-col">Date <span class="required">[required]</span> </label>
               
-	              <div class="col-sm-5 col-bus">
-	               <div class="input-group">
+	              <div class="col-sm-3">
+	               <div class="input-group"> 
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="far fa-calendar-alt"></i>
@@ -47,8 +48,16 @@
                     <input type="text" class="form-control float-right" id="dateRange">
                   </div>
                   </div>
+                   <div class="col-sm-1 exchange-col"></div>
+               
+               <div class="col-sm-2">
+                   <div class="form-check">
+	                 <input type="checkbox" class="form-check-input" id="restDay">
+	                <label class="form-check-label" for="restDay">Rest Day</label>
+	              </div>
+	              </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row no-rest">
             	  <label for="reservation" class="col-sm-2 col-form-label text-right">Path <span class="required">[required]</span> </label>
               <div class="col-sm-2">
                 <select style="width: 100%;" class="form-control path" id="path1" name="path1"></select>
@@ -65,14 +74,14 @@
                
               </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row no-rest">
               <label for="receivedDate" class="col-sm-2 col-form-label text-right">On Paper Income (Leave)<span class="required">[required]</span> </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeLeave" name="onPaperIncome"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeLeave" name="onPaperIncomeLeave"/>
 	              </div>
 	              <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">On Paper Income (Return)<span class="required">[required]</span> </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeReturn" name="onPaperIncome"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeReturn" name="onPaperIncomeReturn"/>
 	              </div>
 	            <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">In Hand Cash <span class="required">[required]</span> </label>
                <div class="col-sm-2">
@@ -81,7 +90,7 @@
 	               
 	              
             </div>
-             <div class="form-group row">
+             <div class="form-group row no-rest">
               <label for="receivedDate" class="col-sm-2 col-form-label text-right">Extra Income From Hitchhikers </label>
                <div class="col-sm-2">
                     <input type="number" class="form-control" style="width: 100%;" id="extraIncome" name="extraIncome"/>
@@ -96,6 +105,7 @@
 	              </div>  
 	              
             </div>
+             </form>
             
             <div class="form-group row mt-3">
              <div class="col-sm-12"><hr>
@@ -105,13 +115,16 @@
              <div class="form-group row mt-3">
              	<div class="col-sm-1"></div>
 	              <div class="col-sm-5">
-	                <div class="input-group">
+	              	 <select class="form-control" style="width: 100%;" id="expenseType" name="expenseType">
+			           
+			   		</select>
+	                <!-- <div class="input-group">
 						  <select class="custom-select" id="expenseType" name="expenseType">
 						  </select>
 						  <div class="input-group-append">
 						    <button class="btn btn-default" id="addExpenseType" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
 						  </div>
-					</div>
+					</div> -->
 	              </div>
 	                <div class="col-sm-4">
 	                <input type="number" class="form-control" id="amount" placeholder="Amount" name="amount"/>
@@ -123,8 +136,8 @@
             <div class="form-group row mt-3">
             <div class="col-sm-1"></div>
              <div class="col-sm-10">
-                <table id="expenseDatatable" class="table table-bordered table-condensed">
-		            <thead>
+                <table id="expenseDatatable" class="table table-bordered table-condensed" style="width:100%;">
+		            <thead> 
 		            <tr>
 		              <th>Expense Type</th>
 		              <th>Amount</th>
@@ -144,14 +157,13 @@
 	          </table>
               </div>
                 </div>
-   </div>
+   </div> 
    <div class="card-footer">
    		<button type="button" class="btn btn-outline-primary float-right" id="saveDaily">Save Changes</button>
    		<a href="<c:url value="/daily"/>">
    		<button type="button" class="btn btn-default cancel float-right">Cancel</button>
    		</a>
    </div>
-   </form>
    </div>
    
    <div class="modal fade" id="expenseTypeModal">
@@ -188,7 +200,7 @@
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-      </div>
+      </div> 
       <!-- /.card -->
     </section>
     

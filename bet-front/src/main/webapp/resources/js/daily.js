@@ -16,9 +16,11 @@ $(init);
 function init() {
 	
 	bindValidator();
+	initExpenseDatatable();
 	bindModal();
-	
 	bindDropDown();
+	bindAmountCalc();
+	bindCheckBox();
 	
 	//Date range picker
     $('#dateRange').daterangepicker({
@@ -26,8 +28,26 @@ function init() {
             format: 'DD/MM/YYYY'
         }
 	});
-    
-    $("#onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash").on('change', function() {
+
+}
+
+function bindCheckBox(){
+	
+	$("#restDay").on('change', function() {
+		if($('#restDay').is(':checked')){
+			$(".no-rest").addClass("hide");
+			$(".no-rest").removeClass("show");
+		}else{
+			$(".no-rest").addClass("show");
+			$(".no-rest").removeClass("hide");
+		}
+		
+	});
+}
+
+function bindAmountCalc(){
+	
+	  $("#onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash").on('change', function() {
 		if(!isEmpty($("#inHandCash").val())){
 			var adjustment = (parseInt($("#onPaperIncomeLeave").val()) + parseInt($("#onPaperIncomeReturn").val())) - parseInt($("#inHandCash").val());
 			if(adjustment != 0){
@@ -57,7 +77,7 @@ function bindDropDown(){
 	
 	bindBusDropDown();
 	bindDestinationDropDown();
-	
+	getInventoryData();
 	
 	$( "#bus, .path" ).on( "change", function() {
 		bindFixedExpenseDropDown();
@@ -65,8 +85,6 @@ function bindDropDown(){
 }
 
 function bindModal(){
-	
-	initExpenseDatatable();
 	
 	bindExpenseTypeAddButtonClick();
 	bindExpenseAddButtonClick();
@@ -125,13 +143,13 @@ function bindDestinationDropDown(){
 			});
 }
 
-function bindFixedExpenseDropDown(selectedId){
+function bindFixedExpenseDropDown(){
 	
-	$("#expenseType").empty();
-	
-	if(!isEmpty($("#bus").val()) && !isEmpty($("#path2").val())){
+	if(!isEmpty($("#bus").val()) && !isEmpty($("#path1").val())){
 		
 		hideLoadingOverlay();
+		
+		$("#expenseType").empty();
 		
 		$.ajax({
 				url : getPathName() + "/fixed-expense/api/dropdown",
@@ -143,13 +161,17 @@ function bindFixedExpenseDropDown(selectedId){
 				dataType: 'json',
 				success : function(data) {
 					
-					$("#expenseType").append("<option value=''></option>")
+					$("#expenseType").append("<option value=''></option>");
 					
+					console.log(data);
+
 					if(null != data && data.length > 0){	
 						
 						$("#expenseType").append("<optgroup label='Fixed Expense'>");
 						
 						$(data).each(function( index, fixedExpense ) {
+							
+							console.log("fixed");
 							$("#expenseType").append("<option data-type='fixed' value='" + fixedExpense.expenseId + "'>" + fixedExpense.name + " [" + fixedExpense.amount.toLocaleString("en") +" Ks]</option>");			
 						});
 						
@@ -160,17 +182,15 @@ function bindFixedExpenseDropDown(selectedId){
 					fixedExpenseList = data;
 				},
 				complete : function(data){
-					bindInventoryDropDown(selectedId);
+					bindInventoryDropDown();
 				}
 			});
-	}else{
-		$("#expenseType").append("<option value=''></option>");
-		bindInventoryDropDown(selectedId);
 	}
 	
 }
 
-function bindInventoryDropDown(selectedId){
+
+function getInventoryData(){
 		
 		$.ajax({
 				url : getPathName() + "/inventory/api/dropdown",
@@ -180,25 +200,36 @@ function bindInventoryDropDown(selectedId){
 				success : function(data) {
 					if(null != data && data.length > 0){
 					
-						$("#expenseType").append("<optgroup label='Inventory'>");
-						
-						$(data).each(function( index, inventory ) {
-							$("#expenseType").append("<option data-type='inventory' value='" + inventory.id + "'>" + inventory.item + " [" + inventory.price.toLocaleString("en") +" Ks]</option>");				
-						});
-						
-						$("#expenseType").append("</optgroup>");
-						
 						inventoryList = data;
 					}
 				},
 				complete : function(data){
 					
-					bindExpenseTypeDropDown(selectedId);
+					getExpenseTypeData();
 				}
 			});
 }
 
-function bindExpenseTypeDropDown(selectedId){
+
+function bindInventoryDropDown(selectedId){
+		
+		$("#expenseType").append("<option value=''></option>");
+		
+		$("#expenseType").append("<optgroup label='Inventory'>");
+						
+		$(inventoryList).each(function( index, inventory ) {
+			$("#expenseType").append("<option data-type='inventory' value='" + inventory.id + "'>" + inventory.item + " [" + inventory.price.toLocaleString("en") +" Ks]</option>");				
+		});
+		
+		$("#expenseType").append("</optgroup>");
+						
+		bindExpenseTypeDropDown(selectedId);
+				
+			
+}
+
+
+function getExpenseTypeData(){
 	
 	
 		$.ajax({
@@ -209,66 +240,72 @@ function bindExpenseTypeDropDown(selectedId){
 				success : function(data) {
 					if(null != data && data.length > 0){
 						
-						$("#expenseType").append("<optgroup label='Expense Type'>");				
-						$(data).each(function( index, expenseType ) {
-							if(null != fixedExpenseList && fixedExpenseList.length > 0){
-							$(fixedExpenseList).each(function( index, fixedExpense ) {
-								if(fixedExpense.expenseId != expenseType.id){
-									$("#expenseType").append("<option data-type='expense' value='" + expenseType.id + "'>" + expenseType.name + "</option>");	
-								}
-							}); 
-							}else{
-								$("#expenseType").append("<option data-type='expense' value='" + expenseType.id + "'>" + expenseType.name + "</option>");	
-								
-							}
-								
-						});
-						$("#expenseType").append("</optgroup>");	
+						expenseTypeList = data;	
 					}
 				},
 				complete : function(data){
-					if(null != selectedId){
-						$("#expenseType").val(selectedId);	
-					}
 					
-					$('#expenseType').select2({
-						theme: 'bootstrap4',
-				    	placeholder: "Select Expense Type.",
-				    	allowClear: true
-					});
+					bindInventoryDropDown();
+				}
+			});	
+		
+}
+
+function bindExpenseTypeDropDown(selectedId){
+	
+	$("#expenseType").append("<optgroup label='Expense Type'>");				
+						
+	$(expenseTypeList).each(function( index, expenseType ) {
+		if(null != fixedExpenseList && fixedExpenseList.length > 0){
+			$(fixedExpenseList).each(function( index, fixedExpense ) {
+				if(fixedExpense.expenseId != expenseType.id){
+					$("#expenseType").append("<option data-type='expense' value='" + expenseType.id + "'>" + expenseType.name + "</option>");	
+				}
+			}); 
+		}else{
+			$("#expenseType").append("<option data-type='expense' value='" + expenseType.id + "'>" + expenseType.name + "</option>");							
+		}							
+	});
+	
+	$("#expenseType").append("</optgroup>");	
 					
-					$( "#expenseType" ).on( "change", function() {
+	if(null != selectedId){
+		$("#expenseType").val(selectedId);	
+	}
+					
+	$('#expenseType').select2({
+		theme: 'bootstrap4',
+		placeholder: "Select Expense Type.",
+		allowClear: true
+	});
+					
+	$( "#expenseType" ).on( "change", function() {
 						
-						var type = $('#expenseType option:selected').attr('data-type');
-						
-						if(type == "inventory"){
+		var type = $('#expenseType option:selected').attr('data-type');
 							
-							$('#amount').attr("placeholder", "Quantity");
+		if(type == "inventory"){
 							
-							$(inventoryList).each(function( index, inventory ) {
-								if($('#expenseType').val() == inventory.id){
-									inventoryBean = inventory;
-								}
-							});
-						}else if(type == "fixed"){
-							$('#amount').attr("placeholder", "Amount");
+			$('#amount').attr("placeholder", "Quantity");
 							
-							$(fixedExpenseList).each(function( index, fixedExpense ) {
-								if($('#expenseType').val() == fixedExpense.expenseId){
-									$('#amount').val(fixedExpense.amount);
-								}
-							});
-						}else{
-							$('#amount').val("");
-							$('#amount').attr("placeholder", "Amount");
-						}
-					  	
-					} );
+			$(inventoryList).each(function( index, inventory ) {
+				if($('#expenseType').val() == inventory.id){
+					inventoryBean = inventory;
 				}
 			});
-		
-			
-			
+		}else if(type == "fixed"){
+			$('#amount').attr("placeholder", "Amount");
+							
+			$(fixedExpenseList).each(function( index, fixedExpense ) {
+				if($('#expenseType').val() == fixedExpense.expenseId){
+					$('#amount').val(fixedExpense.amount);
+				}
+			});
+		}else{
+			$('#amount').val("");
+			$('#amount').attr("placeholder", "Amount");
+		}
+					  	
+	} );
 			
 		
 }
@@ -325,15 +362,19 @@ function bindDailyAddApi(){
 				
 				dailyExpenseBean = {
 					busId: $("#bus").val(),
-					path: ($("#path1").val() + "," + $("#path2").val() + "," + $("#path3").val()),
 					fromDateAsString : dateRange[0],
 					toDateAsString : dateRange[1],
-					onPaperIncomeLeave: getIntFromField($("#onPaperIncomeLeave").val()),
-					onPaperIncomeReturn: getIntFromField($("#onPaperIncomeReturn").val()),
-					inHandCash: getIntFromField($("#inHandCash").val()),
-					extraIncome: getIntFromField($("#extraIncome").val()),
+					restDay : $('#restDay').is(':checked') ? true : false,
 					expenseItemList: expenseList
 				};
+				
+				if(!$('#restDay').is(':checked')){
+					dailyExpenseBean.path = ($("#path1").val() + "," + $("#path2").val() + "," + $("#path3").val());
+					dailyExpenseBean.onPaperIncomeLeave = getIntFromField($("#onPaperIncomeLeave").val());
+					dailyExpenseBean.onPaperIncomeReturn = getIntFromField($("#onPaperIncomeReturn").val());
+					dailyExpenseBean.inHandCash = getIntFromField($("#inHandCash").val());
+					dailyExpenseBean.extraIncome = getIntFromField($("#extraIncome").val());
+				}
 				
 				console.log(dailyExpenseBean);
 				
@@ -363,7 +404,7 @@ function bindDailyAddApi(){
 				});
 	
 			}else{
-				toastr.warning("No Fixed Expense added.");
+				toastr.error("No Expense added.");
 			}
 		}
 		
@@ -398,7 +439,7 @@ function bindExpenseTypeAddButtonClick(){
 						if(data.httpStatus == "OK"){
 							
 							resetExpenseTypeAddForm();
-							bindExpenseTypeDropDown(data.createdId);
+							$("#expenseType").append("<option data-type='expense' value='" + data.createdId + "'>" + expenseTypeBean.name + "</option>");	
 							
 							$("#expenseTypeModal").modal("hide");
 	
@@ -423,7 +464,7 @@ function bindExpenseAddButtonClick(){
 	
 	$( "#addExpense" ).on( "click", function() {
 			
-			if(true){
+			if($("#expenseForm").valid()){
 				
 				var type = $('#expenseType option:selected').attr('data-type');
 				
@@ -462,7 +503,10 @@ function resetExpenseTypeAddForm(){
 }
 
 function resetDailyExpenseForm(){
-	$("#bus, #path1, #path2, #path3, #onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash, #extraIncome").val("");
+	$('#restDay').removeAttr('checked');
+	$("#bus, #path1, #path2, #path3").select2("val", "");
+	$("#onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash, #extraIncome").val("");
+	getInventoryData();
 	dailyExpenseValidator.resetForm();
 }
 
@@ -537,8 +581,11 @@ function initExpenseDatatable() {
  
         // Update footer
         api.column(1).footer().innerHTML = pageTotal.toLocaleString("en") + ' Ks (' + total.toLocaleString("en") + ' Ks total)';
+   		
     }
 	});
+	
+	$(".dataTables_scrollFootInner").removeAttr("style");
 		
 }
 
@@ -646,27 +693,60 @@ function bindValidator(){
 	
 	dailyExpenseValidator = $("#addDailyForm").validate({
 		rules : {
-			path2 : {
+			bus : {
 				required : true
+			},
+			path2 : {
+				required : {
+					depends: function(element) {
+				    	return !$('#restDay').is(':checked');
+				    }
+				}
 			},
 			path1 : {
 				required : {
 			        depends: function(element) {
-			          return (isEmpty($("#path3").val()));
+			          return (isEmpty($("#path3").val()) && !$('#restDay').is(':checked'));
 			        }
 				}
 			},
 			path3 : {
 				required : {
 			        depends: function(element) {
-			          return (isEmpty($("#path1").val()));
+			          return (isEmpty($("#path1").val()) && !$('#restDay').is(':checked'));
 			        }
 				}
+			},
+			onPaperIncomeLeave : {
+				required : {
+					depends: function(element) {
+				    	return !$('#restDay').is(':checked');
+				    }
+				}
+			},
+			onPaperIncomeReturn : {
+				required : {
+					depends: function(element) {
+				    	return !$('#restDay').is(':checked');
+				    }
+			    }
+			},
+			inHandCash : {
+				required : {
+					depends: function(element) {
+				    	return !$('#restDay').is(':checked');
+				    }
+			    }
 			}
 		},
 		errorPlacement : function(error, element) {
 			
+			if($(element).prop("name") == "bus" || $(element).prop("name") == "path1" || $(element).prop("name") == "path2" || $(element).prop("name") == "path3"){
 				error.insertAfter($("#" + $(element).prop("name")).closest("div").find(".select2-container"));
+			}else{
+				error.insertAfter($("#" + $(element).prop("name")));
+			}
+				
 			
 		}
 	});

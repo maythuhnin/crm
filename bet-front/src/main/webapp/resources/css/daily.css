@@ -38,3 +38,17 @@ table tr > td{
 	max-width: 45.499%;
   	flex: 0 0 45.499%;
 }
+
+.show {
+  left: 0;
+}
+
+.hide {
+	 transition: top 0.8s ease;
+  position: absolute;
+  visibility: hidden;
+}
+
+.form-check{
+	margin-top: 5px;
+}

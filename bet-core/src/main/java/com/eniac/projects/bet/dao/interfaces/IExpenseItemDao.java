@@ -10,6 +10,6 @@ public interface IExpenseItemDao {
 	
 	public void delete(int dailyExpenseId) throws MyBatisException;
 	
-	public List<Object> selectForDatatable() throws MyBatisException;
+	public List<Object> selectForDatatable(int dailyExpenseId) throws MyBatisException;
 		
 }

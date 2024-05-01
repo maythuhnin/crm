@@ -30,3 +30,7 @@ table thead{
 	background-color: #343a40; 
 	color: #EFF9FE;
 }
+
+.error{
+	color: #dc3545 !important;
+}

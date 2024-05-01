@@ -37,13 +37,13 @@ public class ExpenseItemDao implements IExpenseItemDao {
 	}
 
 	@Override
-	public List<Object> selectForDatatable() throws MyBatisException {
+	public List<Object> selectForDatatable(int dailyExpenseId) throws MyBatisException {
 
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
 		try {
 			logger.info("=====> Selecting allExpenseItem <=====");
 			IExpenseItemMapper expenseItemMapper = sqlSession.getMapper(IExpenseItemMapper.class);
-			return expenseItemMapper.selectForDatatable();
+			return expenseItemMapper.selectForDatatable(dailyExpenseId);
 		} catch (Exception e) {
 			throw new MyBatisException("Mybatis Exception occured when selecting all ExpenseItem", e);
 		} finally {

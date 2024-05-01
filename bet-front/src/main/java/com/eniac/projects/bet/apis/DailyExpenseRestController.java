@@ -1,6 +1,7 @@
 package com.eniac.projects.bet.apis;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniac.projects.bet.apis.validators.DailyExpenseApiValidator;
@@ -29,12 +31,27 @@ public class DailyExpenseRestController extends BaseController {
 	@Autowired
 	DailyExpenseApiValidator dailyExpenseApiValidator;
 	
-	@GetMapping("/daily-expense/api/datatable")
-	public Map<String, Object> getForDailyExpensesDatatable() throws MyBatisException {
+	@PostMapping("/daily-expense/api/datatable")
+	public Map<String, Object> getForDailyExpensesDatatable(@RequestParam(required=false) int busId) throws MyBatisException {
 		
 		Map<String, Object> results = new HashMap<String, Object>();
-		results.put("responseData", dailyExpenseService.selectForDatatable());
+		Map<String, Object> criteria = new HashMap<String, Object>();
+		
+		if(busId == 0) {
+			busId = -1;
+		}
+		
+		criteria.put("busId", busId);
+		
+		results.put("responseData", dailyExpenseService.selectForDatatable(criteria));
+		
 		return results;
+	}
+	
+	@PostMapping("/daily-expense/api/subtable")
+	public List<Object> getForSubTable(@RequestParam int dailyExpenseId) throws MyBatisException {
+		
+		return dailyExpenseService.selectForSubDatatable(dailyExpenseId);
 	}
 
 	@PostMapping("/daily-expense/api/add")

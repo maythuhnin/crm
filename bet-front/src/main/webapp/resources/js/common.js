@@ -109,3 +109,7 @@ function testRegex(value, pattern){
     }
 	
 }
+
+function getCurrencyFormat(value){
+	return parseInt(value).toLocaleString("en") + " Ks";
+}
