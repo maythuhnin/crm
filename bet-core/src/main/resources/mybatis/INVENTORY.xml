@@ -19,6 +19,7 @@
 			received_date,
 			price,
 			quantity,
+			status,
 			updated_id,
 			updated_datetime
 			)
@@ -27,6 +28,7 @@
 			#{receivedDate},
 			#{price},
 			#{quantity},
+			1,
 			#{updatedId},
 			NOW()
 		)
@@ -51,9 +53,13 @@
 		WHERE ID =#{id} 
 	</update>
 	
-	<delete id="deleteInventory" parameterType="int">
-		DELETE FROM INVENTORY WHERE ID =#{id}
-	</delete>
+	<update id="deleteInventory" parameterType="int">
+		UPDATE INVENTORY SET STATUS = 0 WHERE ID =#{id}
+	</update>
+	
+	<select id="selectById" resultMap="InventoryResult" parameterType="int">
+		SELECT * FROM INVENTORY WHERE id =  #{id}
+	</select>
 	
 	<select id="selectForDatatable" resultType="map">
 		SELECT 
@@ -63,6 +69,7 @@
 		 quantity,
 		 price		
 		FROM inventory 
+		WHERE status = 1
 	</select>
 	
 	<select id="selectForDropDown" resultMap="InventoryResult">
@@ -77,6 +84,7 @@
 		 i.price
 		
 		FROM inventory i
+		WHERE status = 1 AND i.quantity != 0
 		
 	</select>
 	

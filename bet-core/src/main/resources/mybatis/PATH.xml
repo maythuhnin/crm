@@ -52,7 +52,7 @@
 	
 	<select id="selectForDropDown" resultType="map" parameterType="map">
 		SELECT 
-			pe.expense_id AS expenseId,
+			DISTINCT(pe.expense_id) AS expenseId,
 			e.name,
 			pe.amount
 			
@@ -61,11 +61,11 @@
 		LEFT JOIN path_bus pb ON pb.path_id = p.id
  		LEFT JOIN expense_type e ON e.id = pe.expense_id  
 		<where>
-			<if test="busId != null">
-				pb.bus_id = #{busId}
-			</if>
 			<if test="path != null">
-				AND p.path = #{path}
+				(p.path = #{path} AND pb.bus_id IS NULL)
+				<if test="busId != null">
+				OR (pb.bus_id = #{busId} AND p.path = #{path}) 
+				</if>
 			</if>
 		</where>
 	</select>

@@ -32,12 +32,12 @@ public class DailyExpenseRestController extends BaseController {
 	DailyExpenseApiValidator dailyExpenseApiValidator;
 	
 	@PostMapping("/daily-expense/api/datatable")
-	public Map<String, Object> getForDailyExpensesDatatable(@RequestParam(required=false) int busId) throws MyBatisException {
+	public Map<String, Object> getForDailyExpensesDatatable(@RequestParam(required=false) Integer busId) throws MyBatisException {
 		
 		Map<String, Object> results = new HashMap<String, Object>();
 		Map<String, Object> criteria = new HashMap<String, Object>();
 		
-		if(busId == 0) {
+		if(null == busId || busId == 0) {
 			busId = -1;
 		}
 		
@@ -76,7 +76,6 @@ public class DailyExpenseRestController extends BaseController {
 				return results;
 			}
 
-			System.err.println(dailyExpense);
 			dailyExpense.setUpdatedId(getLoggedInUser().getId());
 			dailyExpenseService.createDailyExpense(dailyExpense);
 			results.put("httpStatus", HttpStatus.OK);

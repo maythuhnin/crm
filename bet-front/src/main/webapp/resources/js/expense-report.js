@@ -52,7 +52,7 @@ function bindBusDropDown(){
 				success : function(data) {
 					if(null != data && data.length > 0){
 					
-					$("#searchBus").append("<option value='0'></option>")
+					$("#searchBus").append("<option value=''></option>")
 					
 					$(data).each(function( index, bus ) {
 						$("#searchBus").append("<option value='" + bus.id + "'>" + bus.licensePlate + "</option>");				
@@ -63,9 +63,11 @@ function bindBusDropDown(){
 			}
 				},
 				complete : function(data){
+					
 					$('#searchBus').select2({
 						theme: 'bootstrap4',
-				    	allowClear: true
+						placeholder: "Select Bus.",
+						allowClear: true
 					});
 					
 					$("#searchBus").on('change', function() {
@@ -129,7 +131,7 @@ function initExpenseReportDatatable() {
 			},
 		    sClass: "text-center"},
 		{ mData : function(data, type, full, meta) {
-				return getPathText(data.path);
+				return isEmpty(data.path) ? "Rest Day" : getPathText(data.path);
 			},
 		    sClass: "text-center"}, 
 		{ mData : function(data, type, full, meta) {
@@ -159,12 +161,23 @@ function initExpenseReportDatatable() {
 			
 		    sClass: "text-right"},     
 		    { mData : function(data, type, full, meta) {
-				return getCurrencyFormat((data.onPaperIncomeLeave + data.onPaperIncomeReturn + data.extraIncome) - data.expenseTotal);
+				return (data.restDay == true) ? getCurrencyFormat(data.expenseTotal) : getCurrencyFormat((data.onPaperIncomeLeave + data.onPaperIncomeReturn + data.extraIncome) - data.expenseTotal);
 			},
 		    sClass: "text-right"},           
 	 
 		      
-	    ]
+	    ],
+    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+      if (aData.restDay) {
+		$('td:eq(2)', nRow).attr('colspan', 6);
+		$('td:eq(3)', nRow).css('display', 'none');
+		$('td:eq(4)', nRow).css('display', 'none');
+		$('td:eq(5)', nRow).css('display', 'none');
+		$('td:eq(6)', nRow).css('display', 'none');
+		$('td:eq(7)', nRow).css('display', 'none');
+	    $('td', nRow).addClass('table-secondary');
+      } 
+    }
 	});
 	
 	$('#expenseReportDatatable tbody').on('click', 'td.dt-control', function () {

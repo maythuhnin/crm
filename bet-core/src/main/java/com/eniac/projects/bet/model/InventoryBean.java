@@ -2,6 +2,7 @@ package com.eniac.projects.bet.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 public class InventoryBean extends BaseBean implements Serializable {
 
@@ -12,6 +13,8 @@ public class InventoryBean extends BaseBean implements Serializable {
 	private String receivedDateAsString;
 	private Double price;
 	private Integer quantity;
+
+	private List<StockBean> stockList;
 
 	public String getItem() {
 		return item;
@@ -56,10 +59,19 @@ public class InventoryBean extends BaseBean implements Serializable {
 		this.receivedDateAsString = receivedDateAsString;
 	}
 
+	public List<StockBean> getStockList() {
+		return stockList;
+	}
+
+	public void setStockList(List<StockBean> stockList) {
+		this.stockList = stockList;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("InventoryBean [item=%s, receivedDate=%s, receivedDateAsString=%s, price=%s, quantity=%s]",
-				item, receivedDate, receivedDateAsString, price, quantity);
+		return String.format(
+				"InventoryBean [item=%s, receivedDate=%s, receivedDateAsString=%s, price=%s, quantity=%s, stockList=%s]",
+				item, receivedDate, receivedDateAsString, price, quantity, stockList);
 	}
 
 }

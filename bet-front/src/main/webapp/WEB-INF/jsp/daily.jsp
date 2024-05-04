@@ -77,15 +77,15 @@
             <div class="form-group row no-rest">
               <label for="receivedDate" class="col-sm-2 col-form-label text-right">On Paper Income (Leave)<span class="required">[required]</span> </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeLeave" name="onPaperIncomeLeave"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeLeave" name="onPaperIncomeLeave" min="0"/>
 	              </div>
 	              <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">On Paper Income (Return)<span class="required">[required]</span> </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeReturn" name="onPaperIncomeReturn"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="onPaperIncomeReturn" name="onPaperIncomeReturn" min="0"/>
 	              </div>
 	            <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">In Hand Cash <span class="required">[required]</span> </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="inHandCash" name="inHandCash"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="inHandCash" name="inHandCash" min="0"/>
 	              </div> 
 	               
 	              
@@ -93,7 +93,7 @@
              <div class="form-group row no-rest">
               <label for="receivedDate" class="col-sm-2 col-form-label text-right">Extra Income From Hitchhikers </label>
                <div class="col-sm-2">
-                    <input type="number" class="form-control" style="width: 100%;" id="extraIncome" name="extraIncome"/>
+                    <input type="number" class="form-control" style="width: 100%;" id="extraIncome" name="extraIncome" min="0"/>
 	              </div>
 	               <label for="receivedDate" class="col-sm-2 col-form-label text-right exchange-col">Adjustment : </label>
                <div class="col-sm-2">

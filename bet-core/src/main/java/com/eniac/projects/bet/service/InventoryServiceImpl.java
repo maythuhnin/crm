@@ -42,6 +42,10 @@ public class InventoryServiceImpl {
 		return inventoryDao.selectForDatatable();
 	}
 	
+	public List<Object> selectForStockHistoryDatatable(int inventoryId) throws MyBatisException {
+		return stockDao.selectForDatatable(inventoryId);
+	}
+	
 	public List<InventoryBean> selectForDropDown() throws MyBatisException {
 		return inventoryDao.selectForDropDown();
 	}

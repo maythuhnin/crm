@@ -14,6 +14,8 @@ public interface IInventoryDao {
 	
 	public void delete(int inventoryId) throws MyBatisException;
 	
+	public InventoryBean selectById(int inventoryId) throws MyBatisException;
+	
 	public List<Object> selectForDatatable() throws MyBatisException;
 	
 	public List<InventoryBean> selectForDropDown() throws MyBatisException;

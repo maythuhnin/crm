@@ -187,7 +187,9 @@ function bindFixedExpenseAddApi(){
 				
 				var busList = [];
 				$($("#bus").val()).each(function( index, busId ) {
-					busList.push({busId : parseInt(busId)})
+					if(!isEmpty(busId)){
+						busList.push({busId : parseInt(busId)})	
+					}
 				});
 				
 				pathBean = {
@@ -288,9 +290,14 @@ function initFixedExpenseDatatable() {
 	        dataSrc: 'responseData',
 	        dataType: "json"
 	    },
+	   processing: true,
+        serverSide: false,
 	    "order": [0],
-	    scrollX:        true,
+	    scrollX:        false,
         scrollCollapse: true,
+	    paging: false,
+	    scrollY: '50vh',
+	    responsive: false,
          columnDefs: [{ width: '20%', targets: 3 }],
 	    columns: [
 		 {

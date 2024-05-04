@@ -52,6 +52,21 @@ public class DailyExpenseDao implements IDailyExpenseDao {
 			sqlSession.close();
 		}
 	}
+	
+	@Override
+	public List<Object> selectForIncomeDatatable(Map<String,Object> criteria) throws MyBatisException {
+
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			logger.info("=====> Selecting incomeDatatable <=====");
+			IDailyExpenseMapper dailyExpenseMapper = sqlSession.getMapper(IDailyExpenseMapper.class);
+			return dailyExpenseMapper.selectForIncomeDatatable(criteria);
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when selecting all incomeDatatable", e);
+		} finally {
+			sqlSession.close();
+		}
+	}
 
 	@Override
 	public void update(DailyExpenseBean dailyExpense) throws MyBatisException {

@@ -12,6 +12,7 @@ public class StockBean extends BaseBean implements Serializable {
 	private Boolean stockIn;
 	private Date transactionDate;
 	private String transactionDateAsString;
+	private String transactionRef;
 
 	public StockBean() {
 		super();
@@ -23,6 +24,15 @@ public class StockBean extends BaseBean implements Serializable {
 		this.quantity = quantity;
 		this.stockIn = stockIn;
 		this.transactionDate = transactionDate;
+	}
+	
+	public StockBean(Integer inventoryId, Integer quantity, Boolean stockIn, Date transactionDate, String transactionRef) {
+		super();
+		this.inventoryId = inventoryId;
+		this.quantity = quantity;
+		this.stockIn = stockIn;
+		this.transactionDate = transactionDate;
+		this.transactionRef = transactionRef;
 	}
 
 	public Integer getInventoryId() {
@@ -68,11 +78,20 @@ public class StockBean extends BaseBean implements Serializable {
 		this.transactionDateAsString = transactionDateAsString;
 	}
 
+	public String getTransactionRef() {
+		return transactionRef;
+	}
+
+	public void setTransactionRef(String transactionRef) {
+		this.transactionRef = transactionRef;
+	}
+
 	@Override
 	public String toString() {
 		return String.format(
-				"StockBean [inventoryId=%s, quantity=%s, stockIn=%s, transactionDate=%s, transactionDateAsString=%s]",
-				inventoryId, quantity, stockIn, transactionDate, transactionDateAsString);
+				"StockBean [inventoryId=%s, quantity=%s, stockIn=%s, transactionDate=%s, transactionDateAsString=%s, transactionRef=%s]",
+				inventoryId, quantity, stockIn, transactionDate, transactionDateAsString, transactionRef);
 	}
 
+	
 }

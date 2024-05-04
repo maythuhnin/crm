@@ -9,6 +9,7 @@
 		<result		 	property="quantity" 		column="quantity" />
 		<result		 	property="stockIn" 			column="stock_in" />
 		<result		 	property="transactionDate" 	column="transaction_date" />
+		<result		 	property="transactionRef" 	column="transaction_ref" />
 		<result 		property="updatedId" 		column="updated_id" />
 		<result 		property="updatedDateTime" 	column="updated_datetime" />
 	</resultMap>
@@ -19,6 +20,9 @@
 			quantity,
 			stock_in,
 			transaction_date,
+			<if test="transactionRef != null">
+				transaction_ref,
+			</if>
 			updated_id,
 			updated_datetime
 			)
@@ -27,6 +31,9 @@
 			#{quantity},
 			#{stockIn},
 			#{transactionDate},
+			<if test="transactionRef != null">
+				#{transactionRef},
+			</if>
 			#{updatedId},
 			NOW()
 		)
@@ -36,14 +43,19 @@
 		DELETE FROM STOCK WHERE INVENTORY_ID =#{id}
 	</delete>
 	
+	<select id="selectByInventoryId" resultMap="StockResult" parameterType="int">
+		SELECT * FROM STOCK WHERE INVENTORY_ID =  #{id}
+	</select>
+	
 	<select id="selectForDatatable" resultType="map" parameterType="int">
 		SELECT 
 		 	id,
 		 	inventory_id AS inventoryId,
 			quantity,
 			stock_in AS stockIn,
-			DATE_FORMAT(transaction_date,'%d/%m/%Y') AS transactionDate
-		FROM stock 
+			DATE_FORMAT(transaction_date,'%d/%m/%Y') AS transactionDate,
+			transaction_ref AS transactionRef
+		FROM stock WHERE inventory_id = #{id}
 	</select>
 	
 </mapper>

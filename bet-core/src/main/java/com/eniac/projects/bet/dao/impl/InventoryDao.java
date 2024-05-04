@@ -54,6 +54,21 @@ public class InventoryDao implements IInventoryDao {
 	}
 	
 	@Override
+	public InventoryBean selectById(int inventoryId) throws MyBatisException {
+
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			logger.info("=====> Selecting selectById <=====");
+			IInventoryMapper inventoryMapper = sqlSession.getMapper(IInventoryMapper.class);
+			return inventoryMapper.selectById(inventoryId);
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when selecting selectById", e);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Override
 	public List<InventoryBean> selectForDropDown() throws MyBatisException {
 
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();

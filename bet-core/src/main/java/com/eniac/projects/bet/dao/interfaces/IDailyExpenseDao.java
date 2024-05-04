@@ -16,7 +16,9 @@ public interface IDailyExpenseDao {
 	public void delete(int dailyExpenseId) throws MyBatisException;
 	
 	public List<Object> selectForDatatable(Map<String,Object> criteria) throws MyBatisException;
-	
+
+	public List<Object> selectForIncomeDatatable(Map<String,Object> criteria) throws MyBatisException;
+
 	public DailyExpenseBean selectById(int id) throws MyBatisException;
 	
 }

@@ -23,7 +23,6 @@ function bindModal(){
 	
 	bindModalCloseButtonClick();
 	
-	console.log(new Date());
 	//Date picker
 	$('#receivedDate').datetimepicker({
 		format: 'DD/MM/YYYY',
@@ -171,7 +170,7 @@ function initInventoryDatatable() {
 	    "order": [0],
 	    scrollX:        true,
         scrollCollapse: true,
-         columnDefs: [{ width: '15%', targets: 4 }],
+         columnDefs: [{ width: '25%', targets: 4 }],
 	    columns: [
 		{ mData : function(data, type, full, meta) {
 				return data.item;
@@ -191,14 +190,21 @@ function initInventoryDatatable() {
 			},
 		    sClass: "text-center"} ,
 		      { mData : function(data, type, full, meta) {
-				//<button type="button" class="btn btn-outline-primary btn-sm edit-inventory" data-id="' + data.id + '" title="Edit Inventory">Edit <i class="fas fa-edit"></i></button>
-				return '<button type="button" class="btn btn-outline-danger btn-sm delete-inventory mr-1" data-id="' + data.id + '" title="Delete Inventory">Delete <i class="fas fa-trash"></i></button>';
+				return '<button type="button" class="btn btn-default btn-sm stock-history mr-1" data-id="' + data.id + '" title="Stock History">Stock History <i class="fas fa-info-circle"></i></button><button type="button" class="btn btn-outline-danger btn-sm delete-inventory mr-1" data-id="' + data.id + '" title="Delete Inventory">Delete <i class="fas fa-trash"></i></button>';
 			},
 		    sClass: "text-center",
 	    	bSortable: false }
 	    ],
 		"fnDrawCallback": function () {
 
+			$( ".stock-history" ).on( "click", function() {
+				var inventoryId = $(this).attr("data-id");
+				$("#stockHistoryModal").modal();	
+				 setTimeout(function() {
+				     initStockHistoryDatatable(inventoryId);
+				  }, 100);
+			});
+			
 			$( ".edit-inventory" ).on( "click", function() {
 				var inventoryId = $(this).attr("data-id");
 				var inventoryBean = getBeanFromListById(inventoryList, inventoryId);
@@ -227,6 +233,56 @@ function initInventoryDatatable() {
 	});
 		
 }
+
+
+function initStockHistoryDatatable(inventoryId) {
+	
+	$('#stockHistoryDatatable').DataTable().clear().destroy();
+	
+	stockHistoryDatatable = $('#stockHistoryDatatable').DataTable({
+		lengthChange: false, 
+		autoWidth: false,
+      	dom: 'Bfrtip',
+		ajax: {
+	        url:  getPathName() + '/inventory/stock/api/datatable',
+	        type: "GET",
+	        data : function(d) {
+				d.inventoryId = inventoryId;
+			},
+	        dataSrc: 'responseData',
+	        dataType: "json"
+	    },
+	    "order": [0],
+	     "scrollX": true,
+        "sScrollXInner": "100%",
+        scrollCollapse: true,
+        searching: false,
+         columnDefs: [{ width: '20%', targets: 2 }],
+	    columns: [
+		{ mData : function(data, type, full, meta) {
+				return (data.stockIn) ? "<span class='text-success'>Stock In</span>" : "<span class='text-danger'>Stock Out</span>";
+			},
+		    sClass: "text-center"},
+		   { mData : function(data, type, full, meta) {
+				return data.quantity;
+			},
+		    sClass: "text-center"}, 
+		    { mData : function(data, type, full, meta) {
+				return data.transactionDate;
+			},
+		    sClass: "text-center"},     
+	      { mData : function(data, type, full, meta) {
+	
+				return isEmpty(data.transactionRef) ? "-" : data.transactionRef;
+			},
+		    sClass: "text-right"}
+		      
+	    ]
+	});
+		
+}
+
+
 
 function bindInventoryDeleteApi(){
 		

@@ -9,6 +9,6 @@ public interface IStockMapper {
 	
 	int deleteStock(int id);
 	
-	List<Object> selectForDatatable();
+	List<Object> selectForDatatable(int inventoryId);
 	
 }

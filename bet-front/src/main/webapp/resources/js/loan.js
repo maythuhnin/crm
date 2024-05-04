@@ -207,9 +207,14 @@ function initLoanDatatable() {
 	        dataSrc: 'responseData',
 	        dataType: "json"
 	    },
+	   processing: true,
+        serverSide: false,
 	    "order": [0],
-	    scrollX:        true,
+	    scrollX:        false,
         scrollCollapse: true,
+	    paging: false,
+	    scrollY: '50vh',
+	    responsive: false,
          columnDefs: [{ width: '30%', targets: 2 }],
 	    columns: [
 		{ mData : function(data, type, full, meta) {

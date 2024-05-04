@@ -24,6 +24,7 @@ function init() {
 	
 	//Date range picker
     $('#dateRange').daterangepicker({
+		useCurrent: false,
 		 locale: {
             format: 'DD/MM/YYYY'
         }
@@ -77,10 +78,10 @@ function bindDropDown(){
 	
 	bindBusDropDown();
 	bindDestinationDropDown();
-	getInventoryData();
+	getExpenseTypeData();
 	
 	$( "#bus, .path" ).on( "change", function() {
-		bindFixedExpenseDropDown();
+		bindFixedExpenseDropDown(false);
 	});
 }
 
@@ -143,9 +144,9 @@ function bindDestinationDropDown(){
 			});
 }
 
-function bindFixedExpenseDropDown(){
+function bindFixedExpenseDropDown(fromReset){
 	
-	if(!isEmpty($("#bus").val()) && !isEmpty($("#path1").val())){
+	if((!isEmpty($("#path1").val()) && !isEmpty($("#path2").val())) || (fromReset)){
 		
 		hideLoadingOverlay();
 		
@@ -156,22 +157,19 @@ function bindFixedExpenseDropDown(){
 				type : "POST",
 				data: {
 					busId : $("#bus").val(),
-					path : ($("#path1").val() + "," + $("#path2").val() + "," + $("#path3").val())
+					path : (getEmptyStringIfNull($("#path1").val()) + "," + getEmptyStringIfNull($("#path2").val()) + "," + getEmptyStringIfNull($("#path3").val()))
 				},
 				dataType: 'json',
 				success : function(data) {
 					
 					$("#expenseType").append("<option value=''></option>");
 					
-					console.log(data);
-
 					if(null != data && data.length > 0){	
 						
 						$("#expenseType").append("<optgroup label='Fixed Expense'>");
 						
 						$(data).each(function( index, fixedExpense ) {
 							
-							console.log("fixed");
 							$("#expenseType").append("<option data-type='fixed' value='" + fixedExpense.expenseId + "'>" + fixedExpense.name + " [" + fixedExpense.amount.toLocaleString("en") +" Ks]</option>");			
 						});
 						
@@ -182,7 +180,10 @@ function bindFixedExpenseDropDown(){
 					fixedExpenseList = data;
 				},
 				complete : function(data){
-					bindInventoryDropDown();
+					if(!fromReset){
+						bindInventoryDropDown();
+					}
+					
 				}
 			});
 	}
@@ -198,14 +199,13 @@ function getInventoryData(){
 				contentType: "application/json",
 				dataType: 'json',
 				success : function(data) {
-					if(null != data && data.length > 0){
 					
-						inventoryList = data;
-					}
+					inventoryList = data;
+					
 				},
 				complete : function(data){
+					bindInventoryDropDown();
 					
-					getExpenseTypeData();
 				}
 			});
 }
@@ -215,15 +215,17 @@ function bindInventoryDropDown(selectedId){
 		
 		$("#expenseType").append("<option value=''></option>");
 		
+		if(null != inventoryList && inventoryList.length > 0){
 		$("#expenseType").append("<optgroup label='Inventory'>");
 						
 		$(inventoryList).each(function( index, inventory ) {
-			$("#expenseType").append("<option data-type='inventory' value='" + inventory.id + "'>" + inventory.item + " [" + inventory.price.toLocaleString("en") +" Ks]</option>");				
+			$("#expenseType").append("<option data-type='inventory' value='" + inventory.id + "'>" + inventory.item + " [" + inventory.price.toLocaleString("en") +" Ks] [InStock : " + inventory.quantity +"] </option>");				
 		});
 		
 		$("#expenseType").append("</optgroup>");
+		}
 						
-		bindExpenseTypeDropDown(selectedId);
+		bindExpenseTypeDropDown();
 				
 			
 }
@@ -245,7 +247,7 @@ function getExpenseTypeData(){
 				},
 				complete : function(data){
 					
-					bindInventoryDropDown();
+					getInventoryData();
 				}
 			});	
 		
@@ -256,12 +258,17 @@ function bindExpenseTypeDropDown(selectedId){
 	$("#expenseType").append("<optgroup label='Expense Type'>");				
 						
 	$(expenseTypeList).each(function( index, expenseType ) {
-		if(null != fixedExpenseList && fixedExpenseList.length > 0){
+		var flag = false;
+		if(null != fixedExpenseList && fixedExpenseList.length > 0){	
 			$(fixedExpenseList).each(function( index, fixedExpense ) {
-				if(fixedExpense.expenseId != expenseType.id){
-					$("#expenseType").append("<option data-type='expense' value='" + expenseType.id + "'>" + expenseType.name + "</option>");	
+				if(fixedExpense.expenseId == expenseType.id){
+					flag = true;
 				}
 			}); 
+			
+			if(!flag){
+				$("#expenseType").append("<option data-type='expense' value='" + expenseType.id + "'>" + expenseType.name + "</option>");		
+			}
 		}else{
 			$("#expenseType").append("<option data-type='expense' value='" + expenseType.id + "'>" + expenseType.name + "</option>");							
 		}							
@@ -358,7 +365,7 @@ function bindDailyAddApi(){
 				
 				var dateRange = $("#dateRange").val().split(" - ");
 				
-				//showLoadingOverlay();
+				showLoadingOverlay();
 				
 				dailyExpenseBean = {
 					busId: $("#bus").val(),
@@ -392,6 +399,7 @@ function bindDailyAddApi(){
 							expenseDatatable.clear().draw();
 							expenseDatatable.rows.add(expenseList); // Add new data
 							expenseDatatable.columns.adjust().draw();
+							
 							resetDailyExpenseForm();
 							toastr.success('Daily Income/Expense added successfully.');
 						}else if(data.httpStatus == "INTERNAL_SERVER_ERROR"){
@@ -469,14 +477,20 @@ function bindExpenseAddButtonClick(){
 				var type = $('#expenseType option:selected').attr('data-type');
 				
 				if(type == "inventory"){
+					console.log(inventoryBean);
 					
-					expenseList.push({
+					if(inventoryBean.quantity >= parseInt($("#amount").val())){
+						expenseList.push({
 						inventoryId:  $("#expenseType").val(),
 						quantity: parseInt($("#amount").val()),
 						name:  inventoryBean.item + " [Quantity :" + $("#amount").val() + "]",
 						type: type,
 						amount: parseInt($("#amount").val()) * parseInt(inventoryBean.price)
-					});
+						});
+					}else{
+						toastr.error("Insufficient Quantity. In Stock : " + inventoryBean.quantity);
+					}
+					
 				}else{
 					expenseList.push({
 						expenseTypeId:  $("#expenseType").val(),
@@ -504,9 +518,17 @@ function resetExpenseTypeAddForm(){
 
 function resetDailyExpenseForm(){
 	$('#restDay').removeAttr('checked');
-	$("#bus, #path1, #path2, #path3").select2("val", "");
+	$("#bus, #path1, #path2, #path3").val('').trigger("change");
 	$("#onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash, #extraIncome").val("");
+	$("#total, #adjustment").text("-");
+	 $('#dateRange').daterangepicker({
+		 locale: {
+            format: 'DD/MM/YYYY'
+        }
+	});
+	$("#expenseType").empty();
 	getInventoryData();
+	bindFixedExpenseDropDown(true);
 	dailyExpenseValidator.resetForm();
 }
 

@@ -15,6 +15,8 @@ public interface IDailyExpenseMapper {
 	
 	List<Object> selectForDatatable(Map<String,Object> criteria);
 	
+	List<Object> selectForIncomeDatatable(Map<String,Object> criteria);
+	
 	DailyExpenseBean selectById(int id);
 
 }

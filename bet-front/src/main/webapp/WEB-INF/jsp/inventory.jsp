@@ -237,6 +237,47 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
+      
+                  <!-- /.card -->
+	<div class="modal fade" id="stockHistoryModal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title bus-title">Stock History</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- form start -->
+        <form class="form-horizontal" id="stockHistoryForm">
+          <div class="card-body">
+				<table id="stockHistoryDatatable" class="table table-bordered table-condensed">
+		            <thead>
+		            <tr>
+		              <th>Type</th>
+		              <th>Quantity</th>
+		              <th>Transaction Date</th>
+		              <th>Transaction Reference</th>
+		            </tr>
+		            </thead>
+		            <tbody>
+		            
+		            </tbody>
+          		</table>        
+          </div> 
+        
+          <!-- /.card-footer -->
+        </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
   </div>
   <!-- /.content-wrapper -->
   <!-- DataTables  & Plugins -->

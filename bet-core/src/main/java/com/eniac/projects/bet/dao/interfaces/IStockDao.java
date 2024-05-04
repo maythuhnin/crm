@@ -11,6 +11,6 @@ public interface IStockDao {
 	
 	public void delete(int inventoryId) throws MyBatisException;
 	
-	public List<Object> selectForDatatable() throws MyBatisException;
+	public List<Object> selectForDatatable(int inventoryId) throws MyBatisException;
 	
 }

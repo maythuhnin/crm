@@ -51,7 +51,7 @@ public class FixedExpenseRestController extends BaseController {
 	}
 	
 	@PostMapping("/fixed-expense/api/dropdown")
-	public List<Object> getForPathDropDown(@RequestParam String path, @RequestParam int busId) throws MyBatisException {
+	public List<Object> getForPathDropDown(@RequestParam String path, @RequestParam(required=false) Integer busId) throws MyBatisException {
 		Map<String, Object> criteria = new HashMap<String, Object>();
 		criteria.put("path", path);
 		criteria.put("busId", busId);

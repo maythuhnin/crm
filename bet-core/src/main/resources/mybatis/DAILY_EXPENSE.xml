@@ -115,8 +115,26 @@
 		 </where>
 	</select>
 	
-	
-	
+	<select id="selectForIncomeDatatable" resultType="map" parameterType="map">
+		
+		SELECT 
+			b.license_plate AS bus, 
+			SUM(de.on_paper_income_leave + de.on_paper_income_return) AS totalIncome,
+			SUM(ei.amount) AS totalExpense,
+			SUM(de.extra_income) AS extraIncome,
+			COUNT(DISTINCT(de.id)) AS totalRecords,
+			SUM(de.rest_day) AS restDay
+			FROM daily_expense de
+			LEFT JOIN expense_item ei ON ei.daily_expense_id = de.id
+			LEFT JOIN bus b ON de.bus_id = b.id
+		 <where>
+		 	<if test="month != null and year != null">
+		 		MONTH(de.from_date) = #{month} AND YEAR(de.from_date) = #{year}
+		 	</if>
+		 </where>
+		 GROUP BY b.license_plate
+	</select>
+
 	<select id="selectById" parameterType="int" resultMap="DailyExpenseResult">
 		SELECT * FROM daily_expense WHERE id = #{id}
 	</select>

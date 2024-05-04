@@ -289,9 +289,14 @@ function initDatatable() {
 	        dataSrc: 'responseData',
 	        dataType: "json"
 	    },
-	    "order": [1],
-	    scrollX:        true,
+	     processing: true,
+        serverSide: false,
+	    "order": [0],
+	    scrollX:        false,
         scrollCollapse: true,
+	    paging: false,
+	    scrollY: '50vh',
+	    responsive: false,
 	    columns: [
 		{ mData : function(data, type, full, meta) {
 				return data.licensePlate;

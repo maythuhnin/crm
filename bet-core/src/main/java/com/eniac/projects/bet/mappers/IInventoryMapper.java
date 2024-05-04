@@ -11,6 +11,8 @@ public interface IInventoryMapper {
 	
 	int deleteInventory(int id);
 	
+	InventoryBean selectById(int id);
+	
 	List<Object> selectForDatatable();
 	
 	List<InventoryBean> selectForDropDown();

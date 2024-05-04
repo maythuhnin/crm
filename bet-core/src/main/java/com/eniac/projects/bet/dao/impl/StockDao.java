@@ -39,13 +39,13 @@ public class StockDao implements IStockDao {
 	}
 
 	@Override
-	public List<Object> selectForDatatable() throws MyBatisException {
+	public List<Object> selectForDatatable(int inventoryId) throws MyBatisException {
 
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
 		try {
 			logger.info("=====> Selecting allStock <=====");
 			IStockMapper stockMapper = sqlSession.getMapper(IStockMapper.class);
-			return stockMapper.selectForDatatable();
+			return stockMapper.selectForDatatable(inventoryId);
 		} catch (Exception e) {
 			throw new MyBatisException("Mybatis Exception occured when selecting all Stock", e);
 		} finally {

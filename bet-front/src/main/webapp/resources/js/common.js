@@ -113,3 +113,16 @@ function testRegex(value, pattern){
 function getCurrencyFormat(value){
 	return parseInt(value).toLocaleString("en") + " Ks";
 }
+
+function getEmptyStringIfNull(value){
+	
+	var returnVal;
+	
+	if(isEmpty(value)){
+		returnVal = "";
+	}else{
+		returnVal = value;
+	}
+	
+	return returnVal;
+}
