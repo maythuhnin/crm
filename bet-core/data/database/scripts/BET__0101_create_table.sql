@@ -107,8 +107,8 @@ CREATE TABLE expense_item
 (
 	id int NOT NULL AUTO_INCREMENT,
 	daily_expense_id int NOT NULL,
-	expense_type_id int,
 	inventory_id int,
+	expense_type varchar(200),
 	amount numeric(18,2) NOT NULL,
 	quantity int,
 	PRIMARY KEY (id),
@@ -292,14 +292,6 @@ ALTER TABLE bus
 ALTER TABLE loan_history
 	ADD CONSTRAINT frk_driver_loan_history FOREIGN KEY (driver_id)
 	REFERENCES driver (id)
-	ON UPDATE NO ACTION
-	ON DELETE NO ACTION
-;
-
-
-ALTER TABLE expense_item
-	ADD CONSTRAINT frk_expense_type_expense_item FOREIGN KEY (expense_type_id)
-	REFERENCES expense_type (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
 ;

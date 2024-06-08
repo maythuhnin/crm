@@ -5,13 +5,12 @@
 <html>
 	<head>
 		<!-- Select2 -->
-   		<link rel="stylesheet" href="<c:url value="/resources/templates/plugins/select2/css/select2.min.css"/>">
-   		<link rel="stylesheet" href="<c:url value="/resources/templates/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css"/>">
- 
-    	<!-- DataTables -->
-	    <link rel="stylesheet" href="<c:url value="/resources/templates/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>">
-	    <link rel="stylesheet" href="<c:url value="/resources/templates/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>">
-	    <link rel="stylesheet" href="<c:url value="/resources/css/user.css"/>"> 
+   		<link rel="stylesheet" href="<c:url value="/resources/plugins/select2/css/select2.min.css"/>">
+   		<link rel="stylesheet" href="<c:url value="/resources/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css"/>">
+ 		<!-- DataTables -->
+	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>">
+	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>">
+	    <link rel="stylesheet" href="<c:url value="/resources/css/expense-type.css"/>"> 
 	</head>
 	<!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -21,21 +20,27 @@
 
       <!-- Default box -->
       <div class="card">
-        <div class="card-header">
-          <div class="row">
-          	<div class="col-sm-3">
-			        <select class="form-control select2 select-filter" style="width: 100%;" id="searchRole">
-			        	<option></option>
-			            <option value="ADMIN">ADMIN</option>
-				        <option value="SALES">SALES</option>
-				        <option value="WAREHOUSE">WAREHOUSE</option>
-				        <option value="SELLER">SELLER</option>
-			        </select>
-			    </div>
-			     <div class="col-sm-7"></div>
+      	 <div class="card-header">
+          <div class="row">	
+          	 <div class="col-sm-3">
+					<div class="input-group">
+		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+		              	<div class="input-group-append">
+		                	<button class="btn btn-navbar" type="button">
+		                  		<i class="fas fa-search"></i>
+		                	</button>
+		              	</div>
+		            </div>
+			     </div>
+			     <div class="col-sm-2">
+	             	 <button type="button" class="btn btn-default" id="clearFilters">
+	             	 	Clear  <i class="fas fa-times"></i>
+	                  </button>
+	            </div>
+	        <div class="col-sm-5"></div>
           	<div class="col-sm-2">
-	             	 <button type="button" class="btn btn-primary float-right" id="addUser">
-	                   Add User
+	             	 <button type="button" class="btn btn-outline-primary float-right" id="addExpenseType">
+	                   Add <i class="fas fa-plus-circle"></i>
 	                  </button>
 	            </div>
 			    
@@ -43,14 +48,10 @@
 			</div>
         </div>
         <div class="card-body">
-          <table id="userDatatable" class="table table-bordered">
+          <table id="expenseTypeDatatable" class="table table-bordered table-condensed">
             <thead>
             <tr>
-              <th>Name</th>
-              <th>Username</th>
-              <th>Role</th>
-              <th>Last Logged In</th>
-              <th>Status</th>
+              <th>Expense Type</th>
               <th></th>
             </tr>
             </thead>
@@ -65,18 +66,18 @@
     </section>
     
             <!-- /.card -->
-	<div class="modal fade" id="userModal">
-        <div class="modal-dialog modal-lg">
+	<div class="modal fade" id="addExpenseTypeModal">
+        <div class="modal-dialog modal-md">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title user-title">Add User</h4>
+              <h4 class="modal-title user-title">Add Expense Type</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               <!-- form start -->
-        <form class="form-horizontal" id="userForm">
+        <form class="form-horizontal" id="addExpenseTypeForm">
           <div class="card-body">
             <div class="form-group row">
               <div class="col-sm-1"></div>
@@ -85,45 +86,6 @@
                 <input type="text" name="name" class="form-control" id="name">
               </div>
             </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="username" class="col-sm-4 col-form-label">Username <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                <input type="text" name="username" class="form-control" id="username">
-                </div>
-            </div>
-            
-             <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="inputEmail3" class="col-sm-4 col-form-label">Role <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                   <select class="form-control" style="width: 100%;" id="role" name="role">
-			            <option value="ROLE_ADMIN">ADMIN</option>
-			            <option value="ROLE_SALES">SALES</option>
-			            <option value="ROLE_WAREHOUSE">WAREHOUSE</option>
-			            <option value="ROLE_SELLER">SELLER</option>
-			   		</select>
-              </div>
-            </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="password" class="col-sm-4 col-form-label">Password <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                <input type="password" name="password" class="form-control" id="password">
-              </div>
-            </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="confirmPassword" class="col-sm-4 col-form-label">Confirm Password <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                <input type="password"  name="confirmPassword" class="form-control" id="confirmPassword">
-              </div>
-            </div>
-         
-           
           </div> 
         
           <!-- /.card-footer -->
@@ -131,7 +93,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="saveUser">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="saveExpenseType">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -140,64 +102,26 @@
       </div>
       
             <!-- /.card -->
-	<div class="modal fade" id="updateUserModal">
-        <div class="modal-dialog modal-lg">
+	<div class="modal fade" id="editExpenseTypeModal">
+        <div class="modal-dialog modal-xs">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title user-title">Edit User</h4>
+              <h4 class="modal-title user-title">Edit Expense Type</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               <!-- form start -->
-        <form class="form-horizontal" id="updateUserForm">
+        <form class="form-horizontal" id="editExpenseTypeForm">
           <div class="card-body">
             <div class="form-group row">
               <div class="col-sm-1"></div>
               <label for="name" class="col-sm-3 col-form-label">Name <span class="required">[required]</span></label>
               <div class="col-sm-6">
-                <input type="text" name="updateName" class="form-control" id="updateName">
+                <input type="text" name="editName" class="form-control" id="editName">
               </div>
             </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="username" class="col-sm-3 col-form-label">Username <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                <input type="text" name="updateUsername" class="form-control" id="updateUsername">
-                </div>
-            </div>
-            
-             <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="updateRole" class="col-sm-3 col-form-label">Role <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                   <select class="form-control select2 select-filter" style="width: 100%;" id="updateRole">
-			            <option value="ROLE_ADMIN">ADMIN</option>
-			            <option value="ROLE_SALES">SALES</option>
-			            <option value="ROLE_WAREHOUSE">WAREHOUSE</option>
-			            <option value="ROLE_SELLER">SELLER</option>
-			   		</select>
-              </div>
-            </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="password" class="col-sm-3 col-form-label">Password</label>
-              <div class="col-sm-6">
-                <input type="password" name="updatePassword" class="form-control" id="updatePassword">
-              </div>
-            </div>
-            
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
-              <div class="col-sm-6">
-                <input type="password"  name="updateConfirmPassword" class="form-control" id="updateConfirmPassword">
-              </div>
-            </div>
-         
            
           </div> 
         
@@ -205,9 +129,9 @@
         </form>
             </div>
             <div class="modal-footer">
-            	<input type="hidden" id="userId"/>
+            	<input type="hidden" id="editExpenseTypeId"/>
               <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="updateUser">Save Changes</button>
+              <button type="button" class="btn btn-outline-primary" id="editExpenseType">Save Changes</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -216,11 +140,11 @@
       </div>
       
         <!-- /.card -->
-	<div class="modal fade" id="deleteModal">
+	<div class="modal fade" id="deleteExpenseTypeModal">
         <div class="modal-dialog modal-xs">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Delete User </h4>
+              <h4 class="modal-title">Delete Expense Type </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -231,18 +155,21 @@
           		<div class="card-body del-card">
             		<div class="form-group row">
               			<label class="col-sm-12 col-form-label">
-              				Are you sure you want to delete user : <span id="delName"></span>?
+              				Are you sure you want to delete Expense Type : <span id="delName"></span>?
               				<br>
+              				<span class="fixed-expense text-danger">This expense will be removed in all added Fixed Expenses as well.</span>
+             				<br>
+             				<br>
              				<span class="required">This process cannot be undone.</span>
               			</label>
             		
             		</div>                       
       	  		</div>
         	</div>
-        	 <input type="hidden" id="delUserId"/>
+        	 <input type="hidden" id="delExpenseTypeId"/>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-              <button type="button" class="btn btn-primary" id="deleteUser">YES</button>
+              <button type="button" class="btn btn-outline-primary" id="deleteExpenseType">YES</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -253,15 +180,13 @@
   </div>
   <!-- /.content-wrapper -->
   <!-- DataTables  & Plugins -->
-<script src="<c:url value="/resources/templates/plugins/datatables/jquery.dataTables.min.js"/>"></script>
-<script src="<c:url value="/resources/templates/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"/>"></script>
-<script src="<c:url value="/resources/templates/plugins/datatables-responsive/js/dataTables.responsive.min.js"/>"></script>
-<script src="<c:url value="/resources/templates/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"/>"></script>
-
-<!-- Select2 -->
-<script src="<c:url value="/resources/templates/plugins/select2/js/select2.full.min.js"/>"></script>
-<script src="<c:url value="/resources/templates/plugins/jquery-validation/dist/jquery.validate.min.js"/>"></script>
-<script src="<c:url value="/resources/js/validator.js"/>"></script>
-<script src="<c:url value="/resources/js/user.js"/>"></script>
+	<script src="<c:url value="/resources/plugins/datatables/jquery.dataTables.min.js"/>"></script>
+	<script src="<c:url value="/resources/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"/>"></script>
+	<script src="<c:url value="/resources/plugins/datatables-responsive/js/dataTables.responsive.min.js"/>"></script>
+	<script src="<c:url value="/resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"/>"></script>
+	
+	<script src="<c:url value="/resources/plugins/jquery-validation/dist/jquery.validate.min.js"/>"></script>
+	<script src="<c:url value="/resources/js/validator.js"/>"></script>
+	<script src="<c:url value="/resources/js/expense-type.js"/>"></script>
 
 </html>

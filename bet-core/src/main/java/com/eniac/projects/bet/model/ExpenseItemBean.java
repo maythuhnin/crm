@@ -11,6 +11,7 @@ public class ExpenseItemBean extends BaseBean implements Serializable {
 	private Integer inventoryId;
 	private Double amount;
 	private Integer quantity;
+	private String expenseType;
 
 	public Integer getDailyExpenseId() {
 		return dailyExpenseId;
@@ -26,6 +27,14 @@ public class ExpenseItemBean extends BaseBean implements Serializable {
 
 	public void setExpenseTypeId(Integer expenseTypeId) {
 		this.expenseTypeId = expenseTypeId;
+	}
+
+	public String getExpenseType() {
+		return expenseType;
+	}
+
+	public void setExpenseType(String expenseType) {
+		this.expenseType = expenseType;
 	}
 
 	public Integer getInventoryId() {
@@ -55,8 +64,8 @@ public class ExpenseItemBean extends BaseBean implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"ExpenseItemBean [dailyExpenseId=%s, expenseTypeId=%s, inventoryId=%s, amount=%s, quantity=%s]",
-				dailyExpenseId, expenseTypeId, inventoryId, amount, quantity);
+				"ExpenseItemBean [dailyExpenseId=%s, expenseTypeId=%s, inventoryId=%s, amount=%s, quantity=%s, expenseType=%s]",
+				dailyExpenseId, expenseTypeId, inventoryId, amount, quantity, expenseType);
 	}
 
 }

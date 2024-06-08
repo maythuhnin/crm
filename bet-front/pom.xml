@@ -141,6 +141,11 @@
 			<version>${spring.security.version}</version>
 		</dependency>
 
+		 <dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>0.9.1</version>
+		  </dependency>
 	<!-- JasperReports -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>

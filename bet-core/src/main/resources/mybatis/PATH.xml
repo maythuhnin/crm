@@ -17,7 +17,7 @@
 			updated_datetime
 			)
 		VALUES(
-			#{path},
+			TRIM(BOTH ',' FROM #{path}),
 			#{updatedId},
 			NOW()
 		)
@@ -26,7 +26,7 @@
 	<update id="updatePath" parameterType="PathBean">
 		UPDATE PATH SET 
 			<if test="path != null">
-				PATH = #{path}
+				PATH = TRIM(BOTH ',' FROM #{path})
 			</if>
 			,updated_id = #{updatedId}
 			,updated_datetime = NOW()
@@ -61,12 +61,15 @@
 		LEFT JOIN path_bus pb ON pb.path_id = p.id
  		LEFT JOIN expense_type e ON e.id = pe.expense_id  
 		<where>
+			(
 			<if test="path != null">
-				(p.path = #{path} AND pb.bus_id IS NULL)
+				(TRIM(BOTH ',' FROM p.path) = TRIM(BOTH ',' FROM #{path}) AND pb.bus_id IS NULL)
 				<if test="busId != null">
-				OR (pb.bus_id = #{busId} AND p.path = #{path}) 
+				OR (pb.bus_id = #{busId} AND TRIM(BOTH ',' FROM p.path) = TRIM(BOTH ',' FROM #{path})) 
 				</if>
 			</if>
+			)
+			AND pe.expense_id IS NOT NULL
 		</where>
 	</select>
 	

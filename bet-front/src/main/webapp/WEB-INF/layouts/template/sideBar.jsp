@@ -8,7 +8,7 @@
 
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="<c:url value="/dashboard"/>" class="brand-link">
       <img src="<c:url value="/resources/images/logo-circle.png"/>" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">ExpenseTracker</span>
     </a>
@@ -72,7 +72,7 @@
                   </p>
                 </a>
               </li>
-       
+      
           <li class="nav-header">MASTER DATA</li>
            <li class="nav-item">
             <a href="<c:url value="/driver"/>" class="nav-link ${page eq 'driver' ? 'active' : ''}">
@@ -103,6 +103,15 @@
               <i class="nav-icon fas fa-coins"></i>
               <p>
                 FIXED EXPENSE
+              </p>
+            </a>
+          </li>
+          
+           <li class="nav-item">
+            <a href="<c:url value="/expense-type"/>" class="nav-link ${page eq 'expenseType' ? 'active' : ''}">
+              <i class="nav-icon fas fa-hand-holding-usd"></i>
+              <p>
+                EXPENSE TYPE
               </p>
             </a>
           </li>

@@ -32,9 +32,9 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-     <form:form method="POST">
+     <form:form action="${pageContext.request.contextPath}/login" method="POST" >
         <div class="input-group mb-3">
-          <input type="text" name="userId" class="form-control" placeholder="Username">
+          <input type="text" name="username" class="form-control" placeholder="Username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

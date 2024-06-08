@@ -29,7 +29,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	UserServiceImpl userService;
-
+	
+	@Autowired
+	JwtUserDetailsService jwtUserService;
+	
 	PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 	@Override
@@ -42,9 +45,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		try {
 			userRoles = getUserIfAuthenticated(authentication);
 			token = new UsernamePasswordAuthenticationToken(username, password, getGrantedAuthorities(userRoles));
-
+			
 			if (null != token) {
-
+				
 			}
 		} catch (MyBatisException | BuisnessException e) {
 			e.printStackTrace();

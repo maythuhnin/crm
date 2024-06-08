@@ -23,14 +23,38 @@
 		)
 	</insert>
 	
+	<update id="updateExpenseType" parameterType="ExpenseTypeBean">
+		UPDATE EXPENSE_TYPE SET 
+			<if test="name != null">
+				NAME = #{name}
+			</if>
+		WHERE ID =#{id} 
+	</update>
+	
 	<delete id="deleteExpenseType" parameterType="int">
 		DELETE FROM EXPENSE_TYPE WHERE ID =#{id}
 	</delete>
+	
+	<select id="selectById" resultMap="ExpenseTypeResult" parameterType="int">
+		SELECT 
+		 id,
+		 name
+		
+		FROM expense_type WHERE id = #{id}
+	</select>
 	
 	<select id="selectForDropDown" resultMap="ExpenseTypeResult">
 		SELECT 
 		 id,
 		 name
+		
+		FROM expense_type
+	</select>
+	
+	<select id="selectForDatatable" resultType="map">
+		SELECT 
+		id,
+		name
 		
 		FROM expense_type
 	</select>

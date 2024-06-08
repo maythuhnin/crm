@@ -9,6 +9,8 @@ public interface IPathExpenseMapper {
 	
 	int deletePathExpense(int pathId);
 	
+	int deleteFromExpense(int expenseId);
+	
 	List<Object> selectForDatatable(int id);
 
 }

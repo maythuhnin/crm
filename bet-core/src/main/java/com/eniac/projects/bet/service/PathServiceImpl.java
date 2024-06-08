@@ -1,6 +1,5 @@
 package com.eniac.projects.bet.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +52,7 @@ public class PathServiceImpl {
 
 		try {
 			
-			pathExpenseDao.delete(path.getId());
+			pathExpenseDao.deleteWithPathId(path.getId());
 			
 			if(null != path.getPathExpenseList() && path.getPathExpenseList().size() > 0) {
 				for(PathExpenseBean expense: path.getPathExpenseList()) {
@@ -94,7 +93,7 @@ public class PathServiceImpl {
 		
 		if(pathId > 0) {
 			pathBusDao.delete(pathId);
-			pathExpenseDao.delete(pathId);
+			pathExpenseDao.deleteWithPathId(pathId);
 			pathDao.delete(pathId);
 		}
 		

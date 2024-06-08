@@ -51,7 +51,7 @@ public class PathExpenseDao implements IPathExpenseDao {
 	}
 
 	@Override
-	public void delete(int pathId) throws MyBatisException {
+	public void deleteWithPathId(int pathId) throws MyBatisException {
 		logger.info("=====> Deleting pathExpense with pathId : " + pathId + "<=====");
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
 		try {
@@ -62,6 +62,24 @@ public class PathExpenseDao implements IPathExpenseDao {
 			throw new MyBatisException("DataIntegrityViolationException occured when deleting PathExpense with pathId : " + pathId, e);
 		} catch (Exception e) {
 			throw new MyBatisException("Exception occured when deleting PathExpense with pathId: " + pathId, e);
+		} finally {
+			sqlSession.close();
+		}
+
+	}
+	
+	@Override
+	public void deleteWithExpenseId(int expenseId) throws MyBatisException {
+		logger.info("=====> Deleting pathExpense with expenseId : " + expenseId + "<=====");
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			IPathExpenseMapper pathExpenseMapper = sqlSession.getMapper(IPathExpenseMapper.class);
+			pathExpenseMapper.deleteFromExpense(expenseId);
+			sqlSession.commit();
+		} catch (DataIntegrityViolationException e) {
+			throw new MyBatisException("DataIntegrityViolationException occured when deleting PathExpense with expenseId : " + expenseId, e);
+		} catch (Exception e) {
+			throw new MyBatisException("Exception occured when deleting PathExpense with expenseId: " + expenseId, e);
 		} finally {
 			sqlSession.close();
 		}

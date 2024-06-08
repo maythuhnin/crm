@@ -31,6 +31,15 @@ public class ExpenseTypeRestController extends BaseController {
 	@Autowired
 	ExpenseTypeApiValidator expenseTypeApiValidator;
 	
+	@GetMapping("/expense-type/api/datatable")
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Object> getForExpenseTypeDatatable() throws MyBatisException {
+		
+		Map<String, Object> results = new HashMap<String, Object>();
+		results.put("responseData", expenseTypeService.selectForDataTable());
+		return results;
+	}
+	
 	@GetMapping("/expense-type/api/dropdown")
 	@ResponseStatus(HttpStatus.OK)
 	public List<ExpenseTypeBean> getForExpenseTypeDropDown() throws MyBatisException {
@@ -85,6 +94,52 @@ public class ExpenseTypeRestController extends BaseController {
 
 		return results;
 
+	}
+	
+	@PostMapping("/expense-type/api/edit")
+	public Map<String, Object> editExpenseType(@RequestBody ExpenseTypeBean expenseType) throws MyBatisException {
+
+		Map<String, Object> results = new HashMap<String, Object>();
+
+		try {
+			
+			expenseType.setMode(Mode.EDIT);
+			
+			BindException bindException = new BindException(expenseType, "expenseType");
+			
+			ValidationUtils.invokeValidator(expenseTypeApiValidator, expenseType, bindException);
+			
+			if (bindException.hasErrors()) {
+				
+				results.put("expenseType", expenseType);
+				results.put("httpStatus", HttpStatus.BAD_REQUEST);
+				results.put("error", "Validation Error.");
+				
+				return results;
+			}
+			
+			expenseTypeService.updateExpenseType(expenseType);
+			results.put("httpStatus", HttpStatus.OK);
+			results.put("status", "Success!");
+
+		} catch (MyBatisException e) {
+			e.printStackTrace();
+			results.put("expenseType", expenseType);
+			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
+			results.put("error", MYBATIS_EXCEPTION_MSG);
+		} catch (BuisnessException e) {
+			e.printStackTrace();
+			results.put("expenseType", expenseType);
+			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
+			results.put("error", BUSINESS_EXCEPTION_MSG);
+		} catch (Exception e) {
+			e.printStackTrace();
+			results.put("expenseType", expenseType);
+			results.put("httpStatus", HttpStatus.INTERNAL_SERVER_ERROR);
+			results.put("error", BUSINESS_EXCEPTION_MSG);
+		}
+
+		return results;
 	}
 
 	@PostMapping("/expense-type/api/delete")

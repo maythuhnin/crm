@@ -8,7 +8,9 @@ public interface IPathExpenseDao {
 
 	public void insert(PathExpenseBean pathExpense) throws MyBatisException;
 	
-	public void delete(int pathId) throws MyBatisException;
+	public void deleteWithPathId(int pathId) throws MyBatisException;
+	
+	public void deleteWithExpenseId(int expenseId) throws MyBatisException;
 	
 	public List<Object> selectForDatatable(int id) throws MyBatisException;
 	

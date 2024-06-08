@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.eniac.projects.bet.controllers.base.BaseController;
 
 @Controller
-@RequestMapping("/expense")
+@RequestMapping("/expense-type")
 public class ExpenseTypeController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String user(Model model) {
 		model.addAttribute("title", "Expense Type");
-		model.addAttribute("titleDescription", "ADD | EDIT | DELETE user accounts.");
-		model.addAttribute("url", "/expense");
-		model.addAttribute("page", "expense");
-		return "bus";
+		model.addAttribute("url", "/expense-type");
+		model.addAttribute("page", "expenseType");
+		return "expense-type";
 	}
 
 }

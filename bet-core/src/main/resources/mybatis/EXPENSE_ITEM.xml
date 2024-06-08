@@ -6,7 +6,7 @@
 	<resultMap 			type="ExpenseItemBean" 			id="ExpenseItemResult">
 		<id 			property="id" 					column="id" />
 		<result 		property="dailyExpenseId" 		column="daily_expense_id" />
-		<result		 	property="expenseTypeId" 		column="expense_type_id" />
+		<result		 	property="expenseType" 			column="expense_type" />
 		<result 		property="inventoryId" 			column="inventory_id" />
 		<result 		property="amount" 				column="amount" />
 		<result 		property="quantity" 			column="quantity" />
@@ -15,14 +15,14 @@
 	<insert id="insertExpenseItem" parameterType="ExpenseItemBean" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO expense_item(
 			daily_expense_id,
-			expense_type_id,
+			expense_type,
 			inventory_id,
 			amount,
 			quantity
 			)
 		VALUES(
 			#{dailyExpenseId},
-			#{expenseTypeId},
+			#{expenseType},
 			#{inventoryId},
 			#{amount},
 			#{quantity}
@@ -39,14 +39,13 @@
 		 
 		 SELECT
 		 CASE
-		    WHEN ISNULL(expense_type_id) THEN i.item
-		    ELSE et.name
+		    WHEN ISNULL(expense_type) THEN i.item
+		    ELSE expense_type
 			END AS name,
 			ei.amount,
 			ei.quantity
 		
 		 FROM expense_item ei
-		 LEFT JOIN expense_type et ON ei.expense_type_id = et.id
 		 LEFT JOIN inventory i ON ei.inventory_id = i.id
 		 WHERE ei.daily_expense_id = #{id}
 	</select>

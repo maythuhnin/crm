@@ -36,7 +36,38 @@ public class ExpenseTypeDao implements IExpenseTypeDao {
 			sqlSession.close();
 		}
 	}
+	
+	@Override
+	public int update(ExpenseTypeBean expenseType) throws MyBatisException {
+		logger.info("=====> Updating expenseTypeBean : " + expenseType + "<=====");
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			IExpenseTypeMapper expenseTypeMapper = sqlSession.getMapper(IExpenseTypeMapper.class);
+			expenseTypeMapper.updateExpenseType(expenseType);
+			sqlSession.commit();
+			return expenseType.getId();
+		} catch (DuplicateKeyException e) {
+			throw new MyBatisException("DuplicateKeyException occured when Updating ExpenseType : " + expenseType, e);
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when Updating ExpenseType : " + expenseType, e);
+		} finally {
+			sqlSession.close();
+		}
+	}
 
+	@Override
+	public ExpenseTypeBean selectById(int id) throws MyBatisException {
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			logger.info("=====> Selecting selectById <=====");
+			IExpenseTypeMapper expenseTypeMapper = sqlSession.getMapper(IExpenseTypeMapper.class);
+			return expenseTypeMapper.selectById(id);
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when selecting selectById ", e);
+		} finally {
+			sqlSession.close();
+		}
+	}
 	
 
 	@Override
@@ -52,6 +83,21 @@ public class ExpenseTypeDao implements IExpenseTypeDao {
 			sqlSession.close();
 		}
 	}
+	
+	@Override
+	public List<ExpenseTypeBean> selectForDataTable() throws MyBatisException {
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			logger.info("=====> Selecting selectForDataTable <=====");
+			IExpenseTypeMapper expenseTypeMapper = sqlSession.getMapper(IExpenseTypeMapper.class);
+			return expenseTypeMapper.selectForDatatable();
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when selecting selectForDataTable ", e);
+		} finally {
+			sqlSession.close();
+		}
+	}
+
 
 	@Override
 	public void delete(int expenseTypeId) throws MyBatisException {

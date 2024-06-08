@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.eniac.projects.bet.dao.interfaces.IBusDao;
 import com.eniac.projects.bet.dao.interfaces.IDailyExpenseDao;
 import com.eniac.projects.bet.dao.interfaces.IExpenseItemDao;
+import com.eniac.projects.bet.dao.interfaces.IExpenseTypeDao;
 import com.eniac.projects.bet.dao.interfaces.IInventoryDao;
 import com.eniac.projects.bet.dao.interfaces.IStockDao;
 import com.eniac.projects.bet.exception.BuisnessException;
@@ -38,6 +39,9 @@ public class DailyExpenseServiceImpl {
 	@Autowired
 	private IBusDao busDao;
 	
+	@Autowired
+	private IExpenseTypeDao expenseTypeDao;
+	
 	public void createDailyExpense(DailyExpenseBean dailyExpense) throws MyBatisException, BuisnessException, DuplicatedEntryException {
 		
 		dailyExpenseDao.insert(dailyExpense);
@@ -46,9 +50,11 @@ public class DailyExpenseServiceImpl {
 			
 			BusBean bus = busDao.selectById(dailyExpense.getBusId());
 			for(ExpenseItemBean item : dailyExpense.getExpenseItemList()) {
+				if(item.getExpenseTypeId() != null) {
+					item.setExpenseType(expenseTypeDao.selectById(item.getExpenseTypeId()).getName());
+				}
 				item.setDailyExpenseId(dailyExpense.getId());
 				expenseItemDao.insert(item);
-				
 				if(item.getInventoryId() != null) {
 					InventoryBean inventory = inventoryDao.selectById(item.getInventoryId());
 					inventory.setQuantity(inventory.getQuantity() - item.getQuantity());

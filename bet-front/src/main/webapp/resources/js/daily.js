@@ -1,5 +1,6 @@
 let expenseDatatable = {}; 
 let fixedExpenseList = [];
+let expenseTypeList = [];
 let destinationList = [];
 let expenseList = [];
 let inventoryList = [];

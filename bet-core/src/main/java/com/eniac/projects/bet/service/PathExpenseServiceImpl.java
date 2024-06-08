@@ -24,6 +24,6 @@ public class PathExpenseServiceImpl {
 	}
 
 	public void deletePathExpense(int pathExpenseId) throws MyBatisException {
-		pathExpenseDao.delete(pathExpenseId);
+		pathExpenseDao.deleteWithPathId(pathExpenseId);
 	}
 }

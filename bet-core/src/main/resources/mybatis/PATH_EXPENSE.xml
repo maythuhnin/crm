@@ -33,6 +33,10 @@
 		DELETE FROM PATH_EXPENSE WHERE PATH_ID =#{id}
 	</delete>
 	
+	<delete id="deleteFromExpense" parameterType="int">
+		DELETE FROM PATH_EXPENSE WHERE EXPENSE_ID =#{id}
+	</delete>
+	
 	<select id="selectForDatatable" resultType="map" parameterType="int">
 		SELECT 
 		 pe.path_id AS pathId,
