@@ -252,7 +252,7 @@ function initStockHistoryDatatable(inventoryId) {
 	        dataSrc: 'responseData',
 	        dataType: "json"
 	    },
-	    "order": [0],
+	    "order": [2],
 	     "scrollX": true,
         "sScrollXInner": "100%",
         scrollCollapse: true,

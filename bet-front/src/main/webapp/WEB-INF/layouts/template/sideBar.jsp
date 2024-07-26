@@ -109,7 +109,7 @@
           
            <li class="nav-item">
             <a href="<c:url value="/expense-type"/>" class="nav-link ${page eq 'expenseType' ? 'active' : ''}">
-              <i class="nav-icon fas fa-hand-holding-usd"></i>
+              <i class="nav-icon fas fa-th-list"></i>
               <p>
                 EXPENSE TYPE
               </p>

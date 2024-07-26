@@ -80,6 +80,8 @@ function bindBusDropDown(){
 
 
 function bindSearch(){
+	
+	bindExpenseDeleteApi();
 	 
 	$(".dataTables_filter").addClass("d-none");
 	
@@ -127,6 +129,7 @@ function initExpenseReportDatatable() {
 	    	bSortable: false
             },  
          { mData : function(data, type, full, meta) {
+				expenseList.push(data);
 				return data.dateRange;
 			},
 		    sClass: "text-center"},
@@ -163,11 +166,38 @@ function initExpenseReportDatatable() {
 		    { mData : function(data, type, full, meta) {
 				return (data.restDay == true) ? getCurrencyFormat(data.expenseTotal) : getCurrencyFormat((data.onPaperIncomeLeave + data.onPaperIncomeReturn + data.extraIncome) - data.expenseTotal);
 			},
-		    sClass: "text-right"},           
+		    sClass: "text-right"},
+		      { mData : function(data, type, full, meta) {
+	
+				return '<div><button type="button" class="btn btn-outline-danger btn-sm delete-expense mr-1" data-id="' + data.id + '" title="Delete Daily Income/Expense">Delete <i class="fas fa-trash" data-id="' + data.id + '" title="Delete Daily Income/Expense"></i></button><button type="button" href="" class="btn btn-outline-primary edit-expense btn-sm" data-id="' + data.id + '" title="Edit Daily Income/Expense">Edit <i class="fas fa-edit mt-1" data-id="' + data.id + '" title="Edit Daily Income/Expense"></i></button></div>';
+			},
+		    sClass: "text-center",
+	    	bSortable: false }           
 	 
 		      
 	    ],
+	    "fnDrawCallback": function () {
+		
+		$( ".delete-expense" ).on( "click", function() {
+			var expenseId = $(this).attr("data-id");
+			var expenseBean = getBeanFromListById(expenseList, expenseId);
+			$("#delExpenseId").val(expenseId);
+			$("#delName").text(expenseBean.dateRange);
+			$("#deleteModal").modal();
+		});
+		
+		$( ".edit-expense" ).on( "click", function() {
+			console.log("clicked");
+			var expenseId = $(this).attr("data-id");
+			var url = getPathName() + '/daily/' + expenseId +'/edit'
+			window.open(url, '_blank');
+			
+		});
+		},
     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+	
+		
+			
       if (aData.restDay) {
 		$('td:eq(2)', nRow).attr('colspan', 6);
 		$('td:eq(3)', nRow).css('display', 'none');
@@ -258,45 +288,36 @@ function getExpense(dailyExpenseId){
 }
 
 
-function initExpenseDatatable() {
-	
-	expenseDatatable = $('#expenseDatatable').DataTable({
-		lengthChange: false, 
-		autoWidth: false,
-      	dom: 'Bfrtip',
-		data: expenseList,
-	    "order": [0],
-	    scrollX:        true,
-        scrollCollapse: true,
-         columnDefs: [{ width: '10%', targets: 2 }],
-	    columns: [
-		{ mData : function(data, type, full, meta) {
-				return data.name;
-			},
-		    sClass: "text-center"}, 
-		    { mData : function(data, type, full, meta) {
-				return data.amount.toLocaleString("en") + " Ks";
-			},
-		    sClass: "text-right"},      
-	 
-		      { mData : function(data, type, full, meta) {
-	
-				return '<button type="button" class="btn btn-outline-danger delete-expense" data-id="' + data.expenseId + '" title="Delete Expense"><i class="fas fa-trash"></i></button>';
-			},
-		    sClass: "text-center",
-	    	bSortable: false }
-	    ],
-		"fnDrawCallback": function (){
-			
-			$( ".delete-expense" ).on( "click", function() {
-				expenseList.splice(getIndexFromExpenseListById(expenseList, parseInt($(this).attr("data-id")), 1)); 
-				expenseDatatable.clear().draw();
-				expenseDatatable.rows.add(expenseList); // Add new data
-				expenseDatatable.columns.adjust().draw();
-			});
-	   } 
-	});
+function bindExpenseDeleteApi(){
 		
+		$( "#deleteExpense" ).on( "click", function()  {
+
+			showLoadingOverlay();
+			
+			$.ajax({
+				url : getPathName() + "/daily-expense/api/delete",
+				type : "POST",
+				contentType: "application/json",
+				data :JSON.stringify($("#delExpenseId").val()),
+				dataType: 'json',
+				success : function(data) {
+					if(data.httpStatus == "OK"){
+						
+						expenseReportDatatable.ajax.reload();
+						
+						$("#deleteModal").modal("hide");
+						
+						toastr.success('Daily Income/Expense deleted successfully.');
+					
+					}else if(data.httpStatus == "INTERNAL_SERVER_ERROR"){
+						toastr.error(data.error);
+					}
+				},
+				complete : function(data){
+					hideLoadingOverlay();
+				}
+			});	
+	});
 }
 
 

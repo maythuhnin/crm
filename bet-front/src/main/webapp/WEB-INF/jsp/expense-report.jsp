@@ -63,6 +63,7 @@
               <th>Extra Income From Hitchhikers</th>
               <th>Expense Total</th>
               <th>Total</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
@@ -76,7 +77,43 @@
       <!-- /.card -->
     </section>
     
-  
+      <!-- /.card -->
+	<div class="modal fade" id="deleteModal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Delete Daily Income/Expense</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+                  <!-- form start -->
+        
+            <div class="modal-body">
+          		<div class="card-body del-card">
+            		<div class="form-group row">
+              			<label class="col-sm-12 col-form-label">
+              				Are you sure you want to delete Daily Income/Expense: <span id="delName"></span>?
+              				<br>
+              				<span class="fixed-expense text-danger">Inventory from this record will be added back as well.</span>
+             				<br>
+             				<br>
+             				<span class="required">This process cannot be undone.</span>
+              			</label>
+            		
+            		</div>                       
+      	  		</div>
+        	</div>
+        	 <input type="hidden" id="delExpenseId"/>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+              <button type="button" class="btn btn-outline-primary" id="deleteExpense">YES</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
  
     <!-- /.content -->
   </div>

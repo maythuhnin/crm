@@ -8,6 +8,8 @@
 		<result 		property="busId" 				column="bus_id" />
 		<result		 	property="fromDate" 			column="from_date" />
 		<result 		property="toDate" 				column="to_date" />
+		<result		 	property="fromDateAsString" 	column="fromDateAsString" />
+		<result 		property="toDateAsString" 		column="toDateAsString" />
 		<result 		property="path" 				column="path" />
 		<result 		property="onPaperIncomeLeave" 	column="on_paper_income_leave" />
 		<result 		property="onPaperIncomeReturn" 	column="on_paper_income_return" />
@@ -136,7 +138,10 @@
 	</select>
 
 	<select id="selectById" parameterType="int" resultMap="DailyExpenseResult">
-		SELECT * FROM daily_expense WHERE id = #{id}
+		SELECT *,
+		 DATE_FORMAT(from_date,'%d/%m/%Y') AS fromDateAsString,
+		  DATE_FORMAT(to_date,'%d/%m/%Y') AS toDateAsString
+		 FROM daily_expense WHERE id = #{id}
 	</select>
 	
 	

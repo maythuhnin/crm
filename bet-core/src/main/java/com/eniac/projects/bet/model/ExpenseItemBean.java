@@ -64,8 +64,8 @@ public class ExpenseItemBean extends BaseBean implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"ExpenseItemBean [dailyExpenseId=%s, expenseTypeId=%s, inventoryId=%s, amount=%s, quantity=%s, expenseType=%s]",
-				dailyExpenseId, expenseTypeId, inventoryId, amount, quantity, expenseType);
+				"ExpenseItemBean [id=%s,dailyExpenseId=%s, expenseTypeId=%s, inventoryId=%s, amount=%s, quantity=%s, expenseType=%s]",
+				getId(), dailyExpenseId, expenseTypeId, inventoryId, amount, quantity, expenseType);
 	}
 
 }

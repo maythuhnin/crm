@@ -29,15 +29,33 @@
 		)
 	</insert>
 	
+	<delete id="delete" parameterType="int">
+		DELETE FROM EXPENSE_ITEM 
+		WHERE ID =#{id}
+	</delete>
 	
 	<delete id="deleteExpenseItem" parameterType="int">
 		DELETE FROM EXPENSE_ITEM 
 		WHERE DAILY_EXPENSE_ID =#{id}
 	</delete>
 	
+	<select id="selectById" resultMap="ExpenseItemResult" parameterType="int">
+		 SELECT * FROM expense_item
+		 WHERE id = #{id}
+	</select>
+	
+	<select id="selectByExpenseId" resultMap="ExpenseItemResult" parameterType="int">
+		 
+		 SELECT * FROM expense_item
+		 WHERE daily_expense_id = #{id}
+	</select>
+	
 	<select id="selectForDatatable" resultType="map" parameterType="int">
 		 
 		 SELECT
+		 	ei.id,
+		 	ei.expense_type AS expenseType,
+		 	ei.inventory_id AS inventoryId,
 		 CASE
 		    WHEN ISNULL(expense_type) THEN i.item
 		    ELSE expense_type

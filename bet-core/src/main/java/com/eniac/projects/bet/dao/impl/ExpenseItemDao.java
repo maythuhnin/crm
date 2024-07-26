@@ -51,16 +51,36 @@ public class ExpenseItemDao implements IExpenseItemDao {
 		}
 	}
 
-	
-
 	@Override
-	public void delete(int dailyExpenseId) throws MyBatisException {
-		logger.info("=====> Deleting expenseItemId : " + dailyExpenseId + "<=====");
+	public int delete(int id) throws MyBatisException {
+		logger.info("=====> Deleting id : " + id + "<=====");
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		int deleted = 0;
 		try {
 			IExpenseItemMapper expenseItemMapper = sqlSession.getMapper(IExpenseItemMapper.class);
-			expenseItemMapper.deleteExpenseItem(dailyExpenseId);
+			deleted = expenseItemMapper.delete(id);
 			sqlSession.commit();
+			return deleted;
+		} catch (DataIntegrityViolationException e) {
+			throw new MyBatisException("DataIntegrityViolationException occured when deleting ExpenseItem : " + id, e);
+		} catch (Exception e) {
+			throw new MyBatisException("Exception occured when deleting ExpenseItem : " + id, e);
+		} finally {
+			sqlSession.close();
+		}
+
+	}
+
+	@Override
+	public int deleteByExpenseId(int dailyExpenseId) throws MyBatisException {
+		logger.info("=====> Deleting expenseItemId : " + dailyExpenseId + "<=====");
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		int deleted = 0;
+		try {
+			IExpenseItemMapper expenseItemMapper = sqlSession.getMapper(IExpenseItemMapper.class);
+			deleted = expenseItemMapper.deleteExpenseItem(dailyExpenseId);
+			sqlSession.commit();
+			return deleted;
 		} catch (DataIntegrityViolationException e) {
 			throw new MyBatisException("DataIntegrityViolationException occured when deleting ExpenseItem : " + dailyExpenseId, e);
 		} catch (Exception e) {
@@ -69,6 +89,34 @@ public class ExpenseItemDao implements IExpenseItemDao {
 			sqlSession.close();
 		}
 
+	}
+	
+	@Override
+	public ExpenseItemBean selectById(int id) throws MyBatisException {
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			logger.info("=====> Selecting selectById <=====");
+			IExpenseItemMapper expenseItemMapper = sqlSession.getMapper(IExpenseItemMapper.class);
+			return expenseItemMapper.selectById(id);
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when selecting all selectById", e);
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<ExpenseItemBean> selectByExpenseId(int dailyExpenseId) throws MyBatisException {
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			logger.info("=====> Selecting selectByExpenseId <=====");
+			IExpenseItemMapper expenseItemMapper = sqlSession.getMapper(IExpenseItemMapper.class);
+			return expenseItemMapper.selectByExpenseId(dailyExpenseId);
+		} catch (Exception e) {
+			throw new MyBatisException("Mybatis Exception occured when selecting all selectByExpenseId", e);
+		} finally {
+			sqlSession.close();
+		}
 	}
 
 }

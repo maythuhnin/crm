@@ -4,8 +4,13 @@
 <tiles-definitions>
 
 	<definition name="daily" extends="baseLayout">
-		<put-attribute name="title" value="Daily" />
+		<put-attribute name="title" value="Daily Income/Expense" />
 		<put-attribute name="content" value="/WEB-INF/jsp/daily.jsp" />
+	</definition>
+	
+	<definition name="daily-edit" extends="baseLayout">
+		<put-attribute name="title" value="Daily Income/Expense Edit" />
+		<put-attribute name="content" value="/WEB-INF/jsp/daily-edit.jsp" />
 	</definition>
 	
 </tiles-definitions>
