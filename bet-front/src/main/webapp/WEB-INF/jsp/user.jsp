@@ -191,6 +191,18 @@
               </div>
             </div>
             
+             <div class="form-group row update-status">
+              <div class="col-sm-1"></div>
+              <label for="updateRole" class="col-sm-3 col-form-label">Status <span class="required">[required]</span></label>
+              <div class="col-sm-6">
+                   <select class="form-control select2 select-filter" style="width: 100%;" id="updateStatus">
+			            <option value="1">ACTIVE</option>
+				        <option value="0">IN-ACTIVE</option>
+			   		</select>
+              </div>
+            </div>
+            
+            
             <div class="form-group row">
               <div class="col-sm-1"></div>
               <label for="password" class="col-sm-3 col-form-label">Password</label>
@@ -226,7 +238,7 @@
       
         <!-- /.card -->
 	<div class="modal fade" id="deleteModal">
-        <div class="modal-dialog modal-xs">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Delete User </h4>

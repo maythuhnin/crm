@@ -338,7 +338,10 @@ function initFixedExpenseDatatable() {
 					$("#path" + (index+1)).val(destinationId).trigger('change');
 				});
 				
-				$('#bus').val(fixedExpenseBean.busIds.split(",")).change();
+				if(!isEmpty(fixedExpenseBean.busIds)){
+					$('#bus').val(fixedExpenseBean.busIds.split(",")).change();
+				}
+				
 				expenseList = getExpense(fixedExpenseId);
 				
 				expenseDatatable.clear().draw();
@@ -551,7 +554,8 @@ function bindValidator(){
 				required : true
 			},
 			amount : {
-				required : true
+				required : true,
+				min: 0
 			}
 		},
 		errorPlacement : function(error, element) {

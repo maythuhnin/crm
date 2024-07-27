@@ -11,6 +11,12 @@
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>">
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>">
 	    <link rel="stylesheet" href="<c:url value="/resources/css/expense-report.css"/>"> 
+	 <!-- daterange picker -->
+	     
+ 		 <link rel="stylesheet" href="<c:url value="/resources/plugins/daterangepicker/daterangepicker.css"/>">
+	    <!-- Tempusdominus Bootstrap 4 -->
+	  	<link rel="stylesheet" href="<c:url value="/resources/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"/>">
+	   
 	</head>
 	<!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -21,11 +27,28 @@
       <div class="card">
        	 <div class="card-header">
           <div class="row">	
-          <div class="col-sm-2">
+          		<div class="col-sm-2">
 					<select class="form-control select2 select-filter" style="width: 100%;" id="searchBus">
 			        	
 			        </select>
 			     </div>
+			     <div class="col-sm-2">
+					<select class="form-control select2 select-filter" style="width: 100%;" id="searchOrder">
+			        	<option value=""></option>
+			        	<option value="1">Is Order</option>
+			        	<option value="0">Not Order</option>
+			        </select>
+			     </div>
+			      <div class="col-sm-3">
+	               <div class="input-group"> 
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="far fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="dateRange">
+                  </div>
+                  </div>
 	         <div class="col-sm-3">
 					<div class="input-group">
 		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
@@ -125,6 +148,12 @@
 	<script src="<c:url value="/resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"/>"></script>
 		<!-- Select2 -->
 <script src="<c:url value="/resources/plugins/select2/js/select2.full.min.js"/>"></script>
+	<!-- date-range-picker -->
+	<script src="<c:url value="/resources/plugins/moment/moment.min.js"/>"></script>
+	
+	<script src="<c:url value="/resources/plugins/daterangepicker/daterangepicker.js"/>"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script src="<c:url value="/resources/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"/>"></script>
 	
 	<script src="<c:url value="/resources/js/expense-report.js"/>"></script>
 

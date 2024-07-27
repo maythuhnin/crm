@@ -251,7 +251,7 @@ function bindDriverDropDown(selectedId, editId){
 				$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver, #searchDriver").append("<option value=''></option>");
 	
 				$(data).each(function( index, driver ) {
-					$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver").append("<option value='" + driver.id + "'>" + driver.name + " [" + driver.phone +"]</option>");
+					$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver").append("<option value='" + driver.id + "'>" + driver.name + (isEmpty(driver.phone) ? "" : " [" + driver.phone +"]") +"</option>");
 					$("#searchDriver").append("<option value='" + driver.name + "'>" + driver.name + "</option>");
 				
 				});
@@ -295,7 +295,7 @@ function initDatatable() {
 	    scrollX:        false,
         scrollCollapse: true,
 	    paging: false,
-	    scrollY: '50vh',
+	    scrollY: '70vh',
 	    responsive: false,
 	    columns: [
 		{ mData : function(data, type, full, meta) {

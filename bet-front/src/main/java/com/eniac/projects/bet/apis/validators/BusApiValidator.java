@@ -22,11 +22,9 @@ public class BusApiValidator extends CommonValidator implements Validator{
 		
 		if(bus.getMode().equals(Mode.ADD)) {
 			checkIfEmpty(bus.getLicensePlate(), "licensePlate", errors);
-			checkIfEmpty(bus.getPrimaryDriverId(), "primaryDriverId", errors);
 		}else if (bus.getMode().equals(Mode.EDIT)){
 			checkIfEmpty(bus.getId(), "id", errors);
 			checkIfEmpty(bus.getLicensePlate(), "licensePlate", errors);
-			checkIfEmpty(bus.getPrimaryDriverId(), "primaryDriverId", errors);	
 		}else if (bus.getMode().equals(Mode.DELETE)){
 			checkIfEmpty(bus.getId(), "id", errors);	
 		}

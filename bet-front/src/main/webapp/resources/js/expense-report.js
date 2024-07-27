@@ -11,6 +11,13 @@ function init() {
 	getDestinationList();
 	bindSearch();
 	
+	//Date range picker
+    $('#dateRange').daterangepicker({
+		 locale: {
+            format: 'DD/MM/YYYY'
+        }
+	});
+	
 }
 
 
@@ -74,6 +81,12 @@ function bindBusDropDown(){
 						expenseReportDatatable.clear().draw();
 						expenseReportDatatable.ajax.reload();
 					});
+					
+					$('#searchOrder').select2({
+						theme: 'bootstrap4',
+						placeholder: "Select Order.",
+						allowClear: true
+					});
 				}
 			});
 }
@@ -120,6 +133,10 @@ function initExpenseReportDatatable() {
 	    paging: false,
 	    scrollY: '50vh',
 	    responsive: false,
+	     columnDefs: [{ width: '15%', targets: [1] },
+	     { width: '20%', targets: [2] },
+	     { width: '5%', targets: [3,4,5,6,7,8,9] },
+	     { width: '10%', targets: [10] }],
         columns: [
 		 {
                 className: 'dt-control',

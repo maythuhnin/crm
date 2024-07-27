@@ -69,8 +69,7 @@ function bindUserAddButtonClick(){
 function bindUserAddApi(){
 	
 	$("#saveUser").click(function () {
-		//$("#userForm").valid()
-		if(true){
+		if($("#userForm").valid()){
 			
 			showLoadingOverlay();
 			
@@ -126,7 +125,8 @@ function bindUserUpdateApi(){
 				id : parseInt($("#userId").val()),
 				name : $("#updateName").val(),
 				username : $( "#updateUsername" ).val(),
-				role : $("#updateRole").val()
+				role : $("#updateRole").val(),
+				status : $("#updateStatus").val() == 0 ? false : true
 			};
 			
 			if(!isEmpty($("#updatePassword").val()) && ($("#updatePassword").val()== $("#updateConfirmPassword").val())){
@@ -236,6 +236,12 @@ function initDatatable() {
 				$("#updateName").val(userBean.name);
 				$("#updateUsername").val(userBean.username);
 				$("#updateRole").val(userBean.role);
+				$("#updateStatus").val(userBean.status);
+				if(userId == $("#loggedInUser").val()){
+					$(".update-status").addClass("d-none");
+				}else{
+					$(".update-status").removeClass("d-none"); 
+				}
 				$("#updateUserModal").modal();
 			});
 			
@@ -299,11 +305,27 @@ function bindValidator(){
 			},
 			password : {
 				required : true,
-				maxlength : 200
+				maxlength : 200,
+				minlength: 6,
+				isAddPasswordSame : true,
+				checkPasswordStrength: true
 			},
 			confirmPassword : {
 				required : true,
-				maxlength : 200
+				maxlength : 200,
+				minlength: 6,
+				isAddPasswordSame : true,
+				checkPasswordStrength: true
+			}
+		},
+		messages: {
+			password : {
+				isAddPasswordSame : "Password and Confirm Password should be the same.",
+				checkPasswordStrength : "Password should contain at least one alphabet, one number and one special character."
+			},
+			confirmPassword : {
+				isAddPasswordSame : "Password and Confirm Password should be the same.",
+				checkPasswordStrength : "Password should contain at least one alphabet, one number and one special character."
 			}
 		}
 	});
@@ -321,13 +343,30 @@ function bindValidator(){
 			updateRole : {
 				required : true
 			},
+			updateStatus : {
+				required : true
+			},
 			updatePassword : {
-				required : true,
-				maxlength : 200
+				maxlength : 200,
+				minlength: 6,
+				isUpdatePasswordSame : true,
+				checkPasswordStrength: true
 			},
 			updateConfirmPassword : {
-				required : true,
-				maxlength : 200
+				maxlength : 200,
+				minlength: 6,
+				isUpdatePasswordSame : true,
+				checkPasswordStrength: true
+			}
+		},
+		messages: {
+			updatePassword : {
+				isUpdatePasswordSame : "Password and Confirm Password should be the same.",
+				checkPasswordStrength : "Password should contain at least one alphabet, one number and one special character."
+			},
+			updateConfirmPassword : {
+				isUpdatePasswordSame : "Password and Confirm Password should be the same.",
+				checkPasswordStrength : "Password should contain at least one alphabet, one number and one special character."
 			}
 		}
 	});

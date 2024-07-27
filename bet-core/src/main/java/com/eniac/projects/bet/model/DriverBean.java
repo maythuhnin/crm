@@ -8,7 +8,6 @@ public class DriverBean extends BaseBean implements Serializable {
 
 	private String name;
 	private String phone;
-	private Double loanAmount;
 	private Boolean status;
 
 	public String getName() {
@@ -27,14 +26,6 @@ public class DriverBean extends BaseBean implements Serializable {
 		this.phone = phone;
 	}
 
-	public Double getLoanAmount() {
-		return loanAmount;
-	}
-
-	public void setLoanAmount(Double loanAmount) {
-		this.loanAmount = loanAmount;
-	}
-
 	public Boolean getStatus() {
 		return status;
 	}
@@ -45,8 +36,7 @@ public class DriverBean extends BaseBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("DriverBean [name=%s, phone=%s, loanAmount=%s, status=%s]", name, phone, loanAmount,
-				status);
+		return String.format("DriverBean [name=%s, phone=%s, status=%s]", name, phone, status);
 	}
 
 }

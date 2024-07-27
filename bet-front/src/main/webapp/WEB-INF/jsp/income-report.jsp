@@ -26,6 +26,7 @@
       <div class="card">
        	 <div class="card-header">
           <div class="row">	
+          
           <div class="col-sm-2">
 					<div class="input-group date" id="searchMonth" data-target-input="nearest">
 	                <input type="text" class="form-control datetimepicker-input" data-target="#searchMonth"/>
@@ -33,6 +34,11 @@
 	                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 	                </div>
 				       </div>
+			     </div>
+			     <div class="col-sm-2">
+					<select class="form-control select2 select-filter" style="width: 100%;" id="searchBus">
+			        	
+			        </select>
 			     </div>
 	         <div class="col-sm-3">
 					<div class="input-group">

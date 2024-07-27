@@ -54,3 +54,57 @@ jQuery.validator.addMethod("isContactPhonePatternValid", function(value, element
 });
 
 
+jQuery.validator.addMethod("isAddPasswordSame", function(value, element) {
+	var flag = true;
+	
+	if (!isEmpty($("#password").val()) && !isEmpty($("#confirmPassword").val())) {
+		if($("#password").val() != $("#confirmPassword").val()){
+			flag = false;
+			return;	
+		}
+		
+	}
+	return flag;
+});
+
+
+jQuery.validator.addMethod("isUpdatePasswordSame", function(value, element) {
+	var flag = true;
+	
+	if (!isEmpty($("#updatePassword").val()) && !isEmpty($("#updateConfirmPassword").val())) {
+		if($("#updatePassword").val() != $("#updateConfirmPassword").val()){
+			flag = false;
+			return;	
+		}
+		
+	}
+	return flag;
+});
+
+jQuery.validator.addMethod("checkPasswordStrength", function(value, element) {
+	var flag = true;
+	if (!isEmpty(value)) {
+		
+		if(!checkPasswordStrength(value)){
+			flag = false;
+			return;	
+		}
+
+		
+	}
+	return flag;
+});
+
+function checkPasswordStrength(value) {
+	var flag = false
+	var number = /([0-9])/;
+	var alphabets = /([a-zA-Z])/;
+	var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+	var password = value.trim();
+	
+	if (password.match(number) && password.match(alphabets) && password.match(special_characters)) {
+		flag = true;
+	}
+		
+	return flag;
+}

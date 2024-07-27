@@ -7,7 +7,6 @@
 		<id 			property="id" 				column="id" />
 		<result 		property="name" 			column="name" />
 		<result		 	property="phone" 			column="phone" />
-		<result		 	property="loanAmount" 		column="loan_amount" />
 		<result 		property="status" 			column="status" />
 		<result 		property="updatedId" 		column="updated_id" />
 		<result 		property="updatedDateTime" 	column="updated_datetime" />
@@ -19,9 +18,6 @@
 			<if test="phone != null">
 				phone,
 			</if>
-			<if test="loanAmount != null">
-				loan_amount,
-			</if>
 			status,
 			updated_id,
 			updated_datetime
@@ -30,9 +26,6 @@
 			#{name},
 			<if test="phone != null">
 				#{phone},
-			</if>
-			<if test="loanAmount != null">
-				#{loanAmount},
 			</if>
 			1,
 			#{updatedId},
@@ -47,9 +40,6 @@
 			</if>
 			<if test="phone != null">
 				,PHONE = #{phone}
-			</if>
-			<if test="loanAmount != null">
-				,LOAN_AMOUNT = #{loanAmount}
 			</if>
 			<if test="status != null">
 				,STATUS = #{status}

@@ -55,8 +55,8 @@
 	            </div>
 			
           		<div class="col-sm-2">
-	                  <button type="button" class="btn btn-outline-primary btn-sm float-right" id="addBus">
-	                   Add Bus <i class="fas fa-plus-circle"></i>
+	                  <button type="button" class="btn btn-outline-primary float-right" id="addBus">
+	                   Add <i class="fas fa-plus-circle"></i>
 	                  </button>
 	            </div>
 			    
