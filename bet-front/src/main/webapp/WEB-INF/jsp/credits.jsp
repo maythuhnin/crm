@@ -21,7 +21,7 @@
       <img class="profile-pic" src="resources/images/andiwillflyy.jpg"/>
       <div class="profile-detail">
         <p class="profile-name">May Thu Hnin</p>
-        <p><span class="profile-summary"><script>document.write(Math.floor((new Date() - new Date('1998-08-07').getTime()) / 3.15576e+10));</script> | full stack dev. | amateur writer</p>
+        <p><span class="profile-summary"><script>document.write(Math.floor((new Date() - new Date('1998-08-07').getTime()) / 3.15576e+10));</script> | full stack developer | amateur writer</p>
         <p><span class="profile-summary"></p>
         <a class="profile-contact" href="#"><i class="fa fa-phone" aria-hidden="true"></i> +959254012437</span></a>
         <a class="profile-contact mail" href="#"><i class="far fa-envelope"></i> maythuhnin@eniacstudio.com</span></a>

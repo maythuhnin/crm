@@ -54,7 +54,7 @@ function bindDriverAddApi(){
 			
 			driverBean = {
 				name : $("#name").val(),
-				phone : $("#driverPhone").val(),
+				phone : $("#phone").val(),
 				loanAmount: parseFloat(0.0)
 			};
 			
@@ -187,7 +187,7 @@ function bindBusUpdateApi(){
 }
 
 function resetBusForm(){
-	$("#licensePlate, #primaryDriver, #secondaryDriver, #phone").val("");
+	$("#licensePlate, #primaryDriver, #secondaryDriver, #primaryPhone").val("");
 	$("#editLicensePlate, #editPrimaryDriver, #editSecondaryDriver, #editPhone").val("");
 	$("#status, editStatus").val("OK");
 	 busAddValidator.resetForm();
@@ -195,7 +195,8 @@ function resetBusForm(){
 }
 
 function resetDriverForm(){
-	$("#name,#driverPhone").val("");
+	$("#name").val("");
+	$("#phone").tagsinput('removeAll');
 	driverAddValidator.resetForm();
 }
 
@@ -262,12 +263,14 @@ function bindDriverDropDown(selectedId, editId){
 		},
 		complete : function(data){
 			if(null != selectedId){
-				$("#" + editId).val(selectedId);	
+				$("#" + editId).val(selectedId);
+				
 			}
 			
 			$( "#primaryDriver" ).on( "change", function() {
 				var driverBean = getBeanFromListById(driverList, $(this).val());
-				$( "#phone" ).val(driverBean.phone);
+				console.log(driverBean);
+				$( "#primaryPhone" ).val(driverBean.phone);
 			});
 		}
 	});	
@@ -435,8 +438,22 @@ function bindValidator(){
 				required : true,
 				maxlength : 200
 			},
-			driverPhone:{
-				maxlength : 100
+			phone : {
+				isPhoneLengthValid : true,
+				isPhonePatternValid: true
+			}
+		},
+		messages: {
+			phone: {
+				isPhoneLengthValid: "Please enter no more than 100 characters.",
+				isPhonePatternValid: "Please enter a valid phone number."
+			}
+		},
+		errorPlacement : function(error, element) {
+			if ($(element).prop("name") === "phone") {
+				error.insertBefore($("#phone"));
+			} else {
+				error.insertAfter(element); // default error placement.
 			}
 		}
 	});

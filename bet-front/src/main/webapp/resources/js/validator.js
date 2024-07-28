@@ -3,8 +3,8 @@ var PHONE_PATTERN = /^(09|01)+(\d{7,9})$/;
 
 jQuery.validator.addMethod("isPhoneLengthValid", function(value, element) {
 	var flag = true;
-	if (null != $("#distributorPhone").val() && $("#distributorPhone").val() != "") {
-		if ($("#distributorPhone").val().length > 50) {		
+	if (null != $("#phone").val() && $("#phone").val() != "") {
+		if ($("#phone").val().length > 100) {		
 			flag = false;
 			return;
 		}
@@ -15,8 +15,8 @@ jQuery.validator.addMethod("isPhoneLengthValid", function(value, element) {
 jQuery.validator.addMethod("isPhonePatternValid", function(value, element) {
 	var flag = true;
 	
-	if (null != $("#distributorPhone").val() && $("#distributorPhone").val() != "") {
-		var phoneNumber = $("#distributorPhone").val().split(",");
+	if (null != $("#phone").val() && $("#phone").val() != "") {
+		var phoneNumber = $("#phone").val().split(",");
 		$.each(phoneNumber,function(index, value) {
 			if (!testRegex(value, PHONE_PATTERN)) {			
 				flag = false;
@@ -27,10 +27,10 @@ jQuery.validator.addMethod("isPhonePatternValid", function(value, element) {
 	return flag;
 });
 
-jQuery.validator.addMethod("isContactPhoneLengthValid", function(value, element) {
+jQuery.validator.addMethod("isEditPhoneLengthValid", function(value, element) {
 	var flag = true;
-	if (null != $("#contactPersonPhone").val() && $("#contactPersonPhone").val() != "") {
-		if ($("#contactPersonPhone").val().length > 50) {		
+	if (null != $("#editPhone").val() && $("#editPhone").val() != "") {
+		if ($("#editPhone").val().length > 100) {		
 			flag = false;
 			return;
 		}
@@ -38,11 +38,11 @@ jQuery.validator.addMethod("isContactPhoneLengthValid", function(value, element)
 	return flag;
 });
 
-jQuery.validator.addMethod("isContactPhonePatternValid", function(value, element) {
+jQuery.validator.addMethod("isEditPhonePatternValid", function(value, element) {
 	var flag = true;
 	
-	if (null != $("#contactPersonPhone").val() && $("#contactPersonPhone").val() != "") {
-		var phoneNumber = $("#contactPersonPhone").val().split(",");
+	if (null != $("#editPhone").val() && $("#editPhone").val() != "") {
+		var phoneNumber = $("#editPhone").val().split(",");
 		$.each(phoneNumber,function(index, value) {
 			if (!testRegex(value, PHONE_PATTERN)) {			
 				flag = false;

@@ -134,7 +134,8 @@ function bindDriverAddButtonClick(){
 
 
 function resetDriverAddForm(){
-	$("#name, #phone").val("");
+	$("#name").val("");
+	$("#phone").tagsinput('removeAll');
 	$("#editName, #editPhone, #editDriverId").val("");
 	driverAddValidator.resetForm();
 	driverEditValidator.resetForm();
@@ -246,7 +247,21 @@ function bindValidator(){
 				maxlength: 200
 			},
 			phone : {
-				maxlength : 100
+				isPhoneLengthValid : true,
+				isPhonePatternValid: true
+			}
+		},
+		messages: {
+			phone: {
+				isPhoneLengthValid: "Please enter no more than 100 characters.",
+				isPhonePatternValid: "Please enter a valid phone number."
+			}
+		},
+		errorPlacement : function(error, element) {
+			if ($(element).prop("name") === "phone") {
+				error.insertBefore($("#phone"));
+			} else {
+				error.insertAfter(element); // default error placement.
 			}
 		}
 	});
@@ -258,7 +273,21 @@ function bindValidator(){
 				maxlength: 200
 			},
 			editPhone : {
-				maxlength : 100
+				isEditPhoneLengthValid : true,
+				isEditPhonePatternValid: true
+			}
+		},
+		messages: {
+			editPhone: {
+				isEditPhoneLengthValid: "Please enter no more than 100 characters.",
+				isEditPhonePatternValid: "Please enter a valid phone number."
+			}
+		},
+		errorPlacement : function(error, element) {
+			if ($(element).prop("name") === "editPhone") {
+				error.insertBefore($("#editPhone"));
+			} else {
+				error.insertAfter(element); // default error placement.
 			}
 		}
 	});

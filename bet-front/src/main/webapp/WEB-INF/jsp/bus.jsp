@@ -7,7 +7,9 @@
 		<!-- Select2 -->
    		<link rel="stylesheet" href="<c:url value="/resources/plugins/select2/css/select2.min.css"/>">
    		<link rel="stylesheet" href="<c:url value="/resources/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css"/>">
- 
+  		<!-- Tagsinput -->
+	    <link rel="stylesheet" href="<c:url value="/resources/plugins/tagsinput/tagsinput.css"/>">	
+    	
     	<!-- DataTables -->
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>">
 	    <link rel="stylesheet" href="<c:url value="/resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>">
@@ -143,7 +145,7 @@
               <div class="col-sm-1"></div>
               <label for="phone" class="col-sm-4 col-form-label">Primary Driver Phone</label>
               <div class="col-sm-6">
-                <input type="text" name="phone" class="form-control" id="phone" disabled="true">
+                <input type="text" name="primaryPhone" class="form-control" id="primaryPhone" disabled="true">
               </div>
             </div>
             
@@ -327,7 +329,7 @@
               <div class="col-sm-1"></div>
               <label for="phone" class="col-sm-4 col-form-label">Phone </label>
               <div class="col-sm-6">
-                <input type="text" name="driverPhone" class="form-control" id="driverPhone">
+                 <input type="text" data-role="tagsinput" name="phone" class="form-control" id="phone">
               </div>
             </div>
           </div> 
@@ -358,7 +360,9 @@
 <script src="<c:url value="/resources/plugins/select2/js/select2.full.min.js"/>"></script>
 
 <script src="<c:url value="/resources/plugins/inputmask/jquery.inputmask.min.js"/>"></script>
-
+<!-- TagsInput -->
+<script src="<c:url value="/resources/plugins/tagsinput/tagsinput.js"/>"></script>
+	
 <script src="<c:url value="/resources/plugins/jquery-validation/dist/jquery.validate.min.js"/>"></script>
 <script src="<c:url value="/resources/js/validator.js"/>"></script>
 <script src="<c:url value="/resources/js/bus.js"/>"></script>
