@@ -135,7 +135,7 @@
               <label for="updatePrimaryDriver" class="col-sm-4 col-form-label">Date <span class="required">[required]</span></label>
                 <div class="col-sm-6">
                     <div class="input-group date" id="loanDate" data-target-input="nearest">
-	                <input type="text" class="form-control datetimepicker-input" data-target="#loanDate"/>
+	                <input type="text" class="form-control datetimepicker-input" data-target="#loanDate" name="loanDate"/>
 	                <div class="input-group-append" data-target="#loanDate" data-toggle="datetimepicker">
 	                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 	                </div>

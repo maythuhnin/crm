@@ -215,7 +215,7 @@ function initLoanDatatable() {
 	    paging: false,
 	    scrollY: '50vh',
 	    responsive: false,
-         columnDefs: [{ width: '30%', targets: 2 }],
+         columnDefs: [{ width: '30%', targets: [0,2] }],
 	    columns: [
 		{ mData : function(data, type, full, meta) {
 				return data.name;
@@ -299,7 +299,8 @@ function bindValidator(){
 	loanAddValidator = $("#loanForm").validate({
 		rules : {
 			loanDate : {
-				required : true
+				required : true,
+				dateFormat: true
 			},
 			amount : {
 				required : true
@@ -309,6 +310,13 @@ function bindValidator(){
 			},
 			remark : {
 				maxlength: 500
+			}
+		},
+		errorPlacement : function(error, element) {
+			if ($(element).prop("name") === "loanDate") {
+				error.insertAfter($("#loanDate"));
+			} else {
+				error.insertAfter(element); // default error placement.
 			}
 		}
 	});

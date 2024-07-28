@@ -17,3 +17,7 @@ table {
 table tr > td{
 	padding: 0.50rem !important;
 }
+
+.bootstrap-datetimepicker-widget{
+	width: 15rem !important;
+}

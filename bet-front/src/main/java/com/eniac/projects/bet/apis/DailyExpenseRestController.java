@@ -32,7 +32,7 @@ public class DailyExpenseRestController extends BaseController {
 	DailyExpenseApiValidator dailyExpenseApiValidator;
 	
 	@PostMapping("/daily-expense/api/datatable")
-	public Map<String, Object> getForDailyExpensesDatatable(@RequestParam(required=false) Integer busId) throws MyBatisException {
+	public Map<String, Object> getForDailyExpensesDatatable(@RequestParam(required=false) Integer busId, @RequestParam(required=false) Integer isOrder, @RequestParam(required=false) String startDate, @RequestParam(required=false) String endDate) throws MyBatisException {
 		
 		Map<String, Object> results = new HashMap<String, Object>();
 		Map<String, Object> criteria = new HashMap<String, Object>();
@@ -42,6 +42,18 @@ public class DailyExpenseRestController extends BaseController {
 		}
 		
 		criteria.put("busId", busId);
+		
+		if(null != isOrder) {
+			criteria.put("isOrder", isOrder);
+		}
+		
+		if(null != startDate && null != endDate) {
+			criteria.put("startDate", startDate);
+			criteria.put("endDate", endDate);
+		}
+		
+		System.err.println(criteria);
+		
 		
 		results.put("responseData", dailyExpenseService.selectForDatatable(criteria));
 		

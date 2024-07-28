@@ -136,7 +136,7 @@
               <label for="receivedDate" class="col-sm-4 col-form-label">Goods Received Date <span class="required">[required]</span></label>
                <div class="col-sm-6">
                     <div class="input-group date" id="receivedDate" data-target-input="nearest">
-	                <input type="text" class="form-control datetimepicker-input" data-target="#receivedDate"/>
+	                <input type="text" class="form-control datetimepicker-input" data-target="#receivedDate" name="receivedDate"/>
 	                <div class="input-group-append" data-target="#receivedDate" data-toggle="datetimepicker">
 	                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 	                </div>

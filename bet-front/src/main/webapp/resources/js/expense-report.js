@@ -13,10 +13,18 @@ function init() {
 	
 	//Date range picker
     $('#dateRange').daterangepicker({
+		autoUpdateInput: false,
 		 locale: {
-            format: 'DD/MM/YYYY'
+            format: 'DD/MM/YYYY',
+              cancelLabel: 'Clear'
         }
 	});
+	
+	$('#dateRange').on('apply.daterangepicker', function(ev, picker) {
+     	$(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+     	expenseReportDatatable.clear().draw();
+		expenseReportDatatable.ajax.reload();
+  	});
 	
 }
 
@@ -77,15 +85,15 @@ function bindBusDropDown(){
 						allowClear: true
 					});
 					
-					$("#searchBus").on('change', function() {
-						expenseReportDatatable.clear().draw();
-						expenseReportDatatable.ajax.reload();
-					});
-					
 					$('#searchOrder').select2({
 						theme: 'bootstrap4',
 						placeholder: "Select Order.",
 						allowClear: true
+					});
+					
+					$("#searchBus, #searchOrder").on('change', function() {
+						expenseReportDatatable.clear().draw();
+						expenseReportDatatable.ajax.reload();
 					});
 				}
 			});
@@ -103,7 +111,23 @@ function bindSearch(){
 	});
 	
 	$("#clearFilters").on('click', function() {	
-		$("#searchBox").val("");
+		$("#searchBox, #searchBus, #searchOrder, #dateRange").val("");
+		$("#searchBus, #searchOrder").trigger("change");
+		//Date range picker
+	    $('#dateRange').daterangepicker({
+			autoUpdateInput: false,
+			 locale: {
+	            format: 'DD/MM/YYYY',
+	              cancelLabel: 'Clear'
+	        }
+		});
+		
+		$('#dateRange').on('apply.daterangepicker', function(ev, picker) {
+     		 $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+     	 	expenseReportDatatable.clear().draw();
+			expenseReportDatatable.ajax.reload();
+ 		 });
+  
 		expenseReportDatatable.search("").draw();
 	});
 }
@@ -121,6 +145,12 @@ function initExpenseReportDatatable() {
 	        type: "POST",
 	        data : function(d) {
 				d.busId = $("#searchBus").val();
+				d.isOrder = $("#searchOrder").val();
+				if(!isEmpty($('#dateRange').val())){
+					d.startDate = $('#dateRange').data('daterangepicker').startDate.format('DD/MM/YYYY');
+					d.endDate = $('#dateRange').data('daterangepicker').endDate.format('DD/MM/YYYY');
+				}
+				
 			},
 	        dataSrc: 'responseData',
 	        dataType: "json"

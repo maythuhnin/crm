@@ -239,6 +239,11 @@ function bindDropDown(){
 
 function bindDriverDropDown(selectedId, editId){
 	
+	var primaryDriver = $("#primaryDriver").val();
+	var secondaryDriver = $("#secondaryDriver").val();
+	var editPrimaryDriver = $("#editPrimaryDriver").val();
+	var editSecondaryDriver = $("#editSecondaryDriver").val();
+	
 	$("#primaryDriver, #secondaryDriver, #editPrimaryDriver, #editSecondaryDriver, #searchDriver").empty();
 	
 	$.ajax({
@@ -258,13 +263,18 @@ function bindDriverDropDown(selectedId, editId){
 				});
 				
 				driverList = data;
+				
+				$("#primaryDriver").val(primaryDriver);
+				$("#secondaryDriver").val(secondaryDriver);
+				$("#editPrimaryDriver").val(editPrimaryDriver);
+				$("#editSecondaryDriver").val(editSecondaryDriver);
 			}
 			
 		},
 		complete : function(data){
 			if(null != selectedId){
 				$("#" + editId).val(selectedId);
-				
+				$("#" + editId).trigger("change");
 			}
 			
 			$( "#primaryDriver" ).on( "change", function() {

@@ -46,7 +46,7 @@
                         <i class="far fa-calendar-alt"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control float-right" id="dateRange">
+                    <input type="text" class="form-control float-right" id="dateRange" placeholder="Filter Date">
                   </div>
                   </div>
 	         <div class="col-sm-3">

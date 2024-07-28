@@ -12,6 +12,7 @@ function init() {
 		defaultDate: new Date()
 	});
 	
+	bindBusDropDown();
 	initIncomeReportDatatable();
 	bindSearch();
 	
@@ -27,7 +28,15 @@ function bindSearch(){
 	});
 	
 	$("#clearFilters").on('click', function() {	
-		$("#searchBox").val("");
+		$("#searchBox, #searchBus, #searchOrder").val("");
+		$("#searchBus, #searchOrder").trigger("change");
+		
+		//Date picker
+		$('#searchMonth').datetimepicker({
+			format: 'MM/YYYY', 
+			defaultDate: new Date()
+		});
+
 		incomeReportDatatable.search("").draw();
 	});
 	
@@ -36,6 +45,50 @@ function bindSearch(){
     });
 }
 
+
+function bindBusDropDown(){
+	
+			$("#searchBus").empty();
+			
+			$.ajax({
+				url : getPathName() + "/bus/api/dropdown",
+				type : "GET",
+				contentType: "application/json",
+				dataType: 'json',
+				success : function(data) {
+					if(null != data && data.length > 0){
+					
+					$("#searchBus").append("<option value=''></option>")
+					
+					$(data).each(function( index, bus ) {
+						$("#searchBus").append("<option value='" + bus.id + "'>" + bus.licensePlate + "</option>");				
+					});
+					
+					busList = data;
+					
+			}
+				},
+				complete : function(data){
+					
+					$('#searchBus').select2({
+						theme: 'bootstrap4',
+						placeholder: "Select Bus.",
+						allowClear: true
+					});
+					
+					$('#searchOrder').select2({
+						theme: 'bootstrap4',
+						placeholder: "Select Order.",
+						allowClear: true
+					});
+					
+					$("#searchBus, #searchOrder").on('change', function() {
+						incomeReportDatatable.clear().draw();
+						incomeReportDatatable.ajax.reload();
+					});
+				}
+			});
+}
 
 
 function initIncomeReportDatatable() {
@@ -49,6 +102,8 @@ function initIncomeReportDatatable() {
 	        type: "POST",
 	        data : function(d) {
 				d.month = $("#searchMonth").find("input").val();
+				d.busId = $("#searchBus").val();
+				d.isOrder = $("#searchOrder").val();
 			},
 	        dataSrc: 'responseData',
 	        dataType: "json"
@@ -85,12 +140,12 @@ function initIncomeReportDatatable() {
 			
 		    sClass: "text-right"},  
 		     { mData : function(data, type, full, meta) {
-				return data.totalRecords - data.restDay;
+				return data.roundTrips;
 			},
 			
 		    sClass: "text-right"},     
 		    { mData : function(data, type, full, meta) {
-				return data.restDay;
+				return data.restDays;
 			},
 		    sClass: "text-right"},
 		    { mData : function(data, type, full, meta) {

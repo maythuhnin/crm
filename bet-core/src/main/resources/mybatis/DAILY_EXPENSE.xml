@@ -113,25 +113,43 @@
 		 FROM daily_expense  de
 		 <where>
 		 	BUS_ID = #{busId}
-		 	
+		 	<if test="startDate != null and endDate != null">
+		 		AND de.from_date BETWEEN  STR_TO_DATE(#{startDate}, '%d/%m/%Y')  AND  STR_TO_DATE(#{endDate}, '%d/%m/%Y')
+		 	</if>
+		 	<if test="isOrder != null">
+		 		AND (SELECT MAX(is_order) FROM destination WHERE FIND_IN_SET (id, de.path)) = #{isOrder}
+		 	</if>
 		 </where>
 	</select>
 	
 	<select id="selectForIncomeDatatable" resultType="map" parameterType="map">
 		
-		SELECT 
+			SELECT 
 			b.license_plate AS bus, 
 			SUM(de.on_paper_income_leave + de.on_paper_income_return) AS totalIncome,
-			SUM(ei.amount) AS totalExpense,
+			(SELECT SUM(ei.amount) FROM expense_item ei WHERE ei.daily_expense_id) AS totalExpense,
 			SUM(de.extra_income) AS extraIncome,
-			COUNT(DISTINCT(de.id)) AS totalRecords,
-			SUM(de.rest_day) AS restDay
+			SUM(CASE 
+			WHEN de.rest_day = 1 THEN  0
+			WHEN de.rest_day = 0 THEN 1
+			ELSE 0
+			END) AS roundTrips,
+			SUM(CASE 
+			WHEN de.rest_day = 1 THEN  ABS(DATEDIFF(de.to_date, de.from_date) + 1)
+			WHEN de.rest_day = 0 THEN 0
+			ELSE 0
+			END) AS restDays
 			FROM daily_expense de
-			LEFT JOIN expense_item ei ON ei.daily_expense_id = de.id
 			LEFT JOIN bus b ON de.bus_id = b.id
 		 <where>
 		 	<if test="month != null and year != null">
-		 		MONTH(de.from_date) = #{month} AND YEAR(de.from_date) = #{year}
+		 		AND MONTH(de.from_date) = #{month} AND YEAR(de.from_date) = #{year}
+		 	</if>
+		 	<if test="busId != null">
+		 		AND b.id = #{busId}
+		 	</if>
+		 	<if test="isOrder != null">
+		 		AND (SELECT MAX(is_order) FROM destination WHERE FIND_IN_SET (id, de.path)) = #{isOrder}
 		 	</if>
 		 </where>
 		 GROUP BY b.license_plate

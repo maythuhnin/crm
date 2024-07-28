@@ -19,7 +19,7 @@ public class IncomeReportRestController extends BaseController {
 	DailyExpenseServiceImpl dailyExpenseService;
 
 	@PostMapping("/income-report/api/datatable")
-	public Map<String, Object> getForDailyExpensesDatatable(@RequestParam String month) throws MyBatisException {
+	public Map<String, Object> getForDailyExpensesDatatable(@RequestParam String month, @RequestParam(required=false) Integer busId, @RequestParam(required=false) Integer isOrder) throws MyBatisException {
 		
 		Map<String, Object> results = new HashMap<String, Object>();
 		Map<String, Object> criteria = new HashMap<String, Object>();
@@ -27,6 +27,14 @@ public class IncomeReportRestController extends BaseController {
 		String[] dateArr = month.split("/");
 		criteria.put("month", dateArr[0]);
 		criteria.put("year", dateArr[1]);
+
+		if(null != busId) {
+			criteria.put("busId", busId);
+		}
+		
+		if(null != isOrder) {
+			criteria.put("isOrder", isOrder);
+		}
 		
 		results.put("responseData", dailyExpenseService.selectForIncomeDatatable(criteria));
 		

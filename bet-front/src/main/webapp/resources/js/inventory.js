@@ -145,8 +145,12 @@ function bindInventoryAddButtonClick(){
 
 
 function resetInventoryAddForm(){
-	$("#item, #price, #quantity, #receivedDate").val("");
-	$("#editItem, #editPrice, #editQuantity, #editReceivedDate").val("");
+	$('#receivedDate, #editReceivedDate').datetimepicker({
+		format: 'DD/MM/YYYY',
+		defaultDate: new Date(),
+	});
+	$("#item, #price, #quantity").val("");
+	$("#editItem, #editPrice, #editQuantity").val("");
 	inventoryAddValidator.resetForm();
 	inventoryEditValidator.resetForm();
 }
@@ -330,7 +334,15 @@ function bindValidator(){
 				required : true
 			},
 			receivedDate : {
-				required : true
+				required : true,
+				dateFormat: true
+			}
+		},
+		errorPlacement : function(error, element) {
+			if ($(element).prop("name") === "receivedDate") {
+				error.insertAfter($("#receivedDate"));
+			} else {
+				error.insertAfter(element); // default error placement.
 			}
 		}
 	});

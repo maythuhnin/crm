@@ -363,5 +363,7 @@ i.fas {
 	overflow-y : initial;
 }
 
-
+.bootstrap-datetimepicker-widget{
+	width: 15rem !important;
+}
 

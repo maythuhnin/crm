@@ -40,6 +40,13 @@
 			        	
 			        </select>
 			     </div>
+			     <div class="col-sm-2">
+					<select class="form-control select2 select-filter" style="width: 100%;" id="searchOrder">
+			        	<option value=""></option>
+			        	<option value="1">Is Order</option>
+			        	<option value="0">Not Order</option>
+			        </select>
+			     </div>
 	         <div class="col-sm-3">
 					<div class="input-group">
 		            	<input id="searchBox" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
