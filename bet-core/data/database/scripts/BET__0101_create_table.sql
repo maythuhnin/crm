@@ -130,7 +130,7 @@ CREATE TABLE expense_type
 CREATE TABLE inventory
 (
 	id int NOT NULL AUTO_INCREMENT,
-	item varchar(100) NOT NULL,
+	item varchar(200) NOT NULL,
 	quantity int NOT NULL,
 	price numeric(18,2) NOT NULL,
 	received_date datetime,
@@ -274,7 +274,7 @@ ALTER TABLE expense_item
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
+	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION
@@ -282,7 +282,7 @@ ALTER TABLE bus
 
 
 ALTER TABLE bus
-	ADD CONSTRAINT frk_driver_primary_driver FOREIGN KEY (primary_driver_id)
+	ADD CONSTRAINT frk_secondary_driver_bus FOREIGN KEY (secondary_driver_id)
 	REFERENCES driver (id)
 	ON UPDATE NO ACTION
 	ON DELETE NO ACTION

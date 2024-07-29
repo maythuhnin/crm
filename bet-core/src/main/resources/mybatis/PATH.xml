@@ -47,6 +47,7 @@
 		FROM path p 
 		LEFT JOIN path_bus pb ON p.id = pb.path_id
 		LEFT JOIN bus b ON b.id = pb.bus_id
+		WHERE b.status != 2
 		GROUP BY p.id, p.path
 	</select>
 	
@@ -60,6 +61,7 @@
 		LEFT JOIN path_expense pe ON pe.path_id = p.id
 		LEFT JOIN path_bus pb ON pb.path_id = p.id
  		LEFT JOIN expense_type e ON e.id = pe.expense_id  
+		LEFT JOIN bus b ON b.id = pb.bus_id
 		<where>
 			(
 			<if test="path != null">
@@ -70,6 +72,7 @@
 			</if>
 			)
 			AND pe.expense_id IS NOT NULL
+			AND b.status != 2
 		</where>
 	</select>
 	

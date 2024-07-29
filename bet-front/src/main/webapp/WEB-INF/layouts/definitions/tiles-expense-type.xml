@@ -4,7 +4,7 @@
 <tiles-definitions>
 
 	<definition name="expense-type" extends="baseLayout">
-		<put-attribute name="title" value="Expense Types" />
+		<put-attribute name="title" value="Expense Type" />
 		<put-attribute name="content" value="/WEB-INF/jsp/expense-type.jsp" />
 	</definition>
 	

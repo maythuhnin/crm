@@ -40,7 +40,7 @@
 		<script src="<c:url value="/resources/js/common.js"/>"></script>
 		<script src="<c:url value="/resources/js/base.js"/>"></script>
 		 <link rel="icon" type="image/png" href="<c:url value="/resources/images/logo-circle.png"/>"/>
-		<title> ExpenseTracker | <tiles:insertAttribute name="title" /></title>
+		<title> <tiles:insertAttribute name="title" /></title>
 	</head>
 
 	<body class="hold-transition sidebar-mini layout-fixed"> 

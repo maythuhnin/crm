@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eniac.projects.bet.dao.interfaces.IBusDao;
 import com.eniac.projects.bet.dao.interfaces.IDriverDao;
 import com.eniac.projects.bet.exception.BuisnessException;
 import com.eniac.projects.bet.exception.MyBatisException;
@@ -14,6 +15,9 @@ public class DriverServiceImpl {
 
 	@Autowired
 	private IDriverDao driverDao;
+	
+	@Autowired
+	private IBusDao busDao;
 
 	public int createDriver(DriverBean driver) throws MyBatisException, BuisnessException {
 
@@ -45,5 +49,8 @@ public class DriverServiceImpl {
 
 	public void deleteDriver(int driverId) throws MyBatisException {
 		driverDao.delete(driverId);
+		busDao.removePrimaryDriver(driverId);
+		busDao.removeSecondaryDriver(driverId);
+		
 	}
 }

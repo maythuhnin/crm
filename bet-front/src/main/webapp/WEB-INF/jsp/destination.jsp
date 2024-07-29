@@ -179,6 +179,8 @@
               			<label class="col-sm-12 col-form-label">
               				Are you sure you want to delete Destination : <span id="delName"></span>?
               				<br>
+              				<span class="delete-text text-danger">This destination will be removed in all added Fixed Expenses as well.</span>
+             				<br><br>
              				<span class="required">This process cannot be undone.</span>
               			</label>
             		

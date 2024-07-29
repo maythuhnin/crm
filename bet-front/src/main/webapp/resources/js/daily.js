@@ -8,7 +8,6 @@ let busList = [];
 let inventoryBean = {};
 let dailyExpenseValidator;
 let expenseAddValidator;
-let expenseTypeAddValidator;
 let amountTotal = 0;
 let expenseTotal = 0;
 
@@ -25,11 +24,16 @@ function init() {
 	
 	//Date range picker
     $('#dateRange').daterangepicker({
-		useCurrent: false,
+		autoUpdateInput: false,
 		 locale: {
-            format: 'DD/MM/YYYY'
+            format: 'DD/MM/YYYY',
+              cancelLabel: 'Clear'
         }
 	});
+	
+	$('#dateRange').on('apply.daterangepicker', function(ev, picker) {
+     	$(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+  	});
 
 }
 
@@ -87,13 +91,10 @@ function bindDropDown(){
 }
 
 function bindModal(){
-	
-	bindExpenseTypeAddButtonClick();
+
 	bindExpenseAddButtonClick();
 	
 	bindDailyAddApi();
-	
-	bindModalCloseButtonClick();
 	
 }
 
@@ -300,6 +301,8 @@ function bindExpenseTypeDropDown(selectedId){
 					inventoryBean = inventory;
 				}
 			});
+			
+			$('#amount').attr("max", inventoryBean.quantity);
 		}else if(type == "fixed"){
 			$('#amount').attr("placeholder", "Amount");
 							
@@ -308,8 +311,11 @@ function bindExpenseTypeDropDown(selectedId){
 					$('#amount').val(fixedExpense.amount);
 				}
 			});
+			
+			$('#amount').removeAttr("max");
 		}else{
 			$('#amount').val("");
+			$('#amount').removeAttr("max");
 			$('#amount').attr("placeholder", "Amount");
 		}
 					  	
@@ -347,13 +353,6 @@ function bindBusDropDown(){
 					});
 				}
 			});
-}
-
-
-function bindModalCloseButtonClick(){
-	$(".cancel, .close").click(function () {
-		resetExpenseTypeAddForm();
-	});
 }
 
 function bindDailyAddApi(){
@@ -420,55 +419,6 @@ function bindDailyAddApi(){
 	});
 }
 
-function bindExpenseTypeAddButtonClick(){
-	
-	$( "#addExpenseType" ).on( "click", function() {
-		
-		$("#expenseTypeModal").modal();
-		
-	});
-	
-	$( "#saveExpenseType" ).on( "click", function() {
-			
-			if($("#expenseTypeAddForm").valid()){
-				
-				showLoadingOverlay();
-				
-				expenseTypeBean = {
-					name: $("#expenseTypeName").val()
-				};
-				
-				$.ajax({
-					url : getPathName() + "/expense-type/api/add",
-					type : "POST",
-					contentType: "application/json",
-					data :JSON.stringify(expenseTypeBean),
-					dataType: 'json',
-					success : function(data) {
-						if(data.httpStatus == "OK"){
-							
-							resetExpenseTypeAddForm();
-							$("#expenseType").append("<option data-type='expense' value='" + data.createdId + "'>" + expenseTypeBean.name + "</option>");	
-							
-							$("#expenseTypeModal").modal("hide");
-	
-							toastr.success('Expense Type added successfully.');
-							
-						}else if(data.httpStatus == "INTERNAL_SERVER_ERROR"){
-							toastr.error(data.error);
-						}
-					},
-					complete : function(data){
-						hideLoadingOverlay();
-					}
-				});
-	
-				
-			}
-		});
-}
-
-
 function bindExpenseAddButtonClick(){
 	
 	$( "#addExpense" ).on( "click", function() {
@@ -478,9 +428,16 @@ function bindExpenseAddButtonClick(){
 				var type = $('#expenseType option:selected').attr('data-type');
 				
 				if(type == "inventory"){
-					console.log(inventoryBean);
 					
-					if(inventoryBean.quantity >= parseInt($("#amount").val())){
+					var totalQuantity = 0;
+					
+					$.each(expenseList, function(key, value) {
+						if(value.inventoryId == inventoryBean.id){
+							totalQuantity += value.quantity;
+						}
+					});
+					
+					if(inventoryBean.quantity >= (totalQuantity + parseInt($("#amount").val()))){
 						expenseList.push({
 						inventoryId:  $("#expenseType").val(),
 						quantity: parseInt($("#amount").val()),
@@ -511,22 +468,24 @@ function bindExpenseAddButtonClick(){
 		});
 }
 
-
-function resetExpenseTypeAddForm(){
-	$("#expenseTypeName").val("");
-	expenseTypeAddValidator.resetForm();
-}
-
 function resetDailyExpenseForm(){
 	$('#restDay').removeAttr('checked');
 	$("#bus, #path1, #path2, #path3").val('').trigger("change");
-	$("#onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash, #extraIncome").val("");
+	$("#onPaperIncomeLeave, #onPaperIncomeReturn, #inHandCash, #extraIncome, #dateRange").val("");
 	$("#total, #adjustment").text("-");
-	 $('#dateRange').daterangepicker({
+	 //Date range picker
+    $('#dateRange').daterangepicker({
+		autoUpdateInput: false,
 		 locale: {
-            format: 'DD/MM/YYYY'
+            format: 'DD/MM/YYYY',
+              cancelLabel: 'Clear'
         }
 	});
+	
+	$('#dateRange').on('apply.daterangepicker', function(ev, picker) {
+     	$(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+  	});
+  	
 	$("#expenseType").empty();
 	getInventoryData();
 	bindFixedExpenseDropDown(true);
@@ -603,7 +562,7 @@ function initExpenseDatatable() {
 		}
  
         // Update footer
-        api.column(1).footer().innerHTML = pageTotal.toLocaleString("en") + ' Ks (' + total.toLocaleString("en") + ' Ks total)';
+        api.column(1).footer().innerHTML = total.toLocaleString("en") + ' Ks';
    		
     }
 	});
@@ -622,38 +581,6 @@ function getIndexFromExpenseListById(list, id){
 	});
 	
 	return returnIndex;
-}
-
-function bindFixedExpenseDeleteApi(){
-		
-		$( "#deleteFixedExpense" ).on( "click", function()  {
-
-			showLoadingOverlay();
-			
-			$.ajax({
-				url : getPathName() + "/fixed-expense/api/delete",
-				type : "POST",
-				contentType: "application/json",
-				data :JSON.stringify($("#delFixedExpenseId").val()),
-				dataType: 'json',
-				success : function(data) {
-					if(data.httpStatus == "OK"){
-						
-						expenseDatatable.ajax.reload();
-						
-						$("#deleteFixedExpenseModal").modal("hide");
-						
-						toastr.success('FixedExpense deleted successfully.');
-					
-					}else if(data.httpStatus == "INTERNAL_SERVER_ERROR"){
-						toastr.error(data.error);
-					}
-				},
-				complete : function(data){
-					hideLoadingOverlay();
-				}
-			});	
-	});
 }
 
 function getPathText(path){
@@ -688,14 +615,6 @@ function getBusText(bus){
 
 function bindValidator(){
 	
-	expenseTypeAddValidator = $("#expenseTypeAddForm").validate({
-		rules : {
-			expenseTypeName : {
-				required : true
-			}
-		}
-	});
-	
 	expenseAddValidator = $("#expenseForm").validate({
 		rules : {
 			expenseType : {
@@ -718,6 +637,10 @@ function bindValidator(){
 		rules : {
 			bus : {
 				required : true
+			},
+			dateRange : {
+				required : true,
+				dateRangeFormat: true
 			},
 			path2 : {
 				required : {
@@ -766,6 +689,8 @@ function bindValidator(){
 			
 			if($(element).prop("name") == "bus" || $(element).prop("name") == "path1" || $(element).prop("name") == "path2" || $(element).prop("name") == "path3"){
 				error.insertAfter($("#" + $(element).prop("name")).closest("div").find(".select2-container"));
+			}else if ($(element).prop("name") === "dateRange") {
+				error.insertAfter($(".date-group"));
 			}else{
 				error.insertAfter($("#" + $(element).prop("name")));
 			}

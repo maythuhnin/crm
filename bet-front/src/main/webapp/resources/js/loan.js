@@ -185,7 +185,7 @@ function initLoanHistoryDatatable(driverId) {
             .reduce((a, b) => intVal(a) + intVal(b), 0);
  
         // Update footer
-        api.column(3).footer().innerHTML = pageTotal.toLocaleString("en") + ' Ks (' + total.toLocaleString("en") + ' Ks total)';
+        api.column(3).footer().innerHTML = total.toLocaleString("en") + ' Ks';
     }
 	});
 		

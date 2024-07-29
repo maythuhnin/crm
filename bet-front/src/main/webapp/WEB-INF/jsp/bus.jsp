@@ -93,7 +93,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title bus-title">Add Bus</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-bus" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -167,7 +167,7 @@
         </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-default cancel close-bus" data-dismiss="modal">Cancel</button>
               <button type="button" class="btn btn-outline-primary" id="saveBus">Save Changes</button>
             </div>
           </div>
@@ -182,7 +182,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title bus-title">Edit Bus</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-bus" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -210,7 +210,7 @@
 						
 						  </select>
 						  <div class="input-group-append">
-						    <button class="btn btn-default add-driver" data-type="primaryDriver" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
+						    <button class="btn btn-default add-driver" data-type="editPrimaryDriver" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
 						  </div>
 					</div>
               </div>
@@ -260,7 +260,7 @@
             </div>
             <div class="modal-footer">
             	<input type="hidden" id="busId"/>
-              <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-default cancel close-bus" data-dismiss="modal">Cancel</button>
               <button type="button" class="btn btn-outline-primary" id="editBus">Save Changes</button>
             </div>
           </div>
@@ -286,7 +286,9 @@
             		<div class="form-group row">
               			<label class="col-sm-12 col-form-label">
               				Are you sure you want to delete bus : <span id="delName"></span>?
-              				<br>
+             				<br>
+              				<span class="delete-text text-danger">This bus will be removed in all added Fixed Expenses as well.</span>
+             				<br><br>
              				<span class="required">This process cannot be undone.</span>
               			</label>
             		
@@ -310,7 +312,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title bus-title">Add Driver</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-driver" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -339,7 +341,7 @@
             </div>
             <div class="modal-footer">
             <input type="hidden" id="driverType"/>
-              <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-default cancel close-driver" data-dismiss="modal">Cancel</button>
               <button type="button" class="btn btn-outline-primary" id="saveDriver">Save Changes</button>
             </div>
           </div>

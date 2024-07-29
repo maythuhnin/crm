@@ -7,6 +7,12 @@ $(init);
 
 function init() {
 	
+	console.log(getUrlParameter("message"));
+	
+	if(getUrlParameter("status") == "success"){
+		toastr.success("Daily Expense/Income edited successfully.");
+	}
+	
 	bindBusDropDown();
 	getDestinationList();
 	bindSearch();

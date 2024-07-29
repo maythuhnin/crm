@@ -39,13 +39,13 @@
 	              <label for="dateRange" class="col-sm-1 col-form-label text-right exchange-col">Date <span class="required">[required]</span> </label>
               
 	              <div class="col-sm-3">
-	               <div class="input-group"> 
+	               <div class="input-group date-group"> 
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="far fa-calendar-alt"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control float-right" id="dateRange">
+                    <input type="text" class="form-control float-right" id="dateRange" name="dateRange" placeholder="Select Date.">
                   </div>
                   </div>
                    <div class="col-sm-1 exchange-col"></div>
@@ -118,16 +118,9 @@
 	              	 <select class="form-control" style="width: 100%;" id="expenseType" name="expenseType">
 			           
 			   		</select>
-	                <!-- <div class="input-group">
-						  <select class="custom-select" id="expenseType" name="expenseType">
-						  </select>
-						  <div class="input-group-append">
-						    <button class="btn btn-default" id="addExpenseType" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
-						  </div>
-					</div> -->
 	              </div>
 	                <div class="col-sm-4">
-	                <input type="number" class="form-control" id="amount" placeholder="Amount" name="amount"/>
+	                <input type="number" class="form-control" id="amount" placeholder="Amount" name="amount" min="1"/>
 	               
 	              </div>
 	            <div class="col-sm-1"><button type="button" class="btn btn-outline-primary" id="addExpense"><i class="fas fa-plus"></i></button></div>
@@ -159,48 +152,13 @@
                 </div>
    </div> 
    <div class="card-footer">
-   		<button type="button" class="btn btn-outline-primary float-right" id="saveDaily">Save Changes</button>
+   		<button type="button" class="btn btn-outline-primary float-right ml-1" id="saveDaily">Save Changes</button>
    		<a href="<c:url value="/daily"/>">
    		<button type="button" class="btn btn-default cancel float-right">Cancel</button>
    		</a>
    </div>
    </div>
-   
-   <div class="modal fade" id="expenseTypeModal">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title bus-title">Add Expense Type</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- form start -->
-        <form class="form-horizontal" id="expenseTypeAddForm">
-          <div class="card-body">
-            <div class="form-group row">
-              <div class="col-sm-1"></div>
-              <label for="licensePlate" class="col-sm-4 col-form-label">Expense Type <span class="required">[required]</span></label>
-              <div class="col-sm-6">
-                <input type="text" name="expenseTypeName" class="form-control" id="expenseTypeName">
-              </div>
-            </div>
-          </div> 
-        
-          <!-- /.card-footer -->
-        </form>
-            </div>
-            <div class="modal-footer">
-            <input type="hidden" id="driverType"/>
-              <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-outline-primary" id="saveExpenseType">Save Changes</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div> 
+
       <!-- /.card -->
     </section>
     

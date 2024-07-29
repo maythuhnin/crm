@@ -91,6 +91,8 @@
               			<label class="col-sm-12 col-form-label">
               				Are you sure you want to delete driver : <span id="delName"></span>?
               				<br>
+              				<span class="delete-text text-danger">This driver will be removed in all added Buses as well.</span>
+             				<br><br>
              				<span class="required">This process cannot be undone.</span>
               			</label>
             		

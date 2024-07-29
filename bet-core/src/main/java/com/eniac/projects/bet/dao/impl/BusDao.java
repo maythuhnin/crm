@@ -102,6 +102,43 @@ public class BusDao implements IBusDao {
 		}
 
 	}
+	
+	@Override
+	public void removePrimaryDriver(int driverId) throws MyBatisException {
+		logger.info("=====> Removing driverId : " + driverId + "<=====");
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			IBusMapper busMapper = sqlSession.getMapper(IBusMapper.class);
+			busMapper.removePrimaryDriver(driverId);
+			sqlSession.commit();
+		} catch (DataIntegrityViolationException e) {
+			throw new MyBatisException("DataIntegrityViolationException occured when removing Primary Driver : " + driverId, e);
+		} catch (Exception e) {
+			throw new MyBatisException("Exception occured when removing Primary Driver : " + driverId, e);
+		} finally {
+			sqlSession.close();
+		}
+
+	}
+	
+	@Override
+	public void removeSecondaryDriver(int driverId) throws MyBatisException {
+		logger.info("=====> Removing driverId : " + driverId + "<=====");
+		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
+		try {
+			IBusMapper busMapper = sqlSession.getMapper(IBusMapper.class);
+			busMapper.removeSecondaryDriver(driverId);
+			sqlSession.commit();
+		} catch (DataIntegrityViolationException e) {
+			throw new MyBatisException("DataIntegrityViolationException occured when removing Primary Driver : " + driverId, e);
+		} catch (Exception e) {
+			throw new MyBatisException("Exception occured when removing Primary Driver : " + driverId, e);
+		} finally {
+			sqlSession.close();
+		}
+
+	}
+
 
 	@Override
 	public BusBean selectById(int id) throws MyBatisException {

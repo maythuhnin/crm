@@ -15,6 +15,10 @@ public interface IBusDao {
 	
 	public void delete(int busId) throws MyBatisException;
 	
+	public void removePrimaryDriver(int driverId) throws MyBatisException;
+	
+	public void removeSecondaryDriver(int driverId) throws MyBatisException;
+	
 	public List<Object> selectForDatatable() throws MyBatisException;
 	
 	public List<BusBean> selectForDropDown() throws MyBatisException;

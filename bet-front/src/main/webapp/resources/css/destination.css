@@ -17,3 +17,9 @@ table {
 table tr > td{
 	padding: 0.50rem !important;
 }
+
+
+.delete-text{
+	font-size: 14px;
+	font-style: italic;
+}

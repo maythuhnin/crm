@@ -15,6 +15,10 @@ public interface IBusMapper {
 	
 	int deleteBus(int id);
 	
+	int removePrimaryDriver(int id);
+	
+	int removeSecondaryDriver(int id);
+	
 	List<Object> selectForDatatable();
 
 	BusBean selectByCriteria(Map<String, Object> criteria);

@@ -42,7 +42,7 @@
 	              <label for="dateRange" class="col-sm-1 col-form-label text-right exchange-col">Date <span class="required">[required]</span> </label>
               
 	              <div class="col-sm-3">
-	               <div class="input-group"> 
+	               <div class="input-group date-group"> 
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="far fa-calendar-alt"></i>
@@ -121,16 +121,9 @@
 	              	 <select class="form-control" style="width: 100%;" id="expenseType" name="expenseType">
 			           
 			   		</select>
-	                <!-- <div class="input-group">
-						  <select class="custom-select" id="expenseType" name="expenseType">
-						  </select>
-						  <div class="input-group-append">
-						    <button class="btn btn-default" id="addExpenseType" type="button"><i class="nav-icon fas fa-plus-square"></i></button>
-						  </div>
-					</div> -->
 	              </div>
 	                <div class="col-sm-4">
-	                <input type="number" class="form-control" id="amount" placeholder="Amount" name="amount"/>
+	                <input type="number" class="form-control" id="amount" placeholder="Amount" name="amount" min="0"/>
 	               
 	              </div>
 	            <div class="col-sm-1"><button type="button" class="btn btn-outline-primary" id="addExpense"><i class="fas fa-plus"></i></button></div>
@@ -162,7 +155,7 @@
                 </div>
    </div> 
    <div class="card-footer">
-   		<button type="button" class="btn btn-outline-primary float-right" id="saveDaily">Save Changes</button>
+   		<button type="button" class="btn btn-outline-primary float-right ml-1" id="saveDaily">Save Changes</button>
    		<a href="<c:url value="/expense-report"/>">
    		<button type="button" class="btn btn-default cancel float-right">Cancel</button>
    		</a>

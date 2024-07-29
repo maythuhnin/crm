@@ -31,8 +31,12 @@ function bindModal(){
 }
 
 function bindModalCloseButtonClick(){
-	$(".cancel, .close").click(function () {
+	$(".close-bus").click(function () {
 		resetBusForm();
+	});
+	
+	$(".close-driver").click(function () {
+		resetDriverForm();
 	});
 }
 

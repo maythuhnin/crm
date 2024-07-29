@@ -56,6 +56,15 @@
 		WHERE ID =#{id}
 	</update>
 	
+	<update id="removePrimaryDriver" parameterType="int">
+		UPDATE BUS SET primary_driver_id = NULL WHERE primary_driver_id = #{id}
+	</update>
+	
+	<update id="removeSecondaryDriver" parameterType="int">
+		UPDATE BUS SET secondary_driver_id = NULL WHERE secondary_driver_id = #{id}
+	</update>
+	
+	
 	<select id="selectForDatatable" resultType="map">
 		SELECT 
 		 b.id,
@@ -85,6 +94,12 @@
 				</if>
 				<if test="notId != null">
 					AND ID != #{notId}
+				</if>
+				<if test="primaryDriverId != null">
+					AND PRIMARY_DRIVER_ID = #{primaryDriverId}
+				</if>
+				<if test="secondaryDriverId != null">
+					AND SECONDARY_DRIVER_ID = #{secondaryDriverId}
 				</if>
 				AND STATUS != 2
 			</where>

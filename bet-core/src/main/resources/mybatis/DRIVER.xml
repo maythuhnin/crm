@@ -48,10 +48,9 @@
 	</update>
 	
 	<update id="deleteDriver" parameterType="int">
-		UPDATE DRIVER SET STATUS = 0
-		WHERE ID =#{id}
+		UPDATE DRIVER SET STATUS = 0 WHERE ID = #{id}
 	</update>
-	
+		
 	<select id="selectForDatatable" resultType="map">
 		SELECT 
 		 d.id,

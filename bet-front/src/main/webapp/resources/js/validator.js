@@ -99,6 +99,7 @@ jQuery.validator.addMethod("checkPasswordStrength", function(value, element) {
 jQuery.validator.addMethod("dateFormat",function(value, element) {
             var check = false;
             var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+            
             if( re.test(value)){
                     var adata = value.split('/');
                     var dd = parseInt(adata[0],10);
@@ -117,7 +118,36 @@ jQuery.validator.addMethod("dateFormat",function(value, element) {
             	
             	return this.optional(element) || check;
         },
-        "Wrong date format"
+        "Please enter a valid date."
+    ); 
+    
+    
+jQuery.validator.addMethod("dateRangeFormat",function(value, element) {
+	console.log(value);
+	var dates = value.split(" - ");
+            var check = false;
+            var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+            $(dates).each(function( index, date ) {
+	            if( re.test(date)){
+	                    var adata = date.split('/');
+	                    var dd = parseInt(adata[0],10);
+	                    var mm = parseInt(adata[1],10);
+	                    var yyyy = parseInt(adata[2],10);
+	                    var xdata = new Date(yyyy,mm-1,dd);
+	                    if ( ( xdata.getFullYear() === yyyy ) && ( xdata.getMonth () === mm - 1 ) && ( xdata.getDate() === dd ) ) {
+	                    	check = true;
+	                	}
+		                else {
+		                    check = false;
+		                }
+		         } else {
+		            check = false;
+		         }
+	         });
+            	
+            	return this.optional(element) || check;
+        },
+        "Please enter a valid date."
     ); 
 
 function checkPasswordStrength(value) {

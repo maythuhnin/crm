@@ -236,6 +236,7 @@ function bindFixedExpenseAddButtonClick(){
 		$(".add-title").removeClass("d-none");
 		$(".edit-title").addClass("d-none");
 				
+		$('#editFixedExpenseId').val("");
 		$("#fixedExpenseModal").modal();
 		
 		
@@ -357,6 +358,7 @@ function initFixedExpenseDatatable() {
 				var fixedExpenseId = $(this).attr("data-id");
 				var fixedExpenseBean = getBeanFromListById(fixedExpenseList, fixedExpenseId);
 			    $('#delFixedExpenseId').val(fixedExpenseId);
+			    $('#delName').empty();
 			    $('#delName').append(getPathText(fixedExpenseBean.path));
 				$("#deleteFixedExpenseModal").modal();
 			});
