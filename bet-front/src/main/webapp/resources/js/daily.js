@@ -383,8 +383,6 @@ function bindDailyAddApi(){
 					dailyExpenseBean.extraIncome = getIntFromField($("#extraIncome").val());
 				}
 				
-				console.log(dailyExpenseBean);
-				
 				$.ajax({
 					url : getPathName() + "/daily-expense/api/add",
 					type : "POST",

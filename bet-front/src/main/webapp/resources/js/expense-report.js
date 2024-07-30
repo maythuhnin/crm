@@ -7,8 +7,6 @@ $(init);
 
 function init() {
 	
-	console.log(getUrlParameter("message"));
-	
 	if(getUrlParameter("status") == "success"){
 		toastr.success("Daily Expense/Income edited successfully.");
 	}
@@ -169,7 +167,7 @@ function initExpenseReportDatatable() {
 	    paging: false,
 	    scrollY: '50vh',
 	    responsive: false,
-	     columnDefs: [{ width: '15%', targets: [1] },
+	     columnDefs: [{ width: '5%', targets: [0] },{ width: '15%', targets: [1] },
 	     { width: '20%', targets: [2] },
 	     { width: '5%', targets: [3,4,5,6,7,8,9] },
 	     { width: '10%', targets: [10] }],
@@ -240,7 +238,6 @@ function initExpenseReportDatatable() {
 		});
 		
 		$( ".edit-expense" ).on( "click", function() {
-			console.log("clicked");
 			var expenseId = $(this).attr("data-id");
 			var url = getPathName() + '/daily/' + expenseId +'/edit'
 			window.open(url, '_blank');

@@ -123,7 +123,6 @@ jQuery.validator.addMethod("dateFormat",function(value, element) {
     
     
 jQuery.validator.addMethod("dateRangeFormat",function(value, element) {
-	console.log(value);
 	var dates = value.split(" - ");
             var check = false;
             var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;

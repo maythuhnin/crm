@@ -283,7 +283,6 @@ function bindDriverDropDown(selectedId, editId){
 			
 			$( "#primaryDriver" ).on( "change", function() {
 				var driverBean = getBeanFromListById(driverList, $(this).val());
-				console.log(driverBean);
 				$( "#primaryPhone" ).val(driverBean.phone);
 			});
 		}
@@ -312,7 +311,7 @@ function initDatatable() {
 	    scrollX:        false,
         scrollCollapse: true,
 	    paging: false,
-	    scrollY: '70vh',
+	    scrollY: '50vh',
 	    responsive: false,
 	    columns: [
 		{ mData : function(data, type, full, meta) {

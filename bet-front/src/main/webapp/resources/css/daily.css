@@ -20,9 +20,20 @@ table tr > td{
 
 .exchange-col{
 	text-align: center;
+}
+
+@media (min-width: 576px) {
+.exchange-col{
   	width: 12.499999995%;
   	flex: 0 0 12.499%;
   	max-width: 12.499%;
+}
+}
+
+@media (max-width: 576px) {
+.form-check{
+  	text-align: right;
+}
 }
 
 .exchange-col > .fa-exchange-alt{

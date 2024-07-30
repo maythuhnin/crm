@@ -218,7 +218,6 @@ function initInventoryDatatable() {
 			    $('#editPrice').val(inventoryBean.price);
 			    var date = moment(inventoryBean.receivedDate, "DD/MM/YYYY");
 			   
-			   console.log(date.toDate());
 			    $('#editReceivedDate').datetimepicker({
 					format: 'DD/MM/YYYY',
 					defaultDate: date.toDate(),  

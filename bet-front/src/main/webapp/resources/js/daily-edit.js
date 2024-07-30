@@ -429,7 +429,6 @@ function bindDailyAddApi(){
 					dailyExpenseBean.extraIncome = getIntFromField($("#extraIncome").val());
 				}
 				
-				console.log(dailyExpenseBean);
 				$("#confirmModal").modal("hide");
 				$.ajax({
 					url : getPathName() + "/daily-expense/api/edit",
@@ -536,9 +535,10 @@ function initExpenseDatatable() {
       	dom: 'Bfrtip',
 		data: expenseList,
 	    "order": [0],
-	    scrollX:        true,
+	    scrollX:        false,
         scrollCollapse: true,
         searching: false,
+	    responsive: false,
          columnDefs: [{ width: '10%', targets: 2 }],
 	    columns: [
 		{ mData : function(data, type, full, meta) {
