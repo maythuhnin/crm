@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eniac.projects.crm.mappers.ILeadMapper">
+
+	<resultMap 			type="LeadBean" 				id="LeadResult">
+		<id 			property="id" 					column="id" />
+		<result 		property="contactName" 			column="contact_name" />
+		<result		 	property="companyId" 			column="company_id" />
+		<result 		property="email" 				column="email" />
+		<result 		property="phone" 				column="phone" />
+		<result 		property="facebook" 			column="facebook" />
+		<result 		property="remark" 				column="remark" />
+		<result 		property="status" 				column="status" />
+		<result 		property="updatedId" 			column="updated_id" />
+		<result 		property="updatedDateTime" 		column="updated_datetime" />
+	</resultMap>
+
+	<insert id="insert" parameterType="LeadBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO leads(
+			contact_name,
+			company_id,
+			email,
+			phone,
+			facebook,
+			remark,
+			status,
+			updated_id,
+			updated_datetime
+			)
+		VALUES(
+			#{contactName},
+			#{companyId},
+			#{email},
+			#{phone},
+			#{facebook},
+			#{remark},
+			#{status},
+			#{updatedId},
+			NOW()
+		)
+	</insert>
+	
+	<update id="update" parameterType="LeadBean">
+		UPDATE LEADS SET 
+			<if test="contactName != null">
+				CONTACT_NAME = #{contactName}
+			</if>
+			<if test="companyId != null">
+				,COMPANY_ID = #{companyId}
+			</if>
+			<if test="email != null">
+				,EMAIL = #{email}
+			</if>
+			<if test="phone != null">
+				,PHONE = #{phone}
+			</if>
+			<if test="facebook != null">
+				,FACEBOOK = #{facebook}
+			</if>
+			<if test="remark != null">
+				,REMARK = #{remark}
+			</if>
+			<if test="status != null">
+				,STATUS = #{status}
+			</if>
+			,updated_id = #{updatedId}
+			,updated_datetime = NOW()
+		WHERE ID =#{id} 
+	</update>
+	
+	
+	<select id="selectForDatatable" resultType="map">
+		SELECT 
+		 l.id,
+		 l.contact_name AS contactName,
+		 IFNULL(l.email,"-") AS email,
+		 IFNULL(l.phone,"-") AS phone,
+		 IFNULL(l.facebook,"-") AS facebook,
+		 IFNULL(l.remark,"-") AS remark,
+		 IFNULL(c.name,"-") AS company,
+		 CASE l.status
+		    WHEN 0 THEN "OK"
+		    WHEN 1 THEN "REPAIRING"
+		    ELSE "DELETED"
+		 END AS status
+		
+		FROM leads l
+		LEFT JOIN company c ON c.id = l.company_id
+	</select>
+	
+	<select id="selectById" parameterType="int" resultMap="LeadResult">
+		SELECT * FROM leads WHERE id = #{id}
+	</select>
+	
+</mapper>
